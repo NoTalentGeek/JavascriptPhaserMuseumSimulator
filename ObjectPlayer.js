@@ -3,12 +3,12 @@ ObjectPlayer                        = function(_x, _y, _width, _height, _playerN
     this.exhibitionSelected         = 0;
     this.exhibitionSelectedPrev     = this.exhibitionSelected;
 
-    this.player                     = new ObjectButton      (_x                                   , _y  , 'SsButton2', function(){}                              , _width                      , _height                  , _playerName                                    , 0     , 0  );
-    var xPos                        = this.player.button.x + ((this.player.button.width/3)/2);
-    var yPos                        = this.player.button.y + this.player.button.height + (this.player.button.height/2);
-    this.playerButtonDecrease       = new ObjectButton      (xPos + (this.player.button.width/3)*0, yPos, 'SsButton1', function(){ this.exhibitionSelected --; } , (this.player.button.width/3), this.player.button.height, '<'                                            , 0.5   , 0.5);
-    this.playerButtonExhibition     = new ObjectButton      (xPos + (this.player.button.width/3)*1, yPos, 'SsButton1', function(){}                              , (this.player.button.width/3), this.player.button.height, 'Go to exhibition: ' + this.exhibitionSelected , 0.5   , 0.5);
-    this.playerButtonIncrease       = new ObjectButton      (xPos + (this.player.button.width/3)*2, yPos, 'SsButton1', function(){ this.exhibitionSelected ++; } , (this.player.button.width/3), this.player.button.height, '>'                                            , 0.5   , 0.5);
+    this.player                     = new ObjectButton      (_x + (_width/2)                      , _y + (_height/2) , 'SsButton2', function(){}                              , _width                      , _height                  , _playerName                                    );
+    var xPos                        = _x + ((this.player.button.width/3)/2);
+    var yPos                        = this.player.button.y + this.player.button.height;
+    this.playerButtonDecrease       = new ObjectButton      (xPos + (this.player.button.width/3)*0, yPos, 'SsButton1', function(){ this.exhibitionSelected --; } , (this.player.button.width/3), this.player.button.height, '<'                                            );
+    this.playerButtonExhibition     = new ObjectButton      (xPos + (this.player.button.width/3)*1, yPos, 'SsButton1', function(){}                              , (this.player.button.width/3), this.player.button.height, 'Go to exhibition: ' + this.exhibitionSelected );
+    this.playerButtonIncrease       = new ObjectButton      (xPos + (this.player.button.width/3)*2, yPos, 'SsButton1', function(){ this.exhibitionSelected ++; } , (this.player.button.width/3), this.player.button.height, '>'                                            );
 
 };
 ObjectPlayer.prototype.constructor  = ObjectPlayer;
