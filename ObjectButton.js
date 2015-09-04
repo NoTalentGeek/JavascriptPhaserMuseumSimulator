@@ -2,7 +2,7 @@ ObjectButton                        = function(_x, _y, _sprite, _func, _width, _
 
     this.exhibitionSelected         = 0;
 
-    this.button                     = game.add.button(_x, _y, _sprite, _func, this, 1, 0, 1, 0);
+    this.button                     = game.add.button(_x, _y, _sprite, _func, this, 1, 0);
     this.button.anchor.setTo        (_anchorX, _anchorY);
     this.button.width               = _width;
     this.button.height              = _height;
