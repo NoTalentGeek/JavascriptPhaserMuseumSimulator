@@ -1,6 +1,7 @@
 ObjectButton                        = function(_x, _y, _sprite, _func, _width, _height, _label){
 
     this.exhibitionSelected         = 0;
+    this.isAI                       = true;
 
     this.button                     = game.add.button(_x, _y, _sprite, _func, this, 1, 0);
     this.button.anchor.setTo        (0.5, 0.5);
