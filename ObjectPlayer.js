@@ -1,6 +1,6 @@
 ObjectPlayer                        = function(_x, _y, _width, _height, _playerName){
 
-    this.exhibitionAmountOfVisited  = 0;            //The amount of exhibition that this player has visited.
+    this.exhibitionAmountVisited    = 0;            //The amount of exhibition that this player has visited.
     this.exhibitionCurrent          = 0;            //Current index of exhibition of which player currently in.
     this.exhibitionTarget           = new Array();  //Target index of three exhibitions those player should visit next.
     this.exhibitionTime             = 0;            //Current time player has spent in an exhibition.
@@ -18,8 +18,8 @@ ObjectPlayer                        = function(_x, _y, _width, _height, _playerN
     this.playerButtonIncrease       = new ObjectButton      (xPos + (this.player.button.width/3)*2, yPos             , 'SsButton1', function(){ this.exhibitionSelected ++; }, (this.player.button.width/3), this.player.button.height, '>'                                            );
 
 };
-ObjectPlayer.prototype.constructor    =  ObjectPlayer;
-ObjectPlayer.prototype.Update         =  function(_minExhibition, _maxExhibition){
+ObjectPlayer.prototype.constructor  =  ObjectPlayer;
+ObjectPlayer.prototype.Update       =  function(_minExhibition, _maxExhibition){
 
     if(this.exhibitionSelected                          != this.playerButtonDecrease.exhibitionSelected){
 
@@ -37,7 +37,7 @@ ObjectPlayer.prototype.Update         =  function(_minExhibition, _maxExhibition
         this.playerButtonDecrease.exhibitionSelected    =  this.playerButtonIncrease.exhibitionSelected;
 
     }
-    
+
     var exhibitionSelectedTemporary                     = this.exhibitionSelected;
     if     (exhibitionSelectedTemporary < 10  )         { exhibitionSelectedTemporary = '00' + exhibitionSelectedTemporary; }
     else if(exhibitionSelectedTemporary < 100 )         { exhibitionSelectedTemporary = '0'  + exhibitionSelectedTemporary; }
