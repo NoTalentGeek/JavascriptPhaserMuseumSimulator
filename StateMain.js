@@ -8,7 +8,8 @@ stateMain = {
 
         for(var i = 0; i < 18; i ++){
 
-            var  objectPlayer               = new ObjectPlayer (5, 5 + (32*i) , 384 , 16, name );
+            var name                        = 'NONAME';
+            var  objectPlayer               = new ObjectPlayer (5, 5 + (32*i) , 384 , 16, name);
             this.ObjectPlayerName           (i, objectPlayer);
             this.objectPlayerArray.push     (objectPlayer);
 
@@ -61,9 +62,11 @@ stateMain = {
     ObjectPlayerName    :function(_index, _objectPlayer){
 
         var name                             = 'NONAME';
-        if     (_index < 10  ){ var name     = 'Player00' + _index + ' || ' + _objectPlayer.player.isAI; }
-        else if(_index < 100 ){ var name     = 'Player0'  + _index + ' || ' + _objectPlayer.player.isAI; }
-        else if(_index < 1000){ var name     = 'Player'   + _index + ' || ' + _objectPlayer.player.isAI; }
+        var isAITemporary                    = _objectPlayer.player.isAI;
+            isAITemporary                    = (isAITemporary) ? 'TRUE ' : 'FALSE'; 
+        if     (_index < 10  ){ var name     = 'PLAYER00' + _index + ' || ' + isAITemporary; }
+        else if(_index < 100 ){ var name     = 'PLAYER0'  + _index + ' || ' + isAITemporary; }
+        else if(_index < 1000){ var name     = 'PLAYER'   + _index + ' || ' + isAITemporary; }
         _objectPlayer.player.label.text      = name;
 
     }
