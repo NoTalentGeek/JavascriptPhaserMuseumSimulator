@@ -33,11 +33,13 @@ stateMain = {
 
         for(var i = 0; i < 18; i ++){
 
-            this.objectPlayerArray[i].exhibitionTime    = (this.objectPlayerArray[i].exhibitionTime + (game.time.elapsed/1000));
+            this.objectPlayerArray[i].exhibitionTime                = (this.objectPlayerArray[i].exhibitionTime + (game.time.elapsed/1000));
 
-            this.objectPlayerArray[i].Update            (0, this.exhibitionMax);
+            var arrayTest                                           = [1, 2, 3];
+            this.objectPlayerArray[i].AutomaticChangeExhibition     (arrayTest);
+            this.objectPlayerArray[i].Update                        (0, this.exhibitionMax);
 
-            this.ObjectPlayerLabel                      (i, this.objectPlayerArray[i]);
+            this.ObjectPlayerLabel                                  (i, this.objectPlayerArray[i]);
 
             if(!this.objectPlayerArray[i].player.isAI){
 
