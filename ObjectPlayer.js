@@ -7,9 +7,6 @@ ObjectPlayer                        = function(_x, _y, _width, _height, _playerN
     this.isEnd                      = false;        //Whether this player has finished visiting the museum. 
     this.tagsCollection             = new Array();  //Three highest tags of exhibition that player has visited.
 
-    this.isAIPrev                   = this.isAi;
-    this.isAIPrevChange             = false;
-
     this.exhibitionSelected         = 0;
     this.exhibitionSelectedPrev     = this.exhibitionSelected;
 

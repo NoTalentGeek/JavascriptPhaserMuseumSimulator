@@ -2,28 +2,24 @@ stateMain = {
 
     create              : function(){
 
-        game.stage.backgroundColor          = 0x45283c;
+        game.stage.backgroundColor  = 0x45283C;
+        this.objectPlayerArray      = new Array();
+        this.isAIArray              = new Array();
 
-        this.objectPlayerArray              = new Array();
         for(var i = 0; i < 18; i ++){
 
-            var name                        = 'NONAME';
-            var objectPlayer                = new ObjectPlayer (5, 5 + (32*i) , 384 , 16, name );
-            if     (i < 10  ){ var name     = 'Player00' + i + ' || ' + objectPlayer.player.isAI; }
-            else if(i < 100 ){ var name     = 'Player0'  + i + ' || ' + objectPlayer.player.isAI; }
-            else if(i < 1000){ var name     = 'Player'   + i + ' || ' + objectPlayer.player.isAI; }
-            objectPlayer.player.label.text  = name;
+            var  objectPlayer               = new ObjectPlayer (5, 5 + (32*i) , 384 , 16, name );
+            this.ObjectPlayerName           (i, objectPlayer);
             this.objectPlayerArray.push     (objectPlayer);
 
         }
 
-        this.objectPanelRoom1               = new ObjectPanelRoom (394      , 5      , 'ImagePanel1' , 'ImagePanel2' , 'ImagePanel3' );
-        this.objectPanelRoom2               = new ObjectPanelRoom (394 + 316, 5      , 'ImagePanel4' , 'ImagePanel5' , 'ImagePanel6' );
-        this.objectPanelRoom3               = new ObjectPanelRoom (394      , 5 + 288, 'ImagePanel7' , 'ImagePanel8' , 'ImagePanel9' );
-        this.objectPanelRoom4               = new ObjectPanelRoom (394 + 316, 5 + 288, 'ImagePanel10', 'ImagePanel11', 'ImagePanel12');
-
-        this.isAIArray                      = new Array();
-        this.isAIArrayPrevious              = this.isAIArray;
+        this.systemManagerName                  = new SystemManagerName();
+        
+        this.objectPanelRoom1                   = new ObjectPanelRoom (394      , 5      , this.systemManagerName.AddName(0, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionAfrikanArray      , 'ImagePanel1' , 'ImagePanel2' , 'ImagePanel3' );
+        this.objectPanelRoom2                   = new ObjectPanelRoom (394 + 316, 5      , this.systemManagerName.AddName(1, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionAmericanArray     , 'ImagePanel4' , 'ImagePanel5' , 'ImagePanel6' );
+        this.objectPanelRoom3                   = new ObjectPanelRoom (394      , 5 + 288, this.systemManagerName.AddName(2, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionAsianArray        , 'ImagePanel7' , 'ImagePanel8' , 'ImagePanel9' );
+        this.objectPanelRoom4                   = new ObjectPanelRoom (394 + 316, 5 + 288, this.systemManagerName.AddName(3, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionEuropeanArray     , 'ImagePanel10', 'ImagePanel11', 'ImagePanel12');
 
     },
 
@@ -31,12 +27,8 @@ stateMain = {
 
         for(var i = 0; i < 18; i ++){
 
-            this.objectPlayerArray[i].Update(0, 30);            
-
-            if     (i < 10  ){ var name     = 'Player00' + i + ' || ' + this.objectPlayerArray[i].player.isAI; }
-            else if(i < 100 ){ var name     = 'Player0'  + i + ' || ' + this.objectPlayerArray[i].player.isAI; }
-            else if(i < 1000){ var name     = 'Player'   + i + ' || ' + this.objectPlayerArray[i].player.isAI; }
-            this.objectPlayerArray[i].player.label.text  = name;
+            this.objectPlayerArray[i].Update    (0, 30);
+            this.ObjectPlayerName               (i, this.objectPlayerArray[i]);
 
             if(!this.objectPlayerArray[i].player.isAI){
 
@@ -63,7 +55,17 @@ stateMain = {
             this.isAIArray.length = 0;
 
         }
-        
+
+    },
+
+    ObjectPlayerName    :function(_index, _objectPlayer){
+
+        var name                             = 'NONAME';
+        if     (_index < 10  ){ var name     = 'Player00' + _index + ' || ' + _objectPlayer.player.isAI; }
+        else if(_index < 100 ){ var name     = 'Player0'  + _index + ' || ' + _objectPlayer.player.isAI; }
+        else if(_index < 1000){ var name     = 'Player'   + _index + ' || ' + _objectPlayer.player.isAI; }
+        _objectPlayer.player.label.text      = name;
+
     }
 
 };
