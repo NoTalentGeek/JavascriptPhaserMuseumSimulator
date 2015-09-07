@@ -28,7 +28,7 @@ stateMain = {
 
         for(var i = 0; i < 18; i ++){
 
-            this.objectPlayerArray[i].Update    (0, 30);
+            this.objectPlayerArray[i].Update    (0, 16);
             this.ObjectPlayerName               (i, this.objectPlayerArray[i]);
 
             if(!this.objectPlayerArray[i].player.isAI){

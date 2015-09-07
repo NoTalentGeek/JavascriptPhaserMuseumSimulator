@@ -37,6 +37,11 @@ ObjectPlayer.prototype.Update         =  function(_minExhibition, _maxExhibition
         this.playerButtonDecrease.exhibitionSelected    =  this.playerButtonIncrease.exhibitionSelected;
 
     }
-    this.playerButtonExhibition.label.text              =  'GO: ' + this.exhibitionSelected;
+    
+    var exhibitionSelectedTemporary                     = this.exhibitionSelected;
+    if     (exhibitionSelectedTemporary < 10  )         { exhibitionSelectedTemporary = '00' + exhibitionSelectedTemporary; }
+    else if(exhibitionSelectedTemporary < 100 )         { exhibitionSelectedTemporary = '0'  + exhibitionSelectedTemporary; }
+    else if(exhibitionSelectedTemporary < 1000)         { exhibitionSelectedTemporary =        exhibitionSelectedTemporary; }
+    this.playerButtonExhibition.label.text              =  'GO: ' + exhibitionSelectedTemporary;
 
 };
