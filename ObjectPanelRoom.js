@@ -5,9 +5,9 @@ ObjectPanelRoom 						= function(_x, _y, _roomName, _exhibitionNameArray, _sprit
 
     this.systemManagerName              = new SystemManagerName();
 
-	this.panelRoom                      = new ObjectPanel   (_x                                                                                           , _y                                                                                                                              , 316, 16 , _sprite1, this.roomName                       );
+	this.panelRoom                      = new ObjectPanel   (_x                                                                                           , _y                                                                                                                              , 316, 16 , _sprite1, this.roomName             );
         
-    this.panelExhibition1               = new ObjectPanel   (this.panelRoom.panel.x - (this.panelRoom.panel.width/2)                                      , this.panelRoom.panel.y + (this.panelRoom.panel.height/2)                                                                        , 158, 16 , _sprite2, this.exhibitionName[0]              );
+    this.panelExhibition1               = new ObjectPanel   (this.panelRoom.panel.x - (this.panelRoom.panel.width/2)                                      , this.panelRoom.panel.y + (this.panelRoom.panel.height/2)                                                                        , 158, 16 , _sprite2, this.exhibitionName[0]    );
     this.panelTags1Array                = this.systemManagerName.AddRandomTags();
     this.panelTags1String               = '';
     for(var i = 0; i < this.panelTags1Array.length; i ++){

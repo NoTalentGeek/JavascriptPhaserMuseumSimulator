@@ -11,12 +11,13 @@ stateMain = {
 
         for(var i = 0; i < 18; i ++){
 
-            var name                            = 'NONAME';
-            var  objectPlayer                   = new ObjectPlayer (5, 5 + (32*i) , 384 , 16, name);
-                 objectPlayer.exhibitionCurrent = Math.floor((Math.random()*this.exhibitionMax) + 0);
-                 objectPlayer.exhibitionTime    = 0;
-            this.ObjectPlayerLabel              (i, objectPlayer);
-            this.objectPlayerArray.push         (objectPlayer);
+            var name                                    = 'NONAME';
+            var  objectPlayer                           = new ObjectPlayer (5, 5 + (32*i) , 384 , 16, name);
+                 objectPlayer.exhibitionCurrent         = Math.floor((Math.random()*this.exhibitionMax) + 0);
+                 objectPlayer.exhibitionTime            = 0;
+                 objectPlayer.exhibitionVisited.push    (objectPlayer.exhibitionCurrent);
+            this.ObjectPlayerLabel                      (i, objectPlayer);
+            this.objectPlayerArray.push                 (objectPlayer);
 
         }
 
@@ -36,7 +37,34 @@ stateMain = {
             this.objectPlayerArray[i].exhibitionTime                = (this.objectPlayerArray[i].exhibitionTime + (game.time.elapsed/1000));
 
             var arrayTest                                           = [1, 2, 3];
-            this.objectPlayerArray[i].AutomaticChangeExhibition     (arrayTest);
+            if( this.objectPlayerArray[i].AutomaticChangeExhibition (arrayTest)){
+
+                if           (this.objectPlayerArray[i].exhibitionCurrent < 3    ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags1Array); }
+                }
+                else if     (this.objectPlayerArray[i].exhibitionCurrent < 7     ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags1Array); }
+                }
+                else if     (this.objectPlayerArray[i].exhibitionCurrent < 11    ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags1Array); }
+                }
+                else if     (this.objectPlayerArray[i].exhibitionCurrent < 14    ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags1Array); }
+                }
+
+            }
             this.objectPlayerArray[i].Update                        (0, this.exhibitionMax);
 
             this.ObjectPlayerLabel                                  (i, this.objectPlayerArray[i]);
@@ -63,24 +91,41 @@ stateMain = {
 
     },
 
-    ObjectPlayerLabel   :function(_index, _objectPlayer){
+    ObjectPlayerLabel   : function(_index, _objectPlayer){
 
-        var name                             = 'NONAME';
+        var name                                    = 'NONAME';
 
-        var isAITemporary                    = _objectPlayer.player.isAI;
-            isAITemporary                    = (isAITemporary) ? 'TRUE ' : 'FALSE';
+        var isAITemporary                           = _objectPlayer.player.isAI;
+            isAITemporary                           = (isAITemporary) ? 'TRUE ' : 'FALSE';
 
-        var exhibitionCurrentTemporary            = _objectPlayer.exhibitionCurrent;
+        var exhibitionCurrentTemporary              = _objectPlayer.exhibitionCurrent;
         if     (exhibitionCurrentTemporary < 10  ){ exhibitionCurrentTemporary     = '00' + exhibitionCurrentTemporary; }
         else if(exhibitionCurrentTemporary < 100 ){ exhibitionCurrentTemporary     = '0'  + exhibitionCurrentTemporary; }
         else if(exhibitionCurrentTemporary < 1000){ exhibitionCurrentTemporary     =        exhibitionCurrentTemporary; }
 
-        var exhibitionTimeTemporary          = _objectPlayer.exhibitionTime;
+        var exhibitionTimeTemporary                 = _objectPlayer.exhibitionTime;
 
-        if     (_index < 10  ){ name     = 'PLAYER00' + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary); }
-        else if(_index < 100 ){ name     = 'PLAYER0'  + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary); }
-        else if(_index < 1000){ name     = 'PLAYER'   + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary); }
-        _objectPlayer.player.label.text      = name;
+        var exhibitionTagsCollectionBest            = _objectPlayer.tagsCollectionBest;
+        var exhibitionTagsCollectionBestString      = '';
+        for(var i = 0; i < _objectPlayer.tagsCollectionBest.length; i ++){
+
+            if(i == _objectPlayer.tagsCollectionBest.length - 1)    {
+
+                exhibitionTagsCollectionBestString      = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]];
+
+            }
+            else                                                    {
+
+                exhibitionTagsCollectionBestString      = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]] + ' ';
+
+            }
+            
+        }
+
+        if     (_index < 10  ){ name     = 'PLAYER00' + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
+        else if(_index < 100 ){ name     = 'PLAYER0'  + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
+        else if(_index < 1000){ name     = 'PLAYER'   + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
+        _objectPlayer.player.label.text  = name;
 
     }
 

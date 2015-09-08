@@ -2,12 +2,57 @@ ObjectPlayer                                            = function(_x, _y, _widt
 
     this.exhibitionMax                                  = 16;
 
-    this.exhibitionAmountVisited                        = 0;            //The amount of exhibition that this player has visited.
+    //PENDING: Tags count.
+    this.countAGR                                       = 0;
+    this.countBRA                                       = 0;
+    this.countCAL                                       = 0;
+    this.countDEL                                       = 0;
+    this.countEAG                                       = 0;
+    this.countFAI                                       = 0;
+    this.countGEN                                       = 0;
+    this.countHAP                                       = 0;
+    this.countJOL                                       = 0;
+    this.countKIN                                       = 0;
+    this.countLIV                                       = 0;
+    this.countNIC                                       = 0;
+    this.countOBE                                       = 0;
+    this.countPRO                                       = 0;
+    this.countREL                                       = 0;
+    this.countSIL                                       = 0;
+    this.countTHA                                       = 0;
+    this.countVIC                                       = 0;
+    this.countWIT                                       = 0;
+    this.countZEA                                       = 0;
+
+    this.exhibitionVisited                              = new Array();  //The amount of exhibition that this player has visited.
     this.exhibitionCurrent                              = 0;            //Current index of exhibition of which player currently in.
     this.exhibitionTarget                               = new Array();  //Target index of three exhibitions those player should visit next.
     this.exhibitionTime                                 = 0;            //Current time player has spent in an exhibition.
+    this.isFinished                                     = false;
     this.isEnd                                          = false;        //Whether this player has finished visiting the museum. 
-    this.tagsCollection                                 = new Array();  //Three highest tags of exhibition that player has visited.
+    this.tagsCollection                                 = new Array();
+    this.tagsCollectionBest                             = new Array();  //Three highest tags of exhibition that player has visited.
+
+    this.tagsCollection.push                            (this.countAGR);
+    this.tagsCollection.push                            (this.countBRA);
+    this.tagsCollection.push                            (this.countCAL);
+    this.tagsCollection.push                            (this.countCAL);
+    this.tagsCollection.push                            (this.countEAG);
+    this.tagsCollection.push                            (this.countFAI);
+    this.tagsCollection.push                            (this.countGEN);
+    this.tagsCollection.push                            (this.countHAP);
+    this.tagsCollection.push                            (this.countJOL);
+    this.tagsCollection.push                            (this.countKIN);
+    this.tagsCollection.push                            (this.countLIV);
+    this.tagsCollection.push                            (this.countNIC);
+    this.tagsCollection.push                            (this.countOBE);
+    this.tagsCollection.push                            (this.countPRO);
+    this.tagsCollection.push                            (this.countREL);
+    this.tagsCollection.push                            (this.countSIL);
+    this.tagsCollection.push                            (this.countTHA);
+    this.tagsCollection.push                            (this.countVIC);
+    this.tagsCollection.push                            (this.countWIT);
+    this.tagsCollection.push                            (this.countZEA);
 
     this.exhibitionSelected                             = 0;
     this.exhibitionSelectedPrev                         = this.exhibitionSelected;
@@ -47,17 +92,103 @@ ObjectPlayer.prototype.Update                           =  function(_minExhibiti
     this.playerButtonExhibition.label.text              = 'GO: ' + exhibitionSelectedTemporary;
 
 };
-ObjectPlayer.prototype.AutomaticChangeExhibition        = function(_arrayExhibitionTarget){
+ObjectPlayer.prototype.AddTagsCount                     = function(_arrayTags){
 
-    if(this.player.isAI){
+    for(var i = 0; i < _arrayTags.length; i ++){
 
-        if(Math.random() > 1 - this.exhibitionTime/10000){
+        switch(_arrayTags[i]){
 
-            this.exhibitionCurrent  = Math.floor((Math.random()*this.exhibitionMax) + 0);
-            this.exhibitionTime     = 0;
+            case('AGR'): this.countAGR ++; break;
+            case('BRA'): this.countBRA ++; break;
+            case('CAL'): this.countCAL ++; break;
+            case('DEL'): this.countCAL ++; break;
+            case('EAG'): this.countEAG ++; break;
+            case('FAI'): this.countFAI ++; break;
+            case('GEN'): this.countGEN ++; break;
+            case('HAP'): this.countHAP ++; break;
+            case('JOL'): this.countJOL ++; break;
+            case('KIN'): this.countKIN ++; break;
+            case('LIV'): this.countLIV ++; break;
+            case('NIC'): this.countNIC ++; break;
+            case('OBE'): this.countOBE ++; break;
+            case('PRO'): this.countPRO ++; break;
+            case('REL'): this.countREL ++; break;
+            case('SIL'): this.countSIL ++; break;
+            case('THA'): this.countTHA ++; break;
+            case('VIC'): this.countVIC ++; break;
+            case('WIT'): this.countWIT ++; break;
+            case('ZEA'): this.countZEA ++; break;
 
         }
 
     }
+
+    this.tagsCollection.length                          = 0;
+    this.tagsCollectionBest.length                      = 0;
+    this.tagsCollection.push                            (this.countAGR);
+    this.tagsCollection.push                            (this.countBRA);
+    this.tagsCollection.push                            (this.countCAL);
+    this.tagsCollection.push                            (this.countCAL);
+    this.tagsCollection.push                            (this.countEAG);
+    this.tagsCollection.push                            (this.countFAI);
+    this.tagsCollection.push                            (this.countGEN);
+    this.tagsCollection.push                            (this.countHAP);
+    this.tagsCollection.push                            (this.countJOL);
+    this.tagsCollection.push                            (this.countKIN);
+    this.tagsCollection.push                            (this.countLIV);
+    this.tagsCollection.push                            (this.countNIC);
+    this.tagsCollection.push                            (this.countOBE);
+    this.tagsCollection.push                            (this.countPRO);
+    this.tagsCollection.push                            (this.countREL);
+    this.tagsCollection.push                            (this.countSIL);
+    this.tagsCollection.push                            (this.countTHA);
+    this.tagsCollection.push                            (this.countVIC);
+    this.tagsCollection.push                            (this.countWIT);
+    this.tagsCollection.push                            (this.countZEA);
+
+    var firstBest                   = Math.max.apply(Math, this.tagsCollection);
+    var indexFirst                  = this.tagsCollection.indexOf(firstBest);
+    this.tagsCollectionBest.push    (indexFirst);
+    if(indexFirst > -1)             { this.tagsCollection.splice(indexFirst, 1); }
+
+    var secondBest                  = Math.max.apply(Math, this.tagsCollection);
+    var indexSecond                 = this.tagsCollection.indexOf(secondBest);
+    if(indexFirst <= indexSecond)   { indexSecond ++; }
+    this.tagsCollectionBest.push    (indexSecond);
+    if(indexSecond > -1)            { this.tagsCollection.splice(indexSecond, 1); }
+
+    var thirdBest                   = Math.max.apply(Math, this.tagsCollection);
+    var indexThird                  = this.tagsCollection.indexOf(thirdBest);
+    if(indexSecond <= indexThird)   { indexThird ++; }
+    this.tagsCollectionBest.push    (indexThird);
+    if(indexThird > -1)             { this.tagsCollection.splice(indexThird, 1); }
+
+}
+ObjectPlayer.prototype.AutomaticChangeExhibition        = function(_arrayExhibitionTarget){
+
+    if(this.player.isAI){
+
+        if(Math.random() > 1 - this.exhibitionTime/100){
+
+            var exhibitionCurrentTemporary = Math.floor((Math.random()*this.exhibitionMax) + 0);
+            for(var i = 0; i < this.exhibitionVisited.length; i ++){
+
+                while(this.exhibitionVisited[i] == exhibitionCurrentTemporary){
+
+                    exhibitionCurrentTemporary  =  Math.floor((Math.random()*this.exhibitionMax) + 0);
+
+                }
+
+            }
+            this.exhibitionCurrent              = exhibitionCurrentTemporary;
+            this.exhibitionVisited.push         (this.exhibitionCurrent);
+            this.exhibitionTime                 = 0;
+            return true;
+
+        }
+        else{ return false; }
+
+    }
+    else{ return false; }
 
 }
