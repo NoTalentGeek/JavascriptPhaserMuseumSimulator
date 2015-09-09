@@ -57,6 +57,13 @@ ObjectPlayer                                            = function(_x, _y, _widt
     this.exhibitionSelected                             = 0;
     this.exhibitionSelectedPrev                         = this.exhibitionSelected;
 
+
+    this.roomIndexTargetValue                           = new Array(this.exhibitionMax);
+    for(var i = 0; i < this.roomIndexTargetValue.length; i ++){
+        this.roomIndexTargetValue[i] = 0;
+    }
+
+
     this.player                                         = new ObjectButton      (_x + (_width/2)                      , _y + (_height/2) , 'SsButton2', function(){ this.isAI = !this.isAI;     }, _width                      , _height                  , _playerName                         );
     var xPos                                            = _x + ((this.player.button.width/3)/2);
     var yPos                                            = this.player.button.y + this.player.button.height;
@@ -190,5 +197,77 @@ ObjectPlayer.prototype.AutomaticChangeExhibition        = function(_arrayExhibit
 
     }
     else{ return false; }
+
+},
+ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
+
+    var exhibitionTargetArray       = new Array(3);
+    var roomIndex                   = new Array(this.exhibitionMax);
+
+    //Get reference to every possible room tags in the game.
+    for(var i = 0; i < roomIndex.length; i ++){
+
+        if     (i <= 3){
+
+            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[0].panelTags4Array; }
+            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[0].panelTags3Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[0].panelTags2Array; }
+            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[0].panelTags1Array; }
+
+        }
+        else if(i <= 7){
+
+            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[1].panelTags4Array; }
+            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[1].panelTags3Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[1].panelTags2Array; }
+            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[1].panelTags1Array; }
+
+        }
+        else if(i <= 11){
+
+            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[2].panelTags4Array; }
+            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[2].panelTags3Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[2].panelTags2Array; }
+            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[2].panelTags1Array; }
+
+        }
+        else if(i <= 15){
+
+            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[3].panelTags4Array; }
+            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[3].panelTags3Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[3].panelTags2Array; }
+            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[3].panelTags1Array; }
+
+        }
+
+    }
+
+    var systemManagerName = new SystemManagerName();
+    for(var i = 0; i < 3; i ++){
+
+        for(var j = 0; j < roomIndex.length; j ++){
+
+            for(var k = 0; k < 3; k ++){
+
+                if(systemManagerName.tagArray[this.tagsCollectionBest[i]] != 'undefined'){
+                    if(systemManagerName.tagArray[this.tagsCollectionBest[i]] == roomIndex[j][k]){ this.roomIndexTargetValue[j] ++; }
+                }
+
+            }
+
+        }
+
+    }
+
+
+
+    //DEBUG.
+    var debug = '';
+    for(var i = 0; i < 16; i ++){
+
+        debug = debug + ' ' + this.roomIndexTargetValue[i];
+
+    }
+    console.log(debug);
 
 }

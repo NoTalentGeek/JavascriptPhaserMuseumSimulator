@@ -23,14 +23,21 @@ stateMain = {
 
         this.systemManagerName                  = new SystemManagerName();
         
+        this.objectPanelRoomArray               = new Array();
         this.objectPanelRoom1                   = new ObjectPanelRoom (394      , 5      , this.systemManagerName.AddName(0, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionAfrikanArray      , 'ImagePanel1' , 'ImagePanel2' , 'ImagePanel3' );
         this.objectPanelRoom2                   = new ObjectPanelRoom (394 + 316, 5      , this.systemManagerName.AddName(1, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionAmericanArray     , 'ImagePanel4' , 'ImagePanel5' , 'ImagePanel6' );
         this.objectPanelRoom3                   = new ObjectPanelRoom (394      , 5 + 288, this.systemManagerName.AddName(2, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionAsianArray        , 'ImagePanel7' , 'ImagePanel8' , 'ImagePanel9' );
         this.objectPanelRoom4                   = new ObjectPanelRoom (394 + 316, 5 + 288, this.systemManagerName.AddName(3, this.systemManagerName.nameRoomArray) , this.systemManagerName.nameExhibitionEuropeanArray     , 'ImagePanel10', 'ImagePanel11', 'ImagePanel12');
+        this.objectPanelRoomArray.push          (this.objectPanelRoom1);
+        this.objectPanelRoomArray.push          (this.objectPanelRoom2);
+        this.objectPanelRoomArray.push          (this.objectPanelRoom3);
+        this.objectPanelRoomArray.push          (this.objectPanelRoom4);
 
     },
 
     update              : function(){
+
+        this.objectPlayerArray[0].DetermineTargetExhibition(this.objectPanelRoomArray);
 
         for(var i = 0; i < 18; i ++){
 
@@ -39,29 +46,29 @@ stateMain = {
             var arrayTest                                           = [1, 2, 3];
             if( this.objectPlayerArray[i].AutomaticChangeExhibition (arrayTest)){
 
-                if           (this.objectPlayerArray[i].exhibitionCurrent < 3    ){
-                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags4Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags3Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags2Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags1Array); }
+                if          (this.objectPlayerArray[i].exhibitionCurrent  <= 3   ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags1Array); }
                 }
-                else if     (this.objectPlayerArray[i].exhibitionCurrent < 7     ){
-                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags4Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags3Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags2Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags1Array); }
+                else if     (this.objectPlayerArray[i].exhibitionCurrent  <= 7   ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom2.panelTags1Array); }
                 }
-                else if     (this.objectPlayerArray[i].exhibitionCurrent < 11    ){
-                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags4Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags3Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags2Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags1Array); }
+                else if     (this.objectPlayerArray[i].exhibitionCurrent  <= 11  ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom3.panelTags1Array); }
                 }
-                else if     (this.objectPlayerArray[i].exhibitionCurrent < 14    ){
-                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags4Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags3Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags2Array); }
-                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags1Array); }
+                else if     (this.objectPlayerArray[i].exhibitionCurrent  <= 15  ){
+                    if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags4Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%3 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags3Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%2 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags2Array); }
+                    else if ((this.objectPlayerArray[i].exhibitionCurrent + 1)%1 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom4.panelTags1Array); }
                 }
 
             }
@@ -96,30 +103,20 @@ stateMain = {
         var name                                    = 'NONAME';
 
         var isAITemporary                           = _objectPlayer.player.isAI;
-            isAITemporary                           = (isAITemporary) ? 'TRUE ' : 'FALSE';
+            isAITemporary                           = (isAITemporary) ? 'TRUE' : 'FALSE';
 
         var exhibitionCurrentTemporary              = _objectPlayer.exhibitionCurrent;
-        if     (exhibitionCurrentTemporary < 10  ){ exhibitionCurrentTemporary     = '00' + exhibitionCurrentTemporary; }
-        else if(exhibitionCurrentTemporary < 100 ){ exhibitionCurrentTemporary     = '0'  + exhibitionCurrentTemporary; }
-        else if(exhibitionCurrentTemporary < 1000){ exhibitionCurrentTemporary     =        exhibitionCurrentTemporary; }
+        if     (exhibitionCurrentTemporary < 10  )  { exhibitionCurrentTemporary     = '00' + exhibitionCurrentTemporary; }
+        else if(exhibitionCurrentTemporary < 100 )  { exhibitionCurrentTemporary     = '0'  + exhibitionCurrentTemporary; }
+        else if(exhibitionCurrentTemporary < 1000)  { exhibitionCurrentTemporary     =        exhibitionCurrentTemporary; }
 
         var exhibitionTimeTemporary                 = _objectPlayer.exhibitionTime;
 
-        var exhibitionTagsCollectionBest            = _objectPlayer.tagsCollectionBest;
-        var exhibitionTagsCollectionBestString      = '';
+        var exhibitionTagsCollectionBest            =  _objectPlayer.tagsCollectionBest;
+        var exhibitionTagsCollectionBestString      = (_objectPlayer.tagsCollectionBest.length > 0) ? '' : 'XXX XXX XXX';
         for(var i = 0; i < _objectPlayer.tagsCollectionBest.length; i ++){
-
-            if(i == _objectPlayer.tagsCollectionBest.length - 1)    {
-
-                exhibitionTagsCollectionBestString      = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]];
-
-            }
-            else                                                    {
-
-                exhibitionTagsCollectionBestString      = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]] + ' ';
-
-            }
-            
+            if(i == _objectPlayer.tagsCollectionBest.length - 1){ exhibitionTagsCollectionBestString      = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]]; }
+            else{ exhibitionTagsCollectionBestString = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]] + ' '; }
         }
 
         if     (_index < 10  ){ name     = 'PLAYER00' + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
