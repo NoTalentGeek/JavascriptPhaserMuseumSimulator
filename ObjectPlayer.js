@@ -262,12 +262,39 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
 
     //DEBUG.
-    var debug = '';
+    var debug                       = '';
+    var firstHighest                = 0;
+    var secondHighest               = 0;
+    var thirdHighest                = 0;
+    this.exhibitionTarget.length    = 0;
     for(var i = 0; i < 16; i ++){
 
         debug = debug + ' ' + this.roomIndexTargetValue[i];
+        if(thirdHighest < this.roomIndexTargetValue[i]){
+
+            thirdHighest = this.roomIndexTargetValue[i];
+            if(thirdHighest > secondHighest){
+
+                var temp = thirdHighest;
+                thirdHighest = secondHighest;
+                secondHighest = temp;
+                if(secondHighest > firstHighest){
+
+                    var temp = secondHighest;
+                    secondHighest = firstHighest;
+                    firstHighest = temp;
+
+                }
+
+            }
+
+        }
 
     }
-    console.log(debug);
+
+    this.exhibitionTarget.push(firstHighest);
+    this.exhibitionTarget.push(secondHighest);
+    this.exhibitionTarget.push(thirdHighest);
+    console.log(debug + '   ' + this.exhibitionTarget);
 
 }
