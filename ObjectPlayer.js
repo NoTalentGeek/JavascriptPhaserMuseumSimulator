@@ -171,7 +171,10 @@ ObjectPlayer.prototype.AddTagsCount                     = function(_arrayTags){
     if(indexThird > -1)             { this.tagsCollection.splice(indexThird, 1); }
 
 }
-ObjectPlayer.prototype.AutomaticChangeExhibition        = function(_arrayExhibitionTarget){
+ObjectPlayer.prototype.AutomaticChangeExhibition        = function(){
+
+    //if(this.exhibitionTarget.length > 0){ console.log(this.exhibitionTarget[Math.floor((Math.random()*(this.exhibitionTarget.length - 1)) + 0)]); }
+    console.log(this.exhibitionTarget);
 
     if(this.player.isAI){
 
@@ -201,7 +204,6 @@ ObjectPlayer.prototype.AutomaticChangeExhibition        = function(_arrayExhibit
 },
 ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
-    var exhibitionTargetArray       = new Array(3);
     var roomIndex                   = new Array(this.exhibitionMax);
 
     //Get reference to every possible room tags in the game.
@@ -292,9 +294,9 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
     }
 
-    this.exhibitionTarget.push(firstHighest);
-    this.exhibitionTarget.push(secondHighest);
-    this.exhibitionTarget.push(thirdHighest);
-    console.log(debug + '   ' + this.exhibitionTarget);
+    this.exhibitionTarget.push(this.roomIndexTargetValue.indexOf(firstHighest));
+    this.exhibitionTarget.push(this.roomIndexTargetValue.indexOf(secondHighest));
+    this.exhibitionTarget.push(this.roomIndexTargetValue.indexOf(thirdHighest));
+    //console.log(debug + '   ' + this.exhibitionTarget);
 
 }

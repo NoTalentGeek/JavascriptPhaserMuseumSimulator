@@ -37,14 +37,11 @@ stateMain = {
 
     update              : function(){
 
-        this.objectPlayerArray[0].DetermineTargetExhibition(this.objectPanelRoomArray);
-
         for(var i = 0; i < 18; i ++){
 
             this.objectPlayerArray[i].exhibitionTime                = (this.objectPlayerArray[i].exhibitionTime + (game.time.elapsed/1000));
 
-            var arrayTest                                           = [1, 2, 3];
-            if( this.objectPlayerArray[i].AutomaticChangeExhibition (arrayTest)){
+            if(this.objectPlayerArray[i].AutomaticChangeExhibition()){
 
                 if          (this.objectPlayerArray[i].exhibitionCurrent  <= 3   ){
                     if      ((this.objectPlayerArray[i].exhibitionCurrent + 1)%4 == 0){ this.objectPlayerArray[i].AddTagsCount(this.objectPanelRoom1.panelTags4Array); }
@@ -72,6 +69,8 @@ stateMain = {
                 }
 
             }
+
+            this.objectPlayerArray[i].DetermineTargetExhibition     (this.objectPanelRoomArray);
             this.objectPlayerArray[i].Update                        (0, this.exhibitionMax);
 
             this.ObjectPlayerLabel                                  (i, this.objectPlayerArray[i]);
