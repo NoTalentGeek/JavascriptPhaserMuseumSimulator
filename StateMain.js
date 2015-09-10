@@ -107,7 +107,7 @@ stateMain = {
         var name                                    = 'NONAME';
 
         var isAITemporary                           = _objectPlayer.player.isAI;
-            isAITemporary                           = (isAITemporary) ? 'TRUE' : 'FALSE';
+            isAITemporary                           = (isAITemporary) ? 'TRU' : 'FAL';
 
         var exhibitionCurrentTemporary              = _objectPlayer.exhibitionCurrent;
         if     (exhibitionCurrentTemporary < 10  )  { exhibitionCurrentTemporary     = '00' + exhibitionCurrentTemporary; }

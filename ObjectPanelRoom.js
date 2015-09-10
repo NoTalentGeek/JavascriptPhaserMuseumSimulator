@@ -69,26 +69,53 @@ ObjectPanelRoom.prototype.Update        = function(_roomIndex, _playerArray){
 
         if(_roomIndex == 1){
 
-            if(_playerArray[i].exhibitionCurrent == 0){ this.panelExhibition1.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 1){ this.panelExhibition2.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 2){ this.panelExhibition3.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 3){ this.panelExhibition4.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 0) { this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 1) { this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 2) { this.panelExhibition3.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 3) { this.panelExhibition4.visitor ++; }
+
+            if(this.panelExhibition1.visitor >= 3){ this.panelExhibition1.isCrowded = true; }
+            else                                  { this.panelExhibition1.isCrowded = false }
+            if(this.panelExhibition2.visitor >= 3){ this.panelExhibition2.isCrowded = true; }
+            else                                  { this.panelExhibition2.isCrowded = false }
+            if(this.panelExhibition3.visitor >= 3){ this.panelExhibition3.isCrowded = true; }
+            else                                  { this.panelExhibition3.isCrowded = false }
+            if(this.panelExhibition4.visitor >= 3){ this.panelExhibition4.isCrowded = true; }
+            else                                  { this.panelExhibition4.isCrowded = false }
 
         }
         if(_roomIndex == 2){
 
-            if(_playerArray[i].exhibitionCurrent == 4){ this.panelExhibition1.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 5){ this.panelExhibition2.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 6){ this.panelExhibition3.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 7){ this.panelExhibition4.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 4) { this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 5) { this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 6) { this.panelExhibition3.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 7) { this.panelExhibition4.visitor ++; }
+
+            if(this.panelExhibition1.visitor >= 3){ this.panelExhibition1.isCrowded = true; }
+            else                                  { this.panelExhibition1.isCrowded = false }
+            if(this.panelExhibition2.visitor >= 3){ this.panelExhibition2.isCrowded = true; }
+            else                                  { this.panelExhibition2.isCrowded = false }
+            if(this.panelExhibition3.visitor >= 3){ this.panelExhibition3.isCrowded = true; }
+            else                                  { this.panelExhibition3.isCrowded = false }
+            if(this.panelExhibition4.visitor >= 3){ this.panelExhibition4.isCrowded = true; }
+            else                                  { this.panelExhibition4.isCrowded = false }
 
         }
         if(_roomIndex == 3){
 
-            if(_playerArray[i].exhibitionCurrent == 8){ this.panelExhibition1.visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 9){ this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 8) { this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 9) { this.panelExhibition2.visitor ++; }
             if(_playerArray[i].exhibitionCurrent == 10){ this.panelExhibition3.visitor ++; }
             if(_playerArray[i].exhibitionCurrent == 11){ this.panelExhibition4.visitor ++; }
+
+            if(this.panelExhibition1.visitor >= 3){ this.panelExhibition1.isCrowded = true; }
+            else                                  { this.panelExhibition1.isCrowded = false }
+            if(this.panelExhibition2.visitor >= 3){ this.panelExhibition2.isCrowded = true; }
+            else                                  { this.panelExhibition2.isCrowded = false }
+            if(this.panelExhibition3.visitor >= 3){ this.panelExhibition3.isCrowded = true; }
+            else                                  { this.panelExhibition3.isCrowded = false }
+            if(this.panelExhibition4.visitor >= 3){ this.panelExhibition4.isCrowded = true; }
+            else                                  { this.panelExhibition4.isCrowded = false }
 
         }
         if(_roomIndex == 4){
@@ -98,14 +125,27 @@ ObjectPanelRoom.prototype.Update        = function(_roomIndex, _playerArray){
             if(_playerArray[i].exhibitionCurrent == 14){ this.panelExhibition3.visitor ++; }
             if(_playerArray[i].exhibitionCurrent == 15){ this.panelExhibition4.visitor ++; }
 
+            if(this.panelExhibition1.visitor >= 3){ this.panelExhibition1.isCrowded = true; }
+            else                                  { this.panelExhibition1.isCrowded = false }
+            if(this.panelExhibition2.visitor >= 3){ this.panelExhibition2.isCrowded = true; }
+            else                                  { this.panelExhibition2.isCrowded = false }
+            if(this.panelExhibition3.visitor >= 3){ this.panelExhibition3.isCrowded = true; }
+            else                                  { this.panelExhibition3.isCrowded = false }
+            if(this.panelExhibition4.visitor >= 3){ this.panelExhibition4.isCrowded = true; }
+            else                                  { this.panelExhibition4.isCrowded = false }
+
         }
 
     }
     this.panelRoom.visitor                = this.panelExhibition1.visitor + this.panelExhibition2.visitor + this.panelExhibition3.visitor + this.panelExhibition4.visitor;
     this.panelRoom       .panelLabel.text = this.roomName                       + ' || ' + this.panelRoom.visitor;
-    this.panelExhibition1.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition1.visitor;
-    this.panelExhibition2.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition2.visitor;
-    this.panelExhibition3.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition3.visitor;
-    this.panelExhibition4.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition4.visitor;
+    var isCrowdedTemporaryExhibition1     = (this.panelExhibition1.isCrowded) ? 'TRU' : 'FAL';
+    var isCrowdedTemporaryExhibition2     = (this.panelExhibition2.isCrowded) ? 'TRU' : 'FAL';
+    var isCrowdedTemporaryExhibition3     = (this.panelExhibition3.isCrowded) ? 'TRU' : 'FAL';
+    var isCrowdedTemporaryExhibition4     = (this.panelExhibition4.isCrowded) ? 'TRU' : 'FAL';
+    this.panelExhibition1.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition1.visitor + ' || ' + isCrowdedTemporaryExhibition1;
+    this.panelExhibition2.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition2.visitor + ' || ' + isCrowdedTemporaryExhibition2;
+    this.panelExhibition3.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition3.visitor + ' || ' + isCrowdedTemporaryExhibition3;
+    this.panelExhibition4.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition4.visitor + ' || ' + isCrowdedTemporaryExhibition4;
 
 };
