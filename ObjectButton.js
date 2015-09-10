@@ -1,5 +1,10 @@
-ObjectButton                        = function(_x, _y, _sprite, _func, _width, _height, _label){
+ObjectButton                        = function(_parent, _x, _y, _sprite, _func, _width, _height, _label){
 
+    this.parentObject                     = _parent;
+
+    this.justPressed                = false;
+
+    this.exhibitionCurrent          = 0;
     this.exhibitionSelected         = 0;
     this.isAI                       = true;
 

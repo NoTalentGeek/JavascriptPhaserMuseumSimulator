@@ -63,12 +63,12 @@ ObjectPlayer                                            = function(_x, _y, _widt
     }
 
 
-    this.player                                         = new ObjectButton      (_x + (_width/2)                      , _y + (_height/2) , 'SsButton2', function(){ this.isAI = !this.isAI;     }, _width                      , _height                  , _playerName                         );
+    this.player                                         = new ObjectButton      (this, _x + (_width/2)                      , _y + (_height/2) , 'SsButton2', function(){ this.isAI = !this.isAI;                           }, _width                      , _height                  , _playerName                         );
     var xPos                                            = _x + ((this.player.button.width/3)/2);
     var yPos                                            = this.player.button.y + this.player.button.height;
-    this.playerButtonDecrease                           = new ObjectButton      (xPos + (this.player.button.width/3)*0, yPos             , 'SsButton1', function(){ this.exhibitionSelected --; }, (this.player.button.width/3), this.player.button.height, '<'                                 );
-    this.playerButtonExhibition                         = new ObjectButton      (xPos + (this.player.button.width/3)*1, yPos             , 'SsButton1', function(){                             }, (this.player.button.width/3), this.player.button.height, 'GO: ' + this.exhibitionSelected    );
-    this.playerButtonIncrease                           = new ObjectButton      (xPos + (this.player.button.width/3)*2, yPos             , 'SsButton1', function(){ this.exhibitionSelected ++; }, (this.player.button.width/3), this.player.button.height, '>'                                 );
+    this.playerButtonDecrease                           = new ObjectButton      (this, xPos + (this.player.button.width/3)*0, yPos             , 'SsButton1', function(){ this.exhibitionSelected --;    console.log(this.exhibitionSelected);                      }, (this.player.button.width/3), this.player.button.height, '<'                                 );
+    this.playerButtonExhibition                         = new ObjectButton      (this, xPos + (this.player.button.width/3)*1, yPos             , 'SsButton1', function(){ this.justPressed = true; }, (this.player.button.width/3), this.player.button.height, 'GO: ' + this.exhibitionSelected    );
+    this.playerButtonIncrease                           = new ObjectButton      (this, xPos + (this.player.button.width/3)*2, yPos             , 'SsButton1', function(){ this.exhibitionSelected ++;    console.log(this.exhibitionSelected);                    }, (this.player.button.width/3), this.player.button.height, '>'                                 );
 
 };
 ObjectPlayer.prototype.constructor                      =  ObjectPlayer;
@@ -93,92 +93,102 @@ ObjectPlayer.prototype.Update                           =  function(_minExhibiti
 
     }
 
+
+    this.playerButtonExhibition.exhibitionSelected = this.exhibitionSelected;
+
+    if(this.playerButtonExhibition.justPressed){
+
+        if(!this.player.isAI){ this.exhibitionCurrent = this.playerButtonExhibition.exhibitionSelected; }
+        this.playerButtonExhibition.justPressed = false;
+
+    }
+
     var exhibitionSelectedTemporary                         = this.exhibitionSelected;
     if     (exhibitionSelectedTemporary < 10  )             { exhibitionSelectedTemporary = '00' + exhibitionSelectedTemporary; }
     else if(exhibitionSelectedTemporary < 100 )             { exhibitionSelectedTemporary = '0'  + exhibitionSelectedTemporary; }
     else if(exhibitionSelectedTemporary < 1000)             { exhibitionSelectedTemporary =        exhibitionSelectedTemporary; }
-    this.playerButtonExhibition.label.text                  = 'GO: ' + exhibitionSelectedTemporary;
-
-    //console.log(this.exhibitionVisited);
+    this.playerButtonExhibition.label.text                  = (this.isEnd) ? ('XX XX XX || GO: ' + exhibitionSelectedTemporary) : this.exhibitionTarget + (' || GO: ' + exhibitionSelectedTemporary);
 
 };
 ObjectPlayer.prototype.AddTagsCount                     = function(_arrayTags){
 
-    for(var i = 0; i < _arrayTags.length; i ++){
+    if(!this.isEnd){
+        for(var i = 0; i < _arrayTags.length; i ++){
 
-        switch(_arrayTags[i]){
+            switch(_arrayTags[i]){
 
-            case('AGR'): this.countAGR ++; break;
-            case('BRA'): this.countBRA ++; break;
-            case('CAL'): this.countCAL ++; break;
-            case('DEL'): this.countCAL ++; break;
-            case('EAG'): this.countEAG ++; break;
-            case('FAI'): this.countFAI ++; break;
-            case('GEN'): this.countGEN ++; break;
-            case('HAP'): this.countHAP ++; break;
-            case('JOL'): this.countJOL ++; break;
-            case('KIN'): this.countKIN ++; break;
-            case('LIV'): this.countLIV ++; break;
-            case('NIC'): this.countNIC ++; break;
-            case('OBE'): this.countOBE ++; break;
-            case('PRO'): this.countPRO ++; break;
-            case('REL'): this.countREL ++; break;
-            case('SIL'): this.countSIL ++; break;
-            case('THA'): this.countTHA ++; break;
-            case('VIC'): this.countVIC ++; break;
-            case('WIT'): this.countWIT ++; break;
-            case('ZEA'): this.countZEA ++; break;
+                case('AGR'): this.countAGR ++; break;
+                case('BRA'): this.countBRA ++; break;
+                case('CAL'): this.countCAL ++; break;
+                case('DEL'): this.countCAL ++; break;
+                case('EAG'): this.countEAG ++; break;
+                case('FAI'): this.countFAI ++; break;
+                case('GEN'): this.countGEN ++; break;
+                case('HAP'): this.countHAP ++; break;
+                case('JOL'): this.countJOL ++; break;
+                case('KIN'): this.countKIN ++; break;
+                case('LIV'): this.countLIV ++; break;
+                case('NIC'): this.countNIC ++; break;
+                case('OBE'): this.countOBE ++; break;
+                case('PRO'): this.countPRO ++; break;
+                case('REL'): this.countREL ++; break;
+                case('SIL'): this.countSIL ++; break;
+                case('THA'): this.countTHA ++; break;
+                case('VIC'): this.countVIC ++; break;
+                case('WIT'): this.countWIT ++; break;
+                case('ZEA'): this.countZEA ++; break;
+
+            }
 
         }
 
+        this.tagsCollection.length                          = 0;
+        this.tagsCollectionBest.length                      = 0;
+        this.tagsCollection.push                            (this.countAGR);
+        this.tagsCollection.push                            (this.countBRA);
+        this.tagsCollection.push                            (this.countCAL);
+        this.tagsCollection.push                            (this.countCAL);
+        this.tagsCollection.push                            (this.countEAG);
+        this.tagsCollection.push                            (this.countFAI);
+        this.tagsCollection.push                            (this.countGEN);
+        this.tagsCollection.push                            (this.countHAP);
+        this.tagsCollection.push                            (this.countJOL);
+        this.tagsCollection.push                            (this.countKIN);
+        this.tagsCollection.push                            (this.countLIV);
+        this.tagsCollection.push                            (this.countNIC);
+        this.tagsCollection.push                            (this.countOBE);
+        this.tagsCollection.push                            (this.countPRO);
+        this.tagsCollection.push                            (this.countREL);
+        this.tagsCollection.push                            (this.countSIL);
+        this.tagsCollection.push                            (this.countTHA);
+        this.tagsCollection.push                            (this.countVIC);
+        this.tagsCollection.push                            (this.countWIT);
+        this.tagsCollection.push                            (this.countZEA);
+
+        var firstBest                   = Math.max.apply(Math, this.tagsCollection);
+        var indexFirst                  = this.tagsCollection.indexOf(firstBest);
+        this.tagsCollectionBest.push    (indexFirst);
+        if(indexFirst > -1)             { this.tagsCollection.splice(indexFirst, 1); }
+
+        var secondBest                  = Math.max.apply(Math, this.tagsCollection);
+        var indexSecond                 = this.tagsCollection.indexOf(secondBest);
+        if(indexFirst <= indexSecond)   { indexSecond ++; }
+        this.tagsCollectionBest.push    (indexSecond);
+        if(indexSecond > -1)            { this.tagsCollection.splice(indexSecond, 1); }
+
+        var thirdBest                   = Math.max.apply(Math, this.tagsCollection);
+        var indexThird                  = this.tagsCollection.indexOf(thirdBest);
+        if(indexSecond <= indexThird)   { indexThird ++; }
+        this.tagsCollectionBest.push    (indexThird);
+        if(indexThird > -1)             { this.tagsCollection.splice(indexThird, 1); }
     }
-
-    this.tagsCollection.length                          = 0;
-    this.tagsCollectionBest.length                      = 0;
-    this.tagsCollection.push                            (this.countAGR);
-    this.tagsCollection.push                            (this.countBRA);
-    this.tagsCollection.push                            (this.countCAL);
-    this.tagsCollection.push                            (this.countCAL);
-    this.tagsCollection.push                            (this.countEAG);
-    this.tagsCollection.push                            (this.countFAI);
-    this.tagsCollection.push                            (this.countGEN);
-    this.tagsCollection.push                            (this.countHAP);
-    this.tagsCollection.push                            (this.countJOL);
-    this.tagsCollection.push                            (this.countKIN);
-    this.tagsCollection.push                            (this.countLIV);
-    this.tagsCollection.push                            (this.countNIC);
-    this.tagsCollection.push                            (this.countOBE);
-    this.tagsCollection.push                            (this.countPRO);
-    this.tagsCollection.push                            (this.countREL);
-    this.tagsCollection.push                            (this.countSIL);
-    this.tagsCollection.push                            (this.countTHA);
-    this.tagsCollection.push                            (this.countVIC);
-    this.tagsCollection.push                            (this.countWIT);
-    this.tagsCollection.push                            (this.countZEA);
-
-    var firstBest                   = Math.max.apply(Math, this.tagsCollection);
-    var indexFirst                  = this.tagsCollection.indexOf(firstBest);
-    this.tagsCollectionBest.push    (indexFirst);
-    if(indexFirst > -1)             { this.tagsCollection.splice(indexFirst, 1); }
-
-    var secondBest                  = Math.max.apply(Math, this.tagsCollection);
-    var indexSecond                 = this.tagsCollection.indexOf(secondBest);
-    if(indexFirst <= indexSecond)   { indexSecond ++; }
-    this.tagsCollectionBest.push    (indexSecond);
-    if(indexSecond > -1)            { this.tagsCollection.splice(indexSecond, 1); }
-
-    var thirdBest                   = Math.max.apply(Math, this.tagsCollection);
-    var indexThird                  = this.tagsCollection.indexOf(thirdBest);
-    if(indexSecond <= indexThird)   { indexThird ++; }
-    this.tagsCollectionBest.push    (indexThird);
-    if(indexThird > -1)             { this.tagsCollection.splice(indexThird, 1); }
 
 }
 ObjectPlayer.prototype.AutomaticChangeExhibition        = function(){
 
     //console.log(this.exhibitionTarget);
 
-    if(this.player.isAI){
+    if(this.player.isAI && !this.isEnd){
 
         if(Math.random() > 1 - this.exhibitionTime/100){
 
@@ -206,141 +216,64 @@ ObjectPlayer.prototype.AutomaticChangeExhibition        = function(){
 },
 ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
-    var roomIndex                   = new Array(this.exhibitionMax);
+    if(!this.isEnd){
+        var roomIndex                   = new Array(this.exhibitionMax);
 
-    //Get reference to every possible room tags in the game.
-    for(var i = 0; i < roomIndex.length; i ++){
+        //Get reference to every possible room tags in the game.
+        for(var i = 0; i < roomIndex.length; i ++){
 
-        if     (i <= 3){
+            if     (i <= 3){
 
-            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[0].panelTags4Array; }
-            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[0].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[0].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[0].panelTags1Array; }
+                if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[0].panelTags4Array; }
+                else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[0].panelTags3Array; }
+                else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[0].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[0].panelTags1Array; }
+
+            }
+            else if(i <= 7){
+
+                if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[1].panelTags4Array; }
+                else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[1].panelTags3Array; }
+                else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[1].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[1].panelTags1Array; }
+
+            }
+            else if(i <= 11){
+
+                if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[2].panelTags4Array; }
+                else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[2].panelTags3Array; }
+                else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[2].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[2].panelTags1Array; }
+
+            }
+            else if(i <= 15){
+
+                if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[3].panelTags4Array; }
+                else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[3].panelTags3Array; }
+                else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[3].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[3].panelTags1Array; }
+
+            }
 
         }
-        else if(i <= 7){
 
-            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[1].panelTags4Array; }
-            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[1].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[1].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[1].panelTags1Array; }
+        var systemManagerName = new SystemManagerName();
+        for(var i = 0; i < 3; i ++){
 
-        }
-        else if(i <= 11){
+            for(var j = 0; j < roomIndex.length; j ++){
 
-            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[2].panelTags4Array; }
-            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[2].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[2].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[2].panelTags1Array; }
+                for(var k = 0; k < 3; k ++){
 
-        }
-        else if(i <= 15){
+                    if(systemManagerName.tagArray[this.tagsCollectionBest[i]] != 'undefined'){
+                        if(systemManagerName.tagArray[this.tagsCollectionBest[i]] == roomIndex[j][k]){ this.roomIndexTargetValue[j] ++; }
+                    }
 
-            if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[3].panelTags4Array; }
-            else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[3].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[3].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[3].panelTags1Array; }
-
-        }
-
-    }
-
-    var systemManagerName = new SystemManagerName();
-    for(var i = 0; i < 3; i ++){
-
-        for(var j = 0; j < roomIndex.length; j ++){
-
-            for(var k = 0; k < 3; k ++){
-
-                if(systemManagerName.tagArray[this.tagsCollectionBest[i]] != 'undefined'){
-                    if(systemManagerName.tagArray[this.tagsCollectionBest[i]] == roomIndex[j][k]){ this.roomIndexTargetValue[j] ++; }
                 }
 
-            }
+                for(var k = 0; k < this.exhibitionVisited.length; k ++){
 
-            for(var k = 0; k < this.exhibitionVisited.length; k ++){
-
-                if(j != this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] ++;      }
-                if(j == this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] -= 1600; }
-
-            }
-
-        }
-
-    }
-
-    var roomIndexCrowded            = new Array(this.exhibitionMax);
-    for(var i = 0; i < roomIndexCrowded.length; i ++){
-
-        if     (i <= 3){
-
-            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition4.isCrowded; }
-            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition3.isCrowded; }
-            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition1.isCrowded; }
-
-        }
-        else if(i <= 7){
-
-            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition4.isCrowded; }
-            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition3.isCrowded; }
-            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition1.isCrowded; }
-
-        }
-        else if(i <= 11){
-
-            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition4.isCrowded; }
-            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition3.isCrowded; }
-            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition1.isCrowded; }
-
-        }
-        else if(i <= 15){
-
-            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition4.isCrowded; }
-            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition3.isCrowded; }
-            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition2.isCrowded; }
-            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition1.isCrowded; }
-
-        }
-
-        for(var j = 0; j < this.exhibitionVisited.length; j ++){
-
-            if(i != this.exhibitionVisited[j]){ this.roomIndexTargetValue[i] ++;      }
-            if(i == this.exhibitionVisited[j]){ this.roomIndexTargetValue[i] -= 1600; }
-
-        }
-
-        if(roomIndexCrowded[i]){ this.roomIndexTargetValue[i] -= 1600; }
-
-    }
-
-    //console.log(this.roomIndexTargetValue);
-
-    //DEBUG.
-    var debug                       = '';
-    var firstHighest                = 0;
-    var secondHighest               = 0;
-    var thirdHighest                = 0;
-    this.exhibitionTarget.length    = 0;
-    for(var i = 0; i < 16; i ++){
-
-        debug = debug + ' ' + this.roomIndexTargetValue[i];
-        if(thirdHighest < this.roomIndexTargetValue[i]){
-
-            thirdHighest = this.roomIndexTargetValue[i];
-            if(thirdHighest > secondHighest){
-
-                var temp = thirdHighest;
-                thirdHighest = secondHighest;
-                secondHighest = temp;
-                if(secondHighest > firstHighest){
-
-                    var temp = secondHighest;
-                    secondHighest = firstHighest;
-                    firstHighest = temp;
+                    if(j != this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] ++;      }
+                    if(j == this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] -= 1600; }
 
                 }
 
@@ -348,11 +281,100 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
         }
 
-    }
+        var roomIndexCrowded            = new Array(this.exhibitionMax);
+        for(var i = 0; i < roomIndexCrowded.length; i ++){
 
-    this.exhibitionTarget.push(this.roomIndexTargetValue.indexOf(firstHighest));
-    this.exhibitionTarget.push(this.roomIndexTargetValue.indexOf(secondHighest));
-    this.exhibitionTarget.push(this.roomIndexTargetValue.indexOf(thirdHighest));
-    //console.log(debug + '   ' + this.exhibitionTarget);
+            if     (i <= 3){
+
+                if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition4.isCrowded; }
+                else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition3.isCrowded; }
+                else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition1.isCrowded; }
+
+            }
+            else if(i <= 7){
+
+                if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition4.isCrowded; }
+                else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition3.isCrowded; }
+                else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition1.isCrowded; }
+
+            }
+            else if(i <= 11){
+
+                if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition4.isCrowded; }
+                else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition3.isCrowded; }
+                else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition1.isCrowded; }
+
+            }
+            else if(i <= 15){
+
+                if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition4.isCrowded; }
+                else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition3.isCrowded; }
+                else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition2.isCrowded; }
+                else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition1.isCrowded; }
+
+            }
+
+            for(var j = 0; j < this.exhibitionVisited.length; j ++){
+
+                if(i != this.exhibitionVisited[j]){ this.roomIndexTargetValue[i] ++;      }
+                if(i == this.exhibitionVisited[j]){ this.roomIndexTargetValue[i] -= 1600; }
+
+            }
+
+            if(roomIndexCrowded[i]){ this.roomIndexTargetValue[i] -= 1600; }
+
+        }
+
+        //console.log(this.roomIndexTargetValue);
+
+        //DEBUG.
+        var debug                       = '';
+        var firstHighest                = 0;
+        var secondHighest               = 0;
+        var thirdHighest                = 0;
+        this.exhibitionTarget.length    = 0;
+        for(var i = 0; i < 16; i ++){
+
+            debug = debug + ' ' + this.roomIndexTargetValue[i];
+            if(thirdHighest < this.roomIndexTargetValue[i]){
+
+                thirdHighest = this.roomIndexTargetValue[i];
+                if(thirdHighest > secondHighest){
+
+                    var temp = thirdHighest;
+                    thirdHighest = secondHighest;
+                    secondHighest = temp;
+                    if(secondHighest > firstHighest){
+
+                        var temp = secondHighest;
+                        secondHighest = firstHighest;
+                        firstHighest = temp;
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        var index1 = this.roomIndexTargetValue.indexOf(firstHighest);
+        if(index1 == -1) index1 = 0;
+        while(index1 == index2 || index1 == index3) index1 = index1 + 1;
+        var index2 = this.roomIndexTargetValue.indexOf(secondHighest);
+        if(index2 == -1) index2 = 0;
+        while(index2 == index1 || index2 == index3) index2 = index2 + 1;
+        var index3 = this.roomIndexTargetValue.indexOf(thirdHighest);
+        if(index3 == -1) index3 = 0;
+        while(index3 == index1 || index3 == index2) index3 = index3 + 1;
+
+        this.exhibitionTarget.push(index1);
+        this.exhibitionTarget.push(index2);
+        this.exhibitionTarget.push(index3);
+        //console.log(debug + '   ' + this.exhibitionTarget);
+    }
 
 }
