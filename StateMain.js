@@ -123,9 +123,12 @@ stateMain = {
             else{ exhibitionTagsCollectionBestString = exhibitionTagsCollectionBestString + this.systemManagerName.tagArray[_objectPlayer.tagsCollectionBest[i]] + ' '; }
         }
 
-        if     (_index < 10  ){ name     = 'PLAYER00' + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
-        else if(_index < 100 ){ name     = 'PLAYER0'  + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
-        else if(_index < 1000){ name     = 'PLAYER'   + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString; }
+        var isEndTemporary                          =  _objectPlayer.isEnd;
+            isEndTemporary                          = (_objectPlayer.isEnd) ? 'TRU' : 'FAL';
+
+        if     (_index < 10  ){ name     = 'PLAYER00' + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString + ' || ' + isEndTemporary; }
+        else if(_index < 100 ){ name     = 'PLAYER0'  + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString + ' || ' + isEndTemporary; }
+        else if(_index < 1000){ name     = 'PLAYER'   + _index + ' || ' + isAITemporary + ' || ' + exhibitionCurrentTemporary + ' || ' + Math.round(exhibitionTimeTemporary) + ' || ' + exhibitionTagsCollectionBestString + ' || ' + isEndTemporary; }
         _objectPlayer.player.label.text  = name;
 
     }

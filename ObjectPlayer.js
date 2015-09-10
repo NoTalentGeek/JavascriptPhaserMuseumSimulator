@@ -74,30 +74,30 @@ ObjectPlayer                                            = function(_x, _y, _widt
 ObjectPlayer.prototype.constructor                      =  ObjectPlayer;
 ObjectPlayer.prototype.Update                           =  function(_minExhibition, _maxExhibition){
 
-    console.log(this.exhibitionVisited);
+    if(this.exhibitionVisited.length == this.exhibitionMax) { this.isEnd = true; }
 
-    if(this.exhibitionSelected                          != this.playerButtonDecrease.exhibitionSelected){
+    if(this.exhibitionSelected                              != this.playerButtonDecrease.exhibitionSelected){
 
-        if(this.playerButtonDecrease.exhibitionSelected >= _maxExhibition){ this.playerButtonDecrease.exhibitionSelected = _maxExhibition;}
-        if(this.playerButtonDecrease.exhibitionSelected <= _minExhibition){ this.playerButtonDecrease.exhibitionSelected = _minExhibition; }
-        this.exhibitionSelected                         =  this.playerButtonDecrease.exhibitionSelected;
-        this.playerButtonIncrease.exhibitionSelected    =  this.playerButtonDecrease.exhibitionSelected;
-
-    }
-    if(this.exhibitionSelected                          != this.playerButtonIncrease.exhibitionSelected){
-
-        if(this.playerButtonIncrease.exhibitionSelected >= _maxExhibition){ this.playerButtonIncrease.exhibitionSelected = _maxExhibition;}
-        if(this.playerButtonIncrease.exhibitionSelected <= _minExhibition){ this.playerButtonIncrease.exhibitionSelected = _minExhibition; }
-        this.exhibitionSelected                         =  this.playerButtonIncrease.exhibitionSelected;
-        this.playerButtonDecrease.exhibitionSelected    =  this.playerButtonIncrease.exhibitionSelected;
+        if(this.playerButtonDecrease.exhibitionSelected     >= _maxExhibition){ this.playerButtonDecrease.exhibitionSelected = _maxExhibition;}
+        if(this.playerButtonDecrease.exhibitionSelected     <= _minExhibition){ this.playerButtonDecrease.exhibitionSelected = _minExhibition; }
+        this.exhibitionSelected                             =  this.playerButtonDecrease.exhibitionSelected;
+        this.playerButtonIncrease.exhibitionSelected        =  this.playerButtonDecrease.exhibitionSelected;
 
     }
+    if(this.exhibitionSelected                              != this.playerButtonIncrease.exhibitionSelected){
 
-    var exhibitionSelectedTemporary                     = this.exhibitionSelected;
-    if     (exhibitionSelectedTemporary < 10  )         { exhibitionSelectedTemporary = '00' + exhibitionSelectedTemporary; }
-    else if(exhibitionSelectedTemporary < 100 )         { exhibitionSelectedTemporary = '0'  + exhibitionSelectedTemporary; }
-    else if(exhibitionSelectedTemporary < 1000)         { exhibitionSelectedTemporary =        exhibitionSelectedTemporary; }
-    this.playerButtonExhibition.label.text              = 'GO: ' + exhibitionSelectedTemporary;
+        if(this.playerButtonIncrease.exhibitionSelected     >= _maxExhibition){ this.playerButtonIncrease.exhibitionSelected = _maxExhibition;}
+        if(this.playerButtonIncrease.exhibitionSelected     <= _minExhibition){ this.playerButtonIncrease.exhibitionSelected = _minExhibition; }
+        this.exhibitionSelected                             =  this.playerButtonIncrease.exhibitionSelected;
+        this.playerButtonDecrease.exhibitionSelected        =  this.playerButtonIncrease.exhibitionSelected;
+
+    }
+
+    var exhibitionSelectedTemporary                         = this.exhibitionSelected;
+    if     (exhibitionSelectedTemporary < 10  )             { exhibitionSelectedTemporary = '00' + exhibitionSelectedTemporary; }
+    else if(exhibitionSelectedTemporary < 100 )             { exhibitionSelectedTemporary = '0'  + exhibitionSelectedTemporary; }
+    else if(exhibitionSelectedTemporary < 1000)             { exhibitionSelectedTemporary =        exhibitionSelectedTemporary; }
+    this.playerButtonExhibition.label.text                  = 'GO: ' + exhibitionSelectedTemporary;
 
     //console.log(this.exhibitionCurrent);
 
@@ -259,11 +259,17 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
             }
 
+            for(var k = 0; k < this.exhibitionVisited.length; k ++){
+
+                if(j != this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] ++; }
+
+            }
+
         }
 
     }
 
-
+    //console.log(this.roomIndexTargetValue);
 
     //DEBUG.
     var debug                       = '';
