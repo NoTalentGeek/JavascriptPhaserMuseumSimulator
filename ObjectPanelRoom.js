@@ -59,52 +59,53 @@ ObjectPanelRoom 						= function(_x, _y, _roomName, _exhibitionNameArray, _sprit
 ObjectPanelRoom.prototype.constructor 	= ObjectPanelRoom;
 ObjectPanelRoom.prototype.Update        = function(_roomIndex, _playerArray){
 
-    var exhibition1Visitor = 0;
-    var exhibition2Visitor = 0;
-    var exhibition3Visitor = 0;
-    var exhibition4Visitor = 0;
+    this.panelRoom.visitor          = 0;
+    this.panelExhibition1.visitor   = 0;
+    this.panelExhibition2.visitor   = 0;
+    this.panelExhibition3.visitor   = 0;
+    this.panelExhibition4.visitor   = 0;
 
     for(var i = 0; i < _playerArray.length; i ++){
 
         if(_roomIndex == 1){
 
-            if(_playerArray[i].exhibitionCurrent == 0){ exhibition1Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 1){ exhibition2Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 2){ exhibition3Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 3){ exhibition4Visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 0){ this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 1){ this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 2){ this.panelExhibition3.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 3){ this.panelExhibition4.visitor ++; }
 
         }
         if(_roomIndex == 2){
 
-            if(_playerArray[i].exhibitionCurrent == 4){ exhibition1Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 5){ exhibition2Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 6){ exhibition3Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 7){ exhibition4Visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 4){ this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 5){ this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 6){ this.panelExhibition3.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 7){ this.panelExhibition4.visitor ++; }
 
         }
         if(_roomIndex == 3){
 
-            if(_playerArray[i].exhibitionCurrent == 8){ exhibition1Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 9){ exhibition2Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 10){ exhibition3Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 11){ exhibition4Visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 8){ this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 9){ this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 10){ this.panelExhibition3.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 11){ this.panelExhibition4.visitor ++; }
 
         }
         if(_roomIndex == 4){
 
-            if(_playerArray[i].exhibitionCurrent == 12){ exhibition1Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 13){ exhibition2Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 14){ exhibition3Visitor ++; }
-            if(_playerArray[i].exhibitionCurrent == 15){ exhibition4Visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 12){ this.panelExhibition1.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 13){ this.panelExhibition2.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 14){ this.panelExhibition3.visitor ++; }
+            if(_playerArray[i].exhibitionCurrent == 15){ this.panelExhibition4.visitor ++; }
 
         }
 
     }
-    this.panelRoom       .panelLabel.text = this.roomName                       + ' || ' + (exhibition1Visitor + exhibition2Visitor + exhibition3Visitor + exhibition4Visitor);
-    this.panelExhibition1.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' +  exhibition1Visitor;
-    this.panelExhibition2.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' +  exhibition2Visitor;
-    this.panelExhibition3.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' +  exhibition3Visitor;
-    this.panelExhibition4.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' +  exhibition4Visitor;
-
+    this.panelRoom.visitor                = this.panelExhibition1.visitor + this.panelExhibition2.visitor + this.panelExhibition3.visitor + this.panelExhibition4.visitor;
+    this.panelRoom       .panelLabel.text = this.roomName                       + ' || ' + this.panelRoom.visitor;
+    this.panelExhibition1.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition1.visitor;
+    this.panelExhibition2.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition2.visitor;
+    this.panelExhibition3.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition3.visitor;
+    this.panelExhibition4.panelLabel.text = this.exhibitionName[_roomIndex - 1] + ' || ' + this.panelExhibition4.visitor;
 
 };
