@@ -28,7 +28,6 @@ ObjectPlayer                                            = function(_x, _y, _widt
     this.exhibitionCurrent                              = 0;            //Current index of exhibition of which player currently in.
     this.exhibitionTarget                               = new Array();  //Target index of three exhibitions those player should visit next.
     this.exhibitionTime                                 = 0;            //Current time player has spent in an exhibition.
-    this.isFinished                                     = false;
     this.isEnd                                          = false;        //Whether this player has finished visiting the museum. 
     this.tagsCollection                                 = new Array();
     this.tagsCollectionBest                             = new Array();  //Three highest tags of exhibition that player has visited.
@@ -74,6 +73,8 @@ ObjectPlayer                                            = function(_x, _y, _widt
 };
 ObjectPlayer.prototype.constructor                      =  ObjectPlayer;
 ObjectPlayer.prototype.Update                           =  function(_minExhibition, _maxExhibition){
+
+    console.log(this.exhibitionVisited);
 
     if(this.exhibitionSelected                          != this.playerButtonDecrease.exhibitionSelected){
 
