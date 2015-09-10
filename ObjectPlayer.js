@@ -99,7 +99,7 @@ ObjectPlayer.prototype.Update                           =  function(_minExhibiti
     else if(exhibitionSelectedTemporary < 1000)             { exhibitionSelectedTemporary =        exhibitionSelectedTemporary; }
     this.playerButtonExhibition.label.text                  = 'GO: ' + exhibitionSelectedTemporary;
 
-    //console.log(this.exhibitionCurrent);
+    //console.log(this.exhibitionVisited);
 
 };
 ObjectPlayer.prototype.AddTagsCount                     = function(_arrayTags){
@@ -215,7 +215,7 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
             if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[0].panelTags4Array; }
             else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[0].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[0].panelTags2Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[0].panelExhibition2.isCrowded; }
             else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[0].panelTags1Array; }
 
         }
@@ -223,7 +223,7 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
             if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[1].panelTags4Array; }
             else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[1].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[1].panelTags2Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[1].panelExhibition2.isCrowded; }
             else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[1].panelTags1Array; }
 
         }
@@ -231,7 +231,7 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
             if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[2].panelTags4Array; }
             else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[2].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[2].panelTags2Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[2].panelExhibition2.isCrowded; }
             else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[2].panelTags1Array; }
 
         }
@@ -239,7 +239,7 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
             if     ((i + 1)%4 == 0){ roomIndex[i] = _roomArray[3].panelTags4Array; }
             else if((i + 1)%3 == 0){ roomIndex[i] = _roomArray[3].panelTags3Array; }
-            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[3].panelTags2Array; }
+            else if((i + 1)%2 == 0){ roomIndex[i] = _roomArray[3].panelExhibition2.isCrowded; }
             else if((i + 1)%1 == 0){ roomIndex[i] = _roomArray[3].panelTags1Array; }
 
         }
@@ -261,11 +261,59 @@ ObjectPlayer.prototype.DetermineTargetExhibition        = function(_roomArray){
 
             for(var k = 0; k < this.exhibitionVisited.length; k ++){
 
-                if(j != this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] ++; }
+                if(j != this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] ++;      }
+                if(j == this.exhibitionVisited[k]){ this.roomIndexTargetValue[j] -= 1600; }
 
             }
 
         }
+
+    }
+
+    var roomIndexCrowded            = new Array(this.exhibitionMax);
+    for(var i = 0; i < roomIndexCrowded.length; i ++){
+
+        if     (i <= 3){
+
+            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition4.isCrowded; }
+            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition3.isCrowded; }
+            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition2.isCrowded; }
+            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[0].panelExhibition1.isCrowded; }
+
+        }
+        else if(i <= 7){
+
+            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition4.isCrowded; }
+            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition3.isCrowded; }
+            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition2.isCrowded; }
+            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[1].panelExhibition1.isCrowded; }
+
+        }
+        else if(i <= 11){
+
+            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition4.isCrowded; }
+            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition3.isCrowded; }
+            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition2.isCrowded; }
+            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[2].panelExhibition1.isCrowded; }
+
+        }
+        else if(i <= 15){
+
+            if     ((i + 1)%4 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition4.isCrowded; }
+            else if((i + 1)%3 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition3.isCrowded; }
+            else if((i + 1)%2 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition2.isCrowded; }
+            else if((i + 1)%1 == 0){ roomIndexCrowded[i] = _roomArray[3].panelExhibition1.isCrowded; }
+
+        }
+
+        for(var j = 0; j < this.exhibitionVisited.length; j ++){
+
+            if(i != this.exhibitionVisited[j]){ this.roomIndexTargetValue[i] ++;      }
+            if(i == this.exhibitionVisited[j]){ this.roomIndexTargetValue[i] -= 1600; }
+
+        }
+
+        if(roomIndexCrowded[i]){ this.roomIndexTargetValue[i] -= 1600; }
 
     }
 
