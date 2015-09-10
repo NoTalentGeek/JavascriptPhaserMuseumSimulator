@@ -1,5 +1,6 @@
 ObjectPanel                         = function(_x, _y, _width, _height, _sprite, _panelName){
 
+    this.visitor                    = 0;
 
     this.panel                      = game.add.sprite(_x, _y, _sprite);
     this.panel.anchor.setTo         (0.5, 0.5);

@@ -37,6 +37,11 @@ stateMain = {
 
     update              : function(){
 
+        this.objectPanelRoom1.Update(1, this.objectPlayerArray);
+        this.objectPanelRoom2.Update(2, this.objectPlayerArray);
+        this.objectPanelRoom3.Update(3, this.objectPlayerArray);
+        this.objectPanelRoom4.Update(4, this.objectPlayerArray);
+
         for(var i = 0; i < 18; i ++){
 
             this.objectPlayerArray[i].exhibitionTime                = (this.objectPlayerArray[i].exhibitionTime + (game.time.elapsed/1000));

@@ -98,6 +98,8 @@ ObjectPlayer.prototype.Update                           =  function(_minExhibiti
     else if(exhibitionSelectedTemporary < 1000)         { exhibitionSelectedTemporary =        exhibitionSelectedTemporary; }
     this.playerButtonExhibition.label.text              = 'GO: ' + exhibitionSelectedTemporary;
 
+    //console.log(this.exhibitionCurrent);
+
 };
 ObjectPlayer.prototype.AddTagsCount                     = function(_arrayTags){
 
@@ -173,8 +175,7 @@ ObjectPlayer.prototype.AddTagsCount                     = function(_arrayTags){
 }
 ObjectPlayer.prototype.AutomaticChangeExhibition        = function(){
 
-    //if(this.exhibitionTarget.length > 0){ console.log(this.exhibitionTarget[Math.floor((Math.random()*(this.exhibitionTarget.length - 1)) + 0)]); }
-    console.log(this.exhibitionTarget);
+    //console.log(this.exhibitionTarget);
 
     if(this.player.isAI){
 
