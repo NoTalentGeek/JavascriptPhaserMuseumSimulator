@@ -14,6 +14,7 @@ stateMain = {
         var systemRoom  = new SystemRoom(systemEdit);
         systemRoom.RoomAdd(new ObjectRoom(systemRoom, new ObjectName('Room Test'       , 'ROM_TES')));
         systemRoom.RoomAdd(new ObjectRoom(systemRoom, new ObjectName('Room Antartica'  , 'ROM_ANT')));
+        systemRoom.SystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Aaa'  , 'ROM_AAA')), 'ObjectRoom', systemRoom.roomArray, systemRoom.RoomCompare);
 
         //Now we can add the room more dynamically.
         console.log('ALL ROOM NAME IN SYSTEM EDIT');
