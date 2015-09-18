@@ -2,6 +2,36 @@ stateMain = {
 
     create              : function(){
 
+        //PROTOTYPE.
+        var systemEdit  = new SystemEdit();
+        /*
+        console.log(systemEdit.nameTagArray);
+        systemEdit.nameTagArray = systemEdit.nameTagArray.filter(function(obj){
+            return obj.nameFull !== 'Brave';
+        });
+        console.log(systemEdit.nameTagArray);
+        */
+        var systemRoom  = new SystemRoom(systemEdit);
+        systemRoom.RoomAdd(new ObjectRoom(systemRoom, systemRoom.roomArray.length, new ObjectName('Room Test'       , 'ROM_TES')));
+        systemRoom.RoomAdd(new ObjectRoom(systemRoom, systemRoom.roomArray.length, new ObjectName('Room Antartica'  , 'ROM_ANT')));
+
+        //Now we can add the room more dynamically.
+        for(var i = 0; i < systemEdit.nameRoomArray.length; i ++){
+            console.log(systemEdit.nameRoomArray[i].nameAlt);
+            //console.log(systemRoom.roomArray[i].roomNameAlt);
+        }
+
+
+        /*
+        for(var i = 0; i < systemEdit.nameExhibitionArray.nameTagArray.length; i ++) {
+
+            var obj = systemEdit.nameExhibitionArray.nameTagArray[i];
+            if(listToDelete.indexOf(obj.nameFull) !== -1) { systemEdit.nameExhibitionArray.nameTagArray.splice(i, 1); }
+
+        }
+        */
+
+        /*
         game.stage.backgroundColor  = 0x45283C;
 
         this.exhibitionMax          = 16;
@@ -32,11 +62,13 @@ stateMain = {
         this.objectPanelRoomArray.push          (this.objectPanelRoom2);
         this.objectPanelRoomArray.push          (this.objectPanelRoom3);
         this.objectPanelRoomArray.push          (this.objectPanelRoom4);
+        */
 
     },
 
     update              : function(){
 
+        /*
         this.objectPanelRoom1.Update(1, this.objectPlayerArray);
         this.objectPanelRoom2.Update(2, this.objectPlayerArray);
         this.objectPanelRoom3.Update(3, this.objectPlayerArray);
@@ -99,9 +131,11 @@ stateMain = {
             }
             this.isAIArray.length = 0;
         }
+        */
 
     },
 
+    /*
     ObjectPlayerLabel   : function(_index, _objectPlayer){
 
         var name                                    = 'NONAME';
@@ -132,5 +166,5 @@ stateMain = {
         _objectPlayer.player.label.text  = name;
 
     }
-
+    */
 };
