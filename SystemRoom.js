@@ -58,7 +58,10 @@ SystemRoom.prototype.RoomSystemAdd = function(_object){
     /*This is the function from the parent object.
     As you can see the parameter here is only a string of which contains room name to remove.*/
     var object = this.SystemAdd(_object, 'ObjectRoom', this.roomArray, this.RoomCompare);
-    if(object != 'undefined'){this.systemEdit.nameRoomArray.push(object.roomName); }
+    if(object != 'undefined'){
+        this.systemEdit.nameRoomArray   .push(object.roomName);
+        this.systemEdit                 .SystemSort(this.systemEdit.nameRoomArray, this.systemEdit.EditRoomCompare);
+    }
     return object;
 
 };
@@ -67,6 +70,8 @@ SystemRoom.prototype.RoomSystemAdd = function(_object){
     for removing room from this.roomArray.*/
 SystemRoom.prototype.RoomSystemRemove = function(_roomNameAlt){
 
-    return this.SystemRemove(this.roomArray, 'roomNameAlt', _roomNameAlt);
+    var array = this.SystemRemove(this.roomArray, 'roomNameAlt', _roomNameAlt);
+    this.systemEdit.SystemRemove(this.systemEdit.nameRoomArray, 'nameAlt', _roomNameAlt);
+    return array;
 
 }

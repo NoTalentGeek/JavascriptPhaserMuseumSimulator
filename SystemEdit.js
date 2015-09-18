@@ -1,15 +1,15 @@
 /*This is a system object that is editable
     so that when user want to edit the value of this program,
     he/she can just edit value from this object.*/
-SystemEdit                          = function(){
+SystemEdit                              = function(){
 
     System.call                     (this, 'SystemEdit');
 
     /*Here I provide the user with three modified value.
     The room name, exhibition name, and all available tags.*/
-    this.nameRoomArray              = new Array();
-    this.nameExhibitionArray        = new Array();
-    this.nameTagArray               = new Array();
+    this.nameRoomArray                  = new Array();
+    this.nameExhibitionArray            = new Array();
+    this.nameTagArray                   = new Array();
 
     /*List of room name, the first one is the default value if the program
         cannot find the room name.*/
@@ -106,13 +106,12 @@ SystemEdit                          = function(){
         this.nameTagArray.push      (nameTag);
 
 };
-SystemEdit.prototype                = Object.create(System.prototype);
-SystemEdit.prototype.constructor    = SystemEdit;
-SystemEdit.prototype.Compare        = function(_objectName1, _objectName2){
+SystemEdit.prototype                    = Object.create(System.prototype);
+SystemEdit.prototype.constructor        = SystemEdit;
+SystemEdit.prototype.EditRoomCompare    = function(_objectName1, _objectName2){
 
     if(_objectName1.nameAlt < _objectName2.nameAlt){ return -1; }
     if(_objectName1.nameAlt > _objectName2.nameAlt){ return  1; }
     return 0;
 
 };
-SystemEdit.prototype.RoomNameSort   = function(){ this.nameRoomArray.sort(this.Compare); };
