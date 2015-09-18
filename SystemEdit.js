@@ -3,6 +3,8 @@
     he/she can just edit value from this object.*/
 SystemEdit                          = function(){
 
+    System.call                     (this, 'SystemEdit');
+
     /*Here I provide the user with three modified value.
     The room name, exhibition name, and all available tags.*/
     this.nameRoomArray              = new Array();
@@ -104,6 +106,7 @@ SystemEdit                          = function(){
         this.nameTagArray.push      (nameTag);
 
 };
+SystemEdit.prototype                = Object.create(System.prototype);
 SystemEdit.prototype.constructor    = SystemEdit;
 SystemEdit.prototype.Compare        = function(_objectName1, _objectName2){
 

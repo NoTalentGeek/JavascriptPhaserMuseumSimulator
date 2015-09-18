@@ -2,13 +2,18 @@
 For example both SystemRoom object and SystemExhibition object inherits from this class.
 This class provides its children with a way to add, find index based on local variable, remove an
     element, and sort element alphabetically.*/
-System                              = function(){};
+System                              = function(_nameSystem){
+
+    if(typeof _nameSystem === 'string'){ this.nameSystem = _nameSystem; }
+
+};
+
 System.prototype.constructor        = System;
 
 /*This function is to add object to coresponding array within the children object.
 There is a simple verification method to make sure that objects pushed in to array are all
     the same type.
-However, due to any object will return object in Javascript, I made a local variable named objectName
+However, due to any object will return object in Javascript, I made a local variable named nameObject
     for comparison purpose.*/
 System.prototype.SystemAdd          = function(_object, _objectName, _targetArray, _compareFunction){
 
@@ -23,7 +28,7 @@ System.prototype.SystemAdd          = function(_object, _objectName, _targetArra
     ){ return 'undefined'; }
 
     //Simple verification to make sure all objects in the target array are all the same.
-    if(_object.objectName           == _objectName){
+    if(_object.nameObject           == _objectName){
 
         _targetArray                .push(_object);
 

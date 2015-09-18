@@ -1,7 +1,7 @@
 //Create game object to hold information for room in a museum.
 ObjectRoom                          = function(_roomParent, _roomName){
 
-    this.objectName                 = 'ObjectRoom';
+    this.nameObject                 = 'ObjectRoom';
     this.roomParent                 = _roomParent;  //The parent of this object (it is supposed to be system room object).
 
     //The name of this room. Should be in form of name object and not just ordinary string.
