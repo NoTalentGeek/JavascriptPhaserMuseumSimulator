@@ -34,7 +34,7 @@ SystemRoom.prototype.RoomAdd        = function(_objectRoom){
     }
 
 };
-SystemRoom.prototype.MergeSystemAdd = function(_object){
+SystemRoom.prototype.RoomSystemAdd = function(_object){
 
     var object = this.SystemAdd(_object, 'ObjectRoom', this.roomArray, this.RoomCompare);
     if(object != 'undefined'){ this.systemEdit.nameRoomArray.push(object.roomName); }
@@ -62,6 +62,11 @@ SystemRoom.prototype.RoomRemove     = function(_roomNameAltToRemove){
     if (index > -1)     { this.roomArray.splice(index, 1); }
 
 };
+SystemRoom.prototype.RoomSystemRemove = function(_roomNameAlt){
+
+    this.SystemRemove(this.roomArray, 'roomNameAlt', _roomNameAlt);
+
+}
 SystemRoom.prototype.RoomSort       = function(){
 
     this.systemEdit                 .RoomNameSort();

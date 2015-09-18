@@ -15,7 +15,7 @@ stateMain = {
         systemRoom.RoomAdd(new ObjectRoom(systemRoom, new ObjectName('Room Test'       , 'ROM_TES')));
         systemRoom.RoomAdd(new ObjectRoom(systemRoom, new ObjectName('Room Antartica'  , 'ROM_ANT')));
         //systemRoom.SystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Aaa'  , 'ROM_AAA')), 'ObjectRoom', systemRoom.roomArray, systemRoom.RoomCompare);
-        systemRoom.MergeSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Aaa'  , 'ROM_AAA')));
+        systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Aaa'  , 'ROM_AAA')));
 
         //Now we can add the room more dynamically.
         console.log('ALL ROOM NAME IN SYSTEM EDIT');
@@ -29,6 +29,7 @@ stateMain = {
             console.log(systemRoom.roomArray[i].roomNameAlt);
         }
         systemRoom.RoomRemove('ROM_AFK');
+        systemRoom.RoomSystemRemove('ROM_ASI');
         console.log('ALL ROOM NAME IN STATE');
         for(var i = 0; i < systemRoom.roomArray.length; i ++){
             //console.log(systemEdit.nameRoomArray[i].nameAlt);
