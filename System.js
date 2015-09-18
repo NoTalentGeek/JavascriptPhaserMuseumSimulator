@@ -11,13 +11,6 @@ System.prototype.SystemAdd          = function(_object, _objectName, _targetArra
     }
 
 };
-System.prototype.SystemCompare      = function(_object1Variable, _object2Variable){
-
-    if(_object1Variable < _object2Variable){ return -1; }
-    if(_object1Variable > _object2Variable){ return  1; }
-    return 0;
-
-};
 System.prototype.SystemFindIndex    = function(_array, _variableName, _value){
 
     for(var i = 0; i < _array.length; i ++){ if(_array[i][_variableName] == _value){ return i; } }
