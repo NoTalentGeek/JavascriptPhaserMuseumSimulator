@@ -2,10 +2,8 @@ System                              = function(){};
 System.prototype.constructor        = System;
 System.prototype.SystemAdd          = function(_object, _objectName, _targetArray, _compareFunction){
 
-    var isCorrectObject             = false;
     if(_object.objectName           == _objectName){
 
-        isCorrectObject             = true;
         _targetArray                .push(_object);
         this.SystemSort             (_targetArray, _compareFunction);
         return                      _object;

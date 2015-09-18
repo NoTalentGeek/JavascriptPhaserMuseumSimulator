@@ -34,20 +34,12 @@ SystemRoom.prototype.RoomAdd        = function(_objectRoom){
     }
 
 };
-/*
-System.prototype.SystemAdd          = (function(){
+SystemRoom.prototype.MergeSystemAdd = function(_object){
 
-    var cachedFunction              = this.SystemAdd;
+    var object = this.SystemAdd(_object, 'ObjectRoom', this.roomArray, this.RoomCompare);
+    if(object != 'undefined'){ this.systemEdit.nameRoomArray.push(object.roomName); }
 
-    return function(_object, _objectName, _targetArray){
-
-        cachedFunction.apply(this, arguments);
-        if(isCorrectObject){ this.systemEdit.nameRoomArray   .push(_objectRoom.roomName); }
-
-    };
-
-}());
-*/
+}; 
 SystemRoom.prototype.RoomCompare    = function(_objectRoom1, _objectRoom2){
 
     if(_objectRoom1.roomNameAlt < _objectRoom2.roomNameAlt){ return -1; }
