@@ -9,10 +9,13 @@ SystemRoom                          = function(_systemEdit){
 
     for(var i = 0; i < this.systemEdit.nameRoomArray.length - 1; i ++){
 
-        var room                    = new ObjectRoom(this, i, this.systemEdit.nameRoomArray[i + 1]);
+        var room                    = new ObjectRoom(this, this.systemEdit.nameRoomArray[i]);
         this.roomArray              .push(room);
 
     }
+
+    //for(var i = 0; i < this.roomArray.length; i ++){ console.log(this.roomArray[i]['roomNameAlt']); }
+    //console.log(this.RoomFindIndex('roomNameAlt', 'ROM_EUR'));
 
 };
 SystemRoom.prototype.constructor    = SystemRoom;
@@ -37,10 +40,24 @@ SystemRoom.prototype.RoomCompare    = function(_objectRoom1, _objectRoom2){
     return 0;
 
 };
-SystemRoom.prototype.RoomRemove     = function(){};
+SystemRoom.prototype.RoomFindIndex  = function(_variable, _value){
+
+    for(var i = 0; i < this.roomArray.length; i ++){
+
+        if(this.roomArray[i][_variable] == _value){ return i; }
+
+    }
+
+};
+SystemRoom.prototype.RoomRemove     = function(_roomNameAltToRemove){
+
+    var index           = this.RoomFindIndex('roomNameAlt', _roomNameAltToRemove);
+    if (index > -1)     { this.roomArray.splice(index, 1); }
+
+};
 SystemRoom.prototype.RoomSort       = function(){
 
     this.systemEdit                 .RoomNameSort();
     this.roomArray                  .sort(this.RoomCompare)
-    
+
 };

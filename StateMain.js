@@ -12,14 +12,27 @@ stateMain = {
         console.log(systemEdit.nameTagArray);
         */
         var systemRoom  = new SystemRoom(systemEdit);
-        systemRoom.RoomAdd(new ObjectRoom(systemRoom, systemRoom.roomArray.length, new ObjectName('Room Test'       , 'ROM_TES')));
-        systemRoom.RoomAdd(new ObjectRoom(systemRoom, systemRoom.roomArray.length, new ObjectName('Room Antartica'  , 'ROM_ANT')));
+        systemRoom.RoomAdd(new ObjectRoom(systemRoom, new ObjectName('Room Test'       , 'ROM_TES')));
+        systemRoom.RoomAdd(new ObjectRoom(systemRoom, new ObjectName('Room Antartica'  , 'ROM_ANT')));
 
         //Now we can add the room more dynamically.
+        console.log('ALL ROOM NAME IN SYSTEM EDIT');
         for(var i = 0; i < systemEdit.nameRoomArray.length; i ++){
             console.log(systemEdit.nameRoomArray[i].nameAlt);
             //console.log(systemRoom.roomArray[i].roomNameAlt);
         }
+        console.log('ALL ROOM NAME IN STATE');
+        for(var i = 0; i < systemRoom.roomArray.length; i ++){
+            //console.log(systemEdit.nameRoomArray[i].nameAlt);
+            console.log(systemRoom.roomArray[i].roomNameAlt);
+        }
+        systemRoom.RoomRemove('ROM_AFK');
+        console.log('ALL ROOM NAME IN STATE');
+        for(var i = 0; i < systemRoom.roomArray.length; i ++){
+            //console.log(systemEdit.nameRoomArray[i].nameAlt);
+            console.log(systemRoom.roomArray[i].roomNameAlt);
+        }
+
 
 
         /*
