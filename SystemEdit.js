@@ -106,8 +106,12 @@ SystemEdit                              = function(){
         this.nameTagArray.push      (nameTag);
 
 };
+
 SystemEdit.prototype                    = Object.create(System.prototype);
+
 SystemEdit.prototype.constructor        = SystemEdit;
+
+//A merger function to 
 SystemEdit.prototype.EditRoomCompare    = function(_objectName1, _objectName2){
 
     if(_objectName1.nameAlt < _objectName2.nameAlt){ return -1; }
