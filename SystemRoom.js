@@ -60,8 +60,7 @@ SystemRoom.prototype.RoomSystemAdd = function(_object){
     As you can see the parameter here is only a string of which contains room name to remove.*/
     var object = this.SystemAdd(_object, 'ObjectRoom', this.roomArray, this.RoomCompare);
     if(object != 'undefined'){
-        this.systemEdit.nameRoomArray   .push(object.nameRoom);
-        this.systemEdit                 .SystemSort(this.systemEdit.nameRoomArray, this.systemEdit.Compare);
+        this.systemEdit.SystemAdd   (object.nameRoom, 'ObjectName', this.systemEdit.nameRoomArray, this.systemEdit.Compare);
     }
     return object;
 

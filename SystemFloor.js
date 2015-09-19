@@ -55,8 +55,7 @@ SystemFloor.prototype.FloorSystemAdd        = function(_object){
     As you can see the parameter here is only a string of which contains floor name to remove.*/
     var object = this.SystemAdd(_object, 'ObjectFloor', this.floorArray, this.FloorCompare);
     if(object != 'undefined'){
-        this.systemEdit.nameFloorArray   .push(object.nameFloor);
-        this.systemEdit                  .SystemSort(this.systemEdit.nameFloorArray, this.systemEdit.Compare);
+        this.systemEdit.SystemAdd          (object.nameFloor, 'ObjectName', this.systemEdit.nameFloorArray, this.systemEdit.Compare);
     }
     return object;
 
