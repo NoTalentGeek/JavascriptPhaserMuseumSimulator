@@ -61,7 +61,7 @@ SystemRoom.prototype.RoomSystemAdd = function(_object){
     var object = this.SystemAdd(_object, 'ObjectRoom', this.roomArray, this.RoomCompare);
     if(object != 'undefined'){
         this.systemEdit.nameRoomArray   .push(object.nameRoom);
-        this.systemEdit                 .SystemSort(this.systemEdit.nameRoomArray, this.systemEdit.EditRoomCompare);
+        this.systemEdit                 .SystemSort(this.systemEdit.nameRoomArray, this.systemEdit.Compare);
     }
     return object;
 

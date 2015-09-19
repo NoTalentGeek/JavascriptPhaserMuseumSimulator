@@ -11,7 +11,26 @@ stateMain = {
         });
         console.log(systemEdit.nameTagArray);
         */
-        var systemRoom  = new SystemRoom(this, systemEdit);
+        var systemFloor = new SystemFloor(this, systemEdit);
+        console.log('ALL FLOOR NAME IN SYSTEM EDIT');
+        for(var i = 0; i < systemEdit.nameFloorArray.length; i ++){
+            console.log(systemEdit.nameFloorArray[i].nameAlt);
+        }
+        console.log('ALL FLOOR NAME IN STATE');
+        for(var i = 0; i < systemFloor.floorArray.length; i ++){
+            console.log(systemFloor.floorArray[i].nameFloorAlt);
+        }
+        systemFloor.FloorSystemAdd   (new ObjectFloor(systemFloor, new ObjectName('Floor Second'       , 'FLO_SEC')));
+        systemFloor.FloorSystemRemove('FLO_FIR');
+        console.log('ALL FLOOR NAME IN SYSTEM EDIT');
+        for(var i = 0; i < systemEdit.nameFloorArray.length; i ++){
+            console.log(systemEdit.nameFloorArray[i].nameAlt);
+        }
+        console.log('ALL FLOOR NAME IN STATE');
+        for(var i = 0; i < systemFloor.floorArray.length; i ++){
+            console.log(systemFloor.floorArray[i].nameFloorAlt);
+        }
+        var systemRoom  = new SystemRoom (this, systemEdit);
         systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Test'       , 'ROM_TES')));
         systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Antartica'  , 'ROM_ANT')));
         systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Aaa'        , 'ROM_AAA')));

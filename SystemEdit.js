@@ -7,9 +7,16 @@ SystemEdit                              = function(_parentObject){
 
     /*Here I provide the user with three modified value.
     The room name, exhibition name, and all available tags.*/
+    this.nameFloorArray                 = new Array();
     this.nameRoomArray                  = new Array();
     this.nameExhibitionArray            = new Array();
     this.nameTagArray                   = new Array();
+
+    //List of room name.
+    var nameFloor                   = new ObjectName('Floor First'          , 'FLO_FIR');
+        this.nameFloorArray.push    (nameFloor);
+    var nameFloor                   = new ObjectName('Floor ZZZ'            , 'FLO_ZZZ');
+        this.nameFloorArray.push    (nameFloor);
 
     /*List of room name, the first one is the default value if the program
         cannot find the room name.*/
@@ -112,7 +119,7 @@ SystemEdit.prototype                    = Object.create(System.prototype);
 SystemEdit.prototype.constructor        = SystemEdit;
 
 //Comparison function. 
-SystemEdit.prototype.EditRoomCompare    = function(_objectName1, _objectName2){
+SystemEdit.prototype.Compare    = function(_objectName1, _objectName2){
 
     if(_objectName1.nameAlt < _objectName2.nameAlt){ return -1; }
     if(_objectName1.nameAlt > _objectName2.nameAlt){ return  1; }
