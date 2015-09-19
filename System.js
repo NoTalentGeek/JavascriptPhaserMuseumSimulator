@@ -2,9 +2,10 @@
 For example both SystemRoom object and SystemExhibition object inherits from this class.
 This class provides its children with a way to add, find index based on local variable, remove an
     element, and sort element alphabetically.*/
-System                              = function(_nameSystem){
+System                              = function(_parentObject, _nameSystem){
 
-    if(typeof _nameSystem === 'string'){ this.nameSystem = _nameSystem; }
+    if(typeof _parentObject === 'object'){ this.parentObject = _parentObject; }
+    if(typeof _nameSystem   === 'string'){ this.nameSystem = _nameSystem; }
 
 };
 

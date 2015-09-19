@@ -3,7 +3,7 @@ stateMain = {
     create              : function(){
 
         //PROTOTYPE.
-        var systemEdit  = new SystemEdit();
+        var systemEdit  = new SystemEdit(this);
         /*
         console.log(systemEdit.nameTagArray);
         systemEdit.nameTagArray = systemEdit.nameTagArray.filter(function(obj){
@@ -11,7 +11,7 @@ stateMain = {
         });
         console.log(systemEdit.nameTagArray);
         */
-        var systemRoom  = new SystemRoom(systemEdit);
+        var systemRoom  = new SystemRoom(this, systemEdit);
         systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Test'       , 'ROM_TES')));
         systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Antartica'  , 'ROM_ANT')));
         systemRoom.RoomSystemAdd(new ObjectRoom(systemRoom, new ObjectName('Room Aaa'        , 'ROM_AAA')));

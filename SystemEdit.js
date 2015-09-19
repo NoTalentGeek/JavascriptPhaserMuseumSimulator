@@ -1,9 +1,9 @@
 /*This is a system object that is editable
     so that when user want to edit the value of this program,
     he/she can just edit value from this object.*/
-SystemEdit                              = function(){
+SystemEdit                              = function(_parentObject){
 
-    System.call                     (this, 'SystemEdit');
+    System.call                     (this, _parentObject, 'SystemEdit');
 
     /*Here I provide the user with three modified value.
     The room name, exhibition name, and all available tags.*/
