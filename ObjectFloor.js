@@ -1,3 +1,4 @@
+//An object of floor that will contain any possible number of room.
 ObjectFloor                         = function(_parentObject, _nameFloor){
 
     if(typeof _parentObject === 'object')   { ObjectObject.call(this, _parentObject, 'ObjectFloor'); }
