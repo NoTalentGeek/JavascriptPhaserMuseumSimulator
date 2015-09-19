@@ -23,7 +23,7 @@ stateMain = {
         }
         console.log('ALL ROOM NAME IN STATE');
         for(var i = 0; i < systemRoom.roomArray.length; i ++){
-            console.log(systemRoom.roomArray[i].roomNameAlt);
+            console.log(systemRoom.roomArray[i].nameRoomAlt);
         }
         systemRoom.RoomSystemRemove('ROM_ASI');
         console.log('ALL ROOM NAME IN SYSTEM EDIT');
@@ -32,7 +32,7 @@ stateMain = {
         }
         console.log('ALL ROOM NAME IN STATE');
         for(var i = 0; i < systemRoom.roomArray.length; i ++){
-            console.log(systemRoom.roomArray[i].roomNameAlt);
+            console.log(systemRoom.roomArray[i].nameRoomAlt);
         }
 
 

@@ -33,6 +33,7 @@ SystemRoom.prototype.constructor    = SystemRoom;
 //Local function to compare local variable.
 SystemRoom.prototype.RoomCompare    = function(_objectRoom1, _objectRoom2){
 
+
     //Need verification to ensure that both objects in argument are ObjectRoom.
     if(
 
@@ -41,8 +42,8 @@ SystemRoom.prototype.RoomCompare    = function(_objectRoom1, _objectRoom2){
 
     ){
 
-        if(_objectRoom1.roomNameAlt < _objectRoom2.roomNameAlt){ return -1; }
-        if(_objectRoom1.roomNameAlt > _objectRoom2.roomNameAlt){ return  1; }
+        if(_objectRoom1.nameRoomAlt < _objectRoom2.nameRoomAlt){ return -1; }
+        if(_objectRoom1.nameRoomAlt > _objectRoom2.nameRoomAlt){ return  1; }
         return 0;
 
     }
@@ -59,7 +60,7 @@ SystemRoom.prototype.RoomSystemAdd = function(_object){
     As you can see the parameter here is only a string of which contains room name to remove.*/
     var object = this.SystemAdd(_object, 'ObjectRoom', this.roomArray, this.RoomCompare);
     if(object != 'undefined'){
-        this.systemEdit.nameRoomArray   .push(object.roomName);
+        this.systemEdit.nameRoomArray   .push(object.nameRoom);
         this.systemEdit                 .SystemSort(this.systemEdit.nameRoomArray, this.systemEdit.EditRoomCompare);
     }
     return object;
@@ -68,10 +69,10 @@ SystemRoom.prototype.RoomSystemAdd = function(_object){
 
 /*Another merge function with the parent function of SystemRemove() this time it is
     for removing room from this.roomArray.*/
-SystemRoom.prototype.RoomSystemRemove = function(_roomNameAlt){
+SystemRoom.prototype.RoomSystemRemove = function(_nameRoomAlt){
 
-    var array = this.SystemRemove(this.roomArray, 'roomNameAlt', _roomNameAlt);
-    this.systemEdit.SystemRemove(this.systemEdit.nameRoomArray, 'nameAlt', _roomNameAlt);
+    var array = this.SystemRemove(this.roomArray, 'nameRoomAlt', _nameRoomAlt);
+    this.systemEdit.SystemRemove(this.systemEdit.nameRoomArray, 'nameAlt', _nameRoomAlt);
     return array;
 
 }
