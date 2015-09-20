@@ -1,18 +1,11 @@
-SystemFloor                                 = function(_parentObject, _systemEdit){
+SystemFloor                                 = function(_parentObject){
 
     //This class is inherited from System class.
     System.call                         (this, _parentObject, 'SystemFloor');
 
-    //Verify the argument.
-    if(typeof _systemEdit === 'object' && _systemEdit.nameSystem == 'SystemEdit'){
-
-        this.systemEdit                     = _systemEdit;
-
-    }
-
     //Create an array to hold all the floors.
     this.floorArray                         = new Array();
-    
+
 };
 SystemFloor.prototype                       = Object.create(System.prototype);
 SystemFloor.prototype.constructor           = SystemFloor;

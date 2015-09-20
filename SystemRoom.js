@@ -1,17 +1,10 @@
 /*System game object that manages room.
 All the room will be instantiated here and
     will be put its default value there.*/
-SystemRoom                          = function(_parentObject, _systemEdit){
+SystemRoom                          = function(_parentObject){
 
     //This class is inherited from System class.
-    System.call                     (this, _parentObject, _systemEdit, 'SystemRoom');
-
-    //Verify the argument.
-    if(typeof _systemEdit === 'object' && _systemEdit.nameSystem == 'SystemEdit'){
-
-        this.systemEdit                     = _systemEdit;
-
-    }
+    System.call                     (this, _parentObject, 'SystemRoom');
 
     //Create an array to hold all the rooms.
     this.roomArray                  = new Array();

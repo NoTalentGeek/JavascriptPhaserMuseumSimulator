@@ -25,7 +25,11 @@ SystemEdit                              = function(_parentObject){
     this.exhibitionArrayIn              = new Array();
     this.exhibitiobArrayOut             = new Array();
 
-
+    //Adding default floor object.
+    var objectFloor                 = new ObjectFloor(this, this, this.floorArrayIn, this.floorArrayOut, new ObjectName('Floor First'  , 'FLO_FIR'));
+        this.floorArrayOut.push     (objectFloor);
+    var objectFloor                 = new ObjectFloor(this, this, this.floorArrayIn, this.floorArrayOut, new ObjectName('Floor ZZZ'    , 'FLO_ZZZ'));
+        this.floorArrayOut.push     (objectFloor);
 
     //List of room name.
     var nameFloor                   = new ObjectName('Floor First'          , 'FLO_FIR');
@@ -133,8 +137,21 @@ SystemEdit.prototype                    = Object.create(System.prototype);
 
 SystemEdit.prototype.constructor        = SystemEdit;
 
+SystemEdit.prototype.Update             = function(){
+
+    console.log('TEST');
+
+    for(var i = 0; i < this.floorArrayIn.length; i ++){
+        this.floorArrayIn[i].Update();
+    }
+    for(var i = 0; i < this.floorArrayOut.length; i ++){
+        this.floorArrayOut[i].Update();
+    }
+
+};
+
 //Comparison function. 
-SystemEdit.prototype.Compare    = function(_objectName1, _objectName2){
+SystemEdit.prototype.Compare            = function(_objectName1, _objectName2){
 
     if(_objectName1.nameAlt < _objectName2.nameAlt){ return -1; }
     if(_objectName1.nameAlt > _objectName2.nameAlt){ return  1; }

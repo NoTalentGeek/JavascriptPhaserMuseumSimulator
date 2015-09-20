@@ -2,9 +2,10 @@ stateMain = {
 
     create              : function(){
 
-        var systemEdit  = new SystemEdit(this);
-        var systemFloor = new SystemFloor(this, systemEdit);
-        console.log(systemFloor.floorArray.length);
+        
+        this.systemFloor = new SystemFloor(this);
+        var objectFloor = new 
+        console.log(this.systemFloor.floorArray.length);
 
         /*
         for(var i = 0; i < systemEdit.nameExhibitionArray.nameTagArray.length; i ++) {
