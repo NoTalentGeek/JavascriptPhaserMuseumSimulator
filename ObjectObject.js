@@ -1,9 +1,10 @@
 //Parent object for the most object in this application.
-ObjectObject = function(_parentObject, _nameObject){
+ObjectObject = function(_parentObject, _systemEdit, _nameObject){
 
     /*This object refers to the parent of this object
         and the name of the object.*/
-    this.parentObject       = _parentObject; 
+    this.parentObject       = _parentObject;
+    this.systemEdit 		= _systemEdit;
     this.nameObject         = _nameObject;
 
     /*Variable to let the user know the statistic between this object.

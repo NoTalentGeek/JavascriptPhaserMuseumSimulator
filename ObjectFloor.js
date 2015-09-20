@@ -1,7 +1,7 @@
 //An object of floor that will contain any possible number of room.
-ObjectFloor                         = function(_parentObject, _nameFloor){
+ObjectFloor                         = function(_parentObject, _systemEdit, _nameFloor){
 
-    if(typeof _parentObject === 'object')   { ObjectObject.call(this, _parentObject, 'ObjectFloor'); }
+    if(typeof _parentObject === 'object')   { ObjectObject.call(this, _parentObject, _systemEdit, 'ObjectFloor'); }
     if(typeof _nameFloor    === 'object')   {
 
         this.nameFloor                      = _nameFloor;
@@ -10,7 +10,7 @@ ObjectFloor                         = function(_parentObject, _nameFloor){
 
     }
 
-    //PENDING: Add system room later on here to manage all exhibition in this floor.
+    this.systemRoom 						= new SystemRoom(this, this.systemEdit);
 
 };
 ObjectFloor.prototype               = Object.create(ObjectObject.prototype);

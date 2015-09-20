@@ -4,12 +4,12 @@ All the room will be instantiated here and
 SystemRoom                          = function(_parentObject, _systemEdit){
 
     //This class is inherited from System class.
-    System.call                     (this, _parentObject, 'SystemRoom');
+    System.call                     (this, _parentObject, _systemEdit, 'SystemRoom');
 
     //Verify the argument.
     if(typeof _systemEdit === 'object' && _systemEdit.nameSystem == 'SystemEdit'){
 
-        this.systemEdit             = _systemEdit;
+        this.systemEdit                     = _systemEdit;
 
     }
 
@@ -18,7 +18,7 @@ SystemRoom                          = function(_parentObject, _systemEdit){
     //Instantiate array based on how many name available in the SystemEdit class.
     for(var i = 0; i < this.systemEdit.nameRoomArray.length - 1; i ++){
 
-        var room                    = new ObjectRoom(this, this.systemEdit.nameRoomArray[i]);
+        var room                    = new ObjectRoom(this, this.systemEdit, this.systemEdit.nameRoomArray[i]);
         //Push every new object into room array.
         this.roomArray              .push(room);
 

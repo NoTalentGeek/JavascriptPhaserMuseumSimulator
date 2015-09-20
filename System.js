@@ -4,8 +4,8 @@ This class provides its children with a way to add, find index based on local va
     element, and sort element alphabetically.*/
 System                              = function(_parentObject, _nameSystem){
 
-    if(typeof _parentObject === 'object'){ this.parentObject = _parentObject; }
-    if(typeof _nameSystem   === 'string'){ this.nameSystem = _nameSystem; }
+    if(typeof _parentObject === 'object')                                           { this.parentObject = _parentObject; }
+    if(typeof _nameSystem   === 'string')                                           { this.nameSystem   = _nameSystem;   }
 
 };
 

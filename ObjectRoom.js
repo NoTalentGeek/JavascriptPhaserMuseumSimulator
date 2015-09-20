@@ -1,9 +1,8 @@
 //Create game object to hold information for room in a museum.
-ObjectRoom                          = function(_parentObject, _nameRoom){
+ObjectRoom                          = function(_parentObject, _systemEdit, _nameRoom){
 
     //Super method.
-    if(typeof _parentObject === 'object')   { ObjectObject.call(this, _parentObject, 'ObjectRoom'); }
-
+    if(typeof _parentObject === 'object')   { ObjectObject.call(this, _parentObject, _systemEdit, 'ObjectRoom'); }
     //The name of this room. Should be in form of name object and not just ordinary string.
     if(typeof _nameRoom     === 'object')   {
 
