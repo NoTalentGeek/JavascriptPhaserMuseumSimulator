@@ -4,7 +4,7 @@ stateMain = {
 
         var systemEdit  = new SystemEdit(this);
         var systemFloor = new SystemFloor(this, systemEdit);
-        console.log(systemFloor.floorArray[0].systemRoom.roomArray.length);
+        console.log(systemFloor.floorArray.length);
 
         /*
         for(var i = 0; i < systemEdit.nameExhibitionArray.nameTagArray.length; i ++) {

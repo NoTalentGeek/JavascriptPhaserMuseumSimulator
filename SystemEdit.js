@@ -3,7 +3,7 @@
     he/she can just edit value from this object.*/
 SystemEdit                              = function(_parentObject){
 
-    System.call                     (this, _parentObject, 'SystemEdit');
+    System.call                         (this, _parentObject, 'SystemEdit');
 
     /*Here I provide the user with three modified value.
     The room name, exhibition name, and all available tags.*/
@@ -11,6 +11,21 @@ SystemEdit                              = function(_parentObject){
     this.nameRoomArray                  = new Array();
     this.nameExhibitionArray            = new Array();
     this.nameTagArray                   = new Array();
+
+    /*Change this into stack in and stack out system.
+    So when there is an object enter the scene it goes in into stack in and out from stack out.
+    For example ROM_FIR inputted into StateMain.js the corresponding room object goes from stack out into
+        stack in.
+    So the first thing that we need to do is to create a stack in for every object and stack out
+        for every objects except for tags.*/
+    this.floorArrayIn                   = new Array();
+    this.floorArrayOut                  = new Array();
+    this.roomArrayIn                    = new Array();
+    this.roomArrayOut                   = new Array();
+    this.exhibitionArrayIn              = new Array();
+    this.exhibitiobArrayOut             = new Array();
+
+
 
     //List of room name.
     var nameFloor                   = new ObjectName('Floor First'          , 'FLO_FIR');

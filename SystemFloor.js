@@ -12,15 +12,7 @@ SystemFloor                                 = function(_parentObject, _systemEdi
 
     //Create an array to hold all the floors.
     this.floorArray                         = new Array();
-    //Instantiate array based on how many name available in the SystemEdit class.
-    for(var i = 0; i < this.systemEdit.nameFloorArray.length - 1; i ++){
-
-        var floor                           = new ObjectFloor(this, this.systemEdit, this.systemEdit.nameFloorArray[i]);
-        //Push every new object into floor array.
-        this.floorArray                     .push(floor);
-
-    }
-
+    
 };
 SystemFloor.prototype                       = Object.create(System.prototype);
 SystemFloor.prototype.constructor           = SystemFloor;

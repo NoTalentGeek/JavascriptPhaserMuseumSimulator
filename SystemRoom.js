@@ -15,14 +15,6 @@ SystemRoom                          = function(_parentObject, _systemEdit){
 
     //Create an array to hold all the rooms.
     this.roomArray                  = new Array();
-    //Instantiate array based on how many name available in the SystemEdit class.
-    for(var i = 0; i < this.systemEdit.nameRoomArray.length - 1; i ++){
-
-        var room                    = new ObjectRoom(this, this.systemEdit, this.systemEdit.nameRoomArray[i]);
-        //Push every new object into room array.
-        this.roomArray              .push(room);
-
-    }
 
 };
 
