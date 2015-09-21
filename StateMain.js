@@ -2,10 +2,32 @@ stateMain = {
 
     create              : function(){
 
-        
-        this.systemFloor = new SystemFloor(this);
-        var objectFloor = new 
+        this.systemEdit                 = new SystemEdit(this);
+        this.systemFloor                = new SystemFloor(this);
+
+        var objectFloor                 = new ObjectFloor(this.systemFloor, new ObjectName('First Floor',   'FLO_001'));
+        this.systemFloor.floorArray     .push(objectFloor);
+        var targetFloorIndex            = this.systemFloor.FloorSystemFindIndex('FLO_001');
+            var objectRoom                  = new ObjectRoom(
+                this.systemFloor.floorArray[targetFloorIndex].systemRoom,
+                new ObjectName('Room Afrika', 'ROM_AFK')
+            );
+            this.systemFloor.floorArray[targetFloorIndex].systemRoom.roomArray.push(objectRoom);
+            console.log(this.systemFloor.floorArray[targetFloorIndex].systemRoom.roomArray.length);
+
+        var objectFloor                 = new ObjectFloor(this.systemFloor, new ObjectName('Second Floor',  'FLO_002'));
+        this.systemFloor.floorArray     .push(objectFloor);
+        var objectFloor                 = new ObjectFloor(this.systemFloor, new ObjectName('Third Floor',   'FLO_003'));
+        this.systemFloor.floorArray     .push(objectFloor);
+
+        //console.log(this.systemFloor.FloorSystemFindIndex('FLO_001'));
+
+        /*
         console.log(this.systemFloor.floorArray.length);
+        for(var i = 0; i < this.systemFloor.floorArray.length; i ++){
+            console.log(this.systemFloor.floorArray[i].nameObjectFull);
+        }
+        */
 
         /*
         for(var i = 0; i < systemEdit.nameExhibitionArray.nameTagArray.length; i ++) {

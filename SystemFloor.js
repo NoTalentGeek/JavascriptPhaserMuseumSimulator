@@ -1,8 +1,7 @@
 SystemFloor                                 = function(_parentObject){
 
     //This class is inherited from System class.
-    System.call                         (this, _parentObject, 'SystemFloor');
-
+    System.call                             (this, _parentObject, 'SystemFloor');
     //Create an array to hold all the floors.
     this.floorArray                         = new Array();
 
@@ -46,6 +45,12 @@ SystemFloor.prototype.FloorSystemAdd        = function(_object){
 
 };
 
+SystemFloor.prototype.FloorSystemFindIndex  = function(_value){
+
+    return this.SystemFindIndex(this.floorArray, 'nameObjectAlt', _value);
+
+};
+
 /*Another merge function with the parent function of SystemRemove() this time it is
     for removing floor from this.floorArray.*/
 SystemFloor.prototype.FloorSystemRemove     = function(_nameFloorAlt){
@@ -54,4 +59,4 @@ SystemFloor.prototype.FloorSystemRemove     = function(_nameFloorAlt){
     this.systemEdit.SystemRemove(this.systemEdit.nameFloorArray, 'nameAlt', _nameFloorAlt);
     return array;
 
-}
+};
