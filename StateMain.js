@@ -7,23 +7,7 @@ stateMain = {
         this.AddFloor   ('First Floor'  , 'FLR_FIR');
         this.AddRoom    ('Room Africa'  , 'ROM_AFK');
         this.AddRoom    ('Room America' , 'ROM_AME');
-
-        console.log     (this.roomArray.length);
-
-        //Prototype change room.
-        var roomObjectIndex             = this.FindIndexRoom('ROM_AFK');
-        var roomObject                  = this.roomArray[roomObjectIndex];
-        /*First thing you need to do is to push the object into new array.
-        Which is the object array in the parent object (ObjectObject.js)*/
-        var floorObjectDestinedIndex    = this.FindIndexFloor('FLR_FIR');
-        var floorObjectDestined         = this.floorArray[floorObjectDestinedIndex];
-        roomObject.parentObject         = floorObjectDestined;
-        floorObjectDestined.arrayObject .push(roomObject);
-        //And then remove it from the source array.
-        this.roomArray                  .splice(roomObjectIndex, 1);
-
-        console.log     (this.roomArray.length);
-        console.log     (floorObjectDestined.arrayObject.length);
+        this.ChangeRoom ('ROM_AFK'      , 'FLR_FIR');
 
     },
 
@@ -42,6 +26,28 @@ stateMain = {
         var roomObject = new ObjectRoom(this, new ObjectName(_nameFull, _nameAlt));
         this.roomArray .push(roomObject);
         return roomObject;
+
+    },
+
+    ChangeRoom: function(_roomObject, _destinedFloor){
+
+        //Prototype change room.
+        var roomObjectIndex             = this.FindIndexRoom(_roomObject);
+        var roomObject                  = this.roomArray[roomObjectIndex];
+        /*First thing you need to do is to push the object into new array.
+        Which is the object array in the parent object (ObjectObject.js)*/
+        var floorObjectDestinedIndex    = this.FindIndexFloor(_destinedFloor);
+        var floorObjectDestined         = this.floorArray[floorObjectDestinedIndex];
+        roomObject.parentObject         = floorObjectDestined;[];
+        floorObjectDestined.arrayObject .push(roomObject);
+
+        //PENDING: do not forget to add sort function here.
+
+        //And then remove it from the source array.
+        this.roomArray                  .splice(roomObjectIndex, 1);
+
+        //Return the new array of the _roomObject.
+        return floorObjectDestined.arrayObject
 
     },
 
