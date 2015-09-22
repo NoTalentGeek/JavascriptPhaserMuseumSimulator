@@ -27,7 +27,11 @@ ObjectObject                        = function(_parentObject, _nameObject, _name
 
     }
 
-    this.isIn               = false;
+    /*This is the array object that will hold the corresponding object's children.
+    For example ObjectFloor will hold an array of ObjectRoom.
+    And then ObjectRoom will hold an array of ObjectExhibition.
+    And so on....*/
+    this.arrayObject        = new Array();
 
     /*Variable to let the user know the statistic between this object.
     For example how many visitor are here currently and how many total visitor
