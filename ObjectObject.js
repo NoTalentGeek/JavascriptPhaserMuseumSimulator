@@ -21,9 +21,9 @@ ObjectObject                        = function(_parentObject, _nameObject, _name
     else{
 
         console.log('Wrong Inputs In ObjectObject Arguments');
-        console.log((typeof _parentObject)      + ' Supposed To Be An Object' );
-        console.log((typeof _nameObject)        + ' Supposed To Be An Object' );
-        console.log((typeof _nameObjectType)    + ' Supposed To Be An String' );
+        console.log((typeof _parentObject)      + ' Supposed To Be An Object.' );
+        console.log((typeof _nameObject)        + ' Supposed To Be An Object.' );
+        console.log((typeof _nameObjectType)    + ' Supposed To Be A String.'  );
 
     }
 

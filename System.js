@@ -14,7 +14,7 @@ System                              = function(_parentObject, _nameSystemType){
 
         console.log('Wrong Inputs In System Arguments');
         console.log((typeof _parentObject)      + ' Supposed To Be An Object' );
-        console.log((typeof _nameSystemType)    + ' Supposed To Be An String' );
+        console.log((typeof _nameSystemType)    + ' Supposed To Be A String'  );
 
     }
 
