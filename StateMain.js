@@ -58,6 +58,7 @@ stateMain = {
                     this.AddExhibition              ('Exhibition Netherlands'       , 'EXH_NET');
                     this.ChangeRoomForExhibition    ('EXH_NET'                      , 'ROM_EUR');
 
+            /*
             var cache = [];
             localStorage.setItem                    ('SaveData1'                    , JSON.stringify(floor, function(key, value){
 
@@ -76,6 +77,7 @@ stateMain = {
 
             }));
             cache = null;
+            */
 
         }
 
