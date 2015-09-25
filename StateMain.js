@@ -6,20 +6,69 @@ stateMain = {
         this.roomArray          = new Array();
         this.exhibitionArray    = new Array();
 
-        this.AddFloor                           ('First Floor'  , 'FLR_FIR');
-            this.AddRoom                        ('Room Africa'  , 'ROM_AFK');
-            this.ChangeFloorForARoom            ('ROM_AFK'      , 'FLR_FIR');
-                var tempRoom                    = this.FindRoom('ROM_AFK');
-                this.AddExhibition              (tempRoom, 'Exhibition Nigeria'  , 'EXH_NIG');
-                this.ChangeRoomForExhibition    ('EXH_NIG', 'ROM_AFK');
-                this.AddExhibition              (tempRoom, 'Exhibition Ethiopia' , 'EXH_ETH');
-                this.AddExhibition              (tempRoom, 'Exhibition Egypt'    , 'EXH_EGY');
-                this.AddExhibition              (tempRoom, 'Exhibition Morocco'  , 'EXH_MOR');
-            this.AddRoom                        ('Room America' , 'ROM_AME');
-            this.ChangeFloorForARoom            ('ROM_AME'      , 'FLR_FIR');
-            this.AddRoom                        ('Room Asia'    , 'ROM_ASI');
-            this.ChangeFloorForARoom            ('ROM_ASI'      , 'FLR_FIR');
+        this.AddFloor                           ('First Floor'              , 'FLR_FIR');
 
+            this.AddRoom                        ('Room Africa'              , 'ROM_AFK');
+            this.ChangeFloorForRoom             ('ROM_AFK'                  , 'FLR_FIR');
+                this.AddExhibition              ('Exhibition Nigeria'       , 'EXH_NIG');
+                this.ChangeRoomForExhibition    ('EXH_NIG'                  , 'ROM_AFK');
+                this.AddExhibition              ('Exhibition Ethiopia'      , 'EXH_ETH');
+                this.ChangeRoomForExhibition    ('EXH_ETH'                  , 'ROM_AFK');
+                this.AddExhibition              ('Exhibition Egypt'         , 'EXH_EGY');
+                this.ChangeRoomForExhibition    ('EXH_EGY'                  , 'ROM_AFK');
+                this.AddExhibition              ('Exhibition Morocco'       , 'EXH_MOR');
+                this.ChangeRoomForExhibition    ('EXH_MOR'                  , 'ROM_AFK');
+
+            this.AddRoom                        ('Room America'             , 'ROM_AME');
+            this.ChangeFloorForRoom             ('ROM_AME'                  , 'FLR_FIR');
+                this.AddExhibition              ('Exhibition Argentina'     , 'EXH_ARG');
+                this.ChangeRoomForExhibition    ('EXH_ARG'                  , 'ROM_AME');
+                this.AddExhibition              ('Exhibition Brazil'        , 'EXH_BRA');
+                this.ChangeRoomForExhibition    ('EXH_BRA'                  , 'ROM_AME');
+                this.AddExhibition              ('Exhibition Canada'        , 'EXH_CAN');
+                this.ChangeRoomForExhibition    ('EXH_CAN'                  , 'ROM_AME');
+                this.AddExhibition              ('Exhibition USA'           , 'EXH_USA');
+                this.ChangeRoomForExhibition    ('EXH_USA'                  , 'ROM_AME');
+
+            this.AddRoom                        ('Room Asia'                , 'ROM_ASI');
+            this.ChangeFloorForRoom             ('ROM_ASI'                  , 'FLR_FIR');
+                this.AddExhibition              ('Exhibition China'         , 'EXH_CHN');
+                this.ChangeRoomForExhibition    ('EXH_CHN'                  , 'ROM_ASI');
+                this.AddExhibition              ('Exhibition India'         , 'EXH_IND');
+                this.ChangeRoomForExhibition    ('EXH_IND'                  , 'ROM_ASI');
+                this.AddExhibition              ('Exhibition Korea'         , 'EXH_KOR');
+                this.ChangeRoomForExhibition    ('EXH_KOR'                  , 'ROM_ASI');
+                this.AddExhibition              ('Exhibition Taiwan'        , 'EXH_TAI');
+                this.ChangeRoomForExhibition    ('EXH_TAI'                  , 'ROM_ASI');
+
+            this.AddRoom                        ('Room Europe'              , 'ROM_EUR');
+            this.ChangeFloorForRoom             ('ROM_EUR'                  , 'FLR_FIR');
+                this.AddExhibition              ('Exhibition Belgium'       , 'EXH_BEL');
+                this.ChangeRoomForExhibition    ('EXH_BEL'                  , 'ROM_EUR');
+                this.AddExhibition              ('Exhibition England'       , 'EXH_ENG');
+                this.ChangeRoomForExhibition    ('EXH_ENG'                  , 'ROM_EUR');
+                this.AddExhibition              ('Exhibition Germany'       , 'EXH_GER');
+                this.ChangeRoomForExhibition    ('EXH_GER'                  , 'ROM_EUR');
+                this.AddExhibition              ('Exhibition Netherlands'   , 'EXH_NET');
+                this.ChangeRoomForExhibition    ('EXH_NET'                  , 'ROM_EUR');
+
+        console.log(this.FindRoom('ROM_AFK').nameObjectFull);
+        for(var i = 0; i < this.FindRoom('ROM_AFK').arrayObject.length; i ++){
+            console.log(this.FindRoom('ROM_AFK').arrayObject[i].nameObjectFull);
+        }
+        console.log(this.FindRoom('ROM_AME').nameObjectFull);
+        for(var i = 0; i < this.FindRoom('ROM_AME').arrayObject.length; i ++){
+            console.log(this.FindRoom('ROM_AME').arrayObject[i].nameObjectFull);
+        }
+        console.log(this.FindRoom('ROM_ASI').nameObjectFull);
+        for(var i = 0; i < this.FindRoom('ROM_ASI').arrayObject.length; i ++){
+            console.log(this.FindRoom('ROM_ASI').arrayObject[i].nameObjectFull);
+        }
+        console.log(this.FindRoom('ROM_EUR').nameObjectFull);
+        for(var i = 0; i < this.FindRoom('ROM_EUR').arrayObject.length; i ++){
+            console.log(this.FindRoom('ROM_EUR').arrayObject[i].nameObjectFull);
+        }
+        
     },
 
     update                      : function(){},
@@ -48,7 +97,7 @@ stateMain = {
 
     },
 
-    ChangeFloorForARoom         : function(_roomObject, _destined){
+    ChangeFloorForRoom         : function(_roomObject, _destined){
 
         if(
 
