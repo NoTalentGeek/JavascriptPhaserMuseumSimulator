@@ -6,6 +6,7 @@ stateMain = {
         this.arrayFloor         = new Array();
         this.arrayRoom          = new Array();
         this.arrayExhibition    = new Array();
+        this.arrayPlayer        = new Array();
 
         var nameFloor           = [
 
@@ -62,10 +63,10 @@ stateMain = {
         }
         for(var i = 0; i < nameExhibition.length; i ++){
 
-            if      (i < 4 ){ var objectExhibition = new ObjectMuseum('ROM_AFK', 'ROM', nameExhibition[i]); }
-            else if (i < 8 ){ var objectExhibition = new ObjectMuseum('ROM_AME', 'ROM', nameExhibition[i]); }
-            else if (i < 12){ var objectExhibition = new ObjectMuseum('ROM_ASI', 'ROM', nameExhibition[i]); }
-            else if (i < 16){ var objectExhibition = new ObjectMuseum('ROM_EUR', 'ROM', nameExhibition[i]); }
+            if      (i < 4 ){ var objectExhibition = new ObjectMuseum('ROM_AFK', 'EXH', nameExhibition[i]); }
+            else if (i < 8 ){ var objectExhibition = new ObjectMuseum('ROM_AME', 'EXH', nameExhibition[i]); }
+            else if (i < 12){ var objectExhibition = new ObjectMuseum('ROM_ASI', 'EXH', nameExhibition[i]); }
+            else if (i < 16){ var objectExhibition = new ObjectMuseum('ROM_EUR', 'EXH', nameExhibition[i]); }
             this.arrayExhibition.push(objectExhibition);
 
             console.log(objectExhibition.objectName.nameAlt);
@@ -76,8 +77,23 @@ stateMain = {
         console.log(this.arrayRoom);
         console.log(this.arrayExhibition);
 
+        this.playerCount = 100;
+        for(var i = 0; i < this.playerCount; i ++){
+
+            var randomNumber    = Math.floor((Math.random()*this.arrayExhibition.length) + 0);
+            var objectPlayer    = new ObjectPlayer(this.arrayExhibition[randomNumber].objectName.nameAlt);
+            this.arrayPlayer    .push(objectPlayer);
+
+            console.log(objectPlayer.exhibitionCurrent);
+
+        }
+
     },
-    
-    update                      : function(){},
+
+    update                      : function(){
+
+        
+
+    }
 
 };
