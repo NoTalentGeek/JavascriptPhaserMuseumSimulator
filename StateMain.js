@@ -89,6 +89,7 @@ stateMain = {
         }
 
         console.log(this.FindIndex(this.arrayFloor, 'objectNameAlt', 'FLR_001'));
+        console.log(this.FindObjectInArray(this.arrayFloor, 'FLR_001').objectNameFull);
 
     },
 
@@ -113,10 +114,6 @@ stateMain = {
 
     },
 
-    FindObjectInArray               : function(){
-
-
-
-    }
+    FindObjectInArray               : function(_arrayTarget, _variableValue){ return _arrayTarget[this.FindIndex(_arrayTarget, 'objectNameAlt', _variableValue)]; }
 
 };
