@@ -88,32 +88,31 @@ stateMain = {
 
         }
 
-        console.log(this.FindIndex(this.arrayFloor, 'objectNameAlt', 'FLR_001'));
+        console.log(this.FindIndex(this.arrayFloor, 'FLR_001'));
         console.log(this.FindObjectInArray(this.arrayFloor, 'FLR_001').objectNameFull);
 
     },
 
     update                          : function(){
 
-        /*
         for(var i = 0; i < this.arrayPlayer.length; i ++){
 
+            this.arrayPlayer[i].Auto(this.arrayExhibition);
             console.log(this.arrayPlayer[i].exhibitionVisited);
 
         }
-        */
 
     },
 
-    FindIndex                       : function(_arrayTarget, _variableName, _variableValue){
+    FindIndex                       : function(_arrayTarget, _variableValue){
 
         for(var i = 0; i < _arrayTarget.length; i ++){
-            if(_arrayTarget[i][_variableName] == _variableValue){ return i; }
+            if(_arrayTarget[i]['objectNameAlt'] == _variableValue){ return i; }
         }
         return undefined;
 
     },
 
-    FindObjectInArray               : function(_arrayTarget, _variableValue){ return _arrayTarget[this.FindIndex(_arrayTarget, 'objectNameAlt', _variableValue)]; }
+    FindObjectInArray               : function(_arrayTarget, _variableValue){ return _arrayTarget[this.FindIndex(_arrayTarget, _variableValue)]; }
 
 };
