@@ -92,7 +92,13 @@ stateMain = {
 
     update                      : function(){
 
-        
+        /*
+        for(var i = 0; i < this.arrayPlayer.length; i ++){
+
+            console.log(this.arrayPlayer[i].exhibitionVisited);
+
+        }
+        */
 
     }
 
