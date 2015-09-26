@@ -48,21 +48,26 @@ stateMain = {
             var objectFloor = new ObjectMuseum(undefined, 'FLR', nameFloor[i]);
             this.arrayFloor.push(objectFloor);
 
+            console.log(objectFloor.objectName.nameAlt);
+
         }
         for(var i = 0; i < nameRoom.length; i ++){
 
-            var objectRoom = new ObjectMuseum('FLR_001', 'ROM', nameFloor[i]);
+            var objectRoom = new ObjectMuseum('FLR_001', 'ROM', nameRoom[i]);
             this.arrayRoom.push(objectRoom);
+
+            console.log(objectRoom.objectName.nameAlt);
 
         }
         for(var i = 0; i < nameExhibition.length; i ++){
 
-            if      (i < 4 ){ var objectExhibition = new ObjectMuseum('ROM_AFK', 'ROM', nameFloor[i]); }
-            else if (i < 8 ){ var objectExhibition = new ObjectMuseum('ROM_AME', 'ROM', nameFloor[i]); }
-            else if (i < 12){ var objectExhibition = new ObjectMuseum('ROM_ASI', 'ROM', nameFloor[i]); }
-            else if (i < 16){ var objectExhibition = new ObjectMuseum('ROM_EUR', 'ROM', nameFloor[i]); }
-            
+            if      (i < 4 ){ var objectExhibition = new ObjectMuseum('ROM_AFK', 'ROM', nameExhibition[i]); }
+            else if (i < 8 ){ var objectExhibition = new ObjectMuseum('ROM_AME', 'ROM', nameExhibition[i]); }
+            else if (i < 12){ var objectExhibition = new ObjectMuseum('ROM_ASI', 'ROM', nameExhibition[i]); }
+            else if (i < 16){ var objectExhibition = new ObjectMuseum('ROM_EUR', 'ROM', nameExhibition[i]); }
             this.arrayExhibition.push(objectExhibition);
+
+            console.log(objectExhibition.objectName.nameAlt);
 
         }
 
