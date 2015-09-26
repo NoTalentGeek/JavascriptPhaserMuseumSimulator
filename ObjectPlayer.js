@@ -24,11 +24,28 @@ ObjectPlayer.prototype.Auto             = function(_arrayExhibition){
         for(var i = 0; i < this.exhibitionVisited.length; i ++){
 
             var loop = 0;
-            while(this.FindIndex(_arrayExhibition, this.exhibitionVisited[i]) == index){
+
+            while(this.FindIndex(_arrayExhibition, this.exhibitionVisited[this.exhibitionVisited.length - 1]) == index){
 
                 loop ++;
                 index  =  Math.floor((Math.random()*this.exhibitionMax) + 0);
                 if(loop == this.exhibitionVisited.length){ break; }
+
+            }
+
+            if(this.FindIndex(_arrayExhibition, this.exhibitionVisited[i]) == index){
+
+                if(Math.random() > 0.75){
+
+                    while(this.FindIndex(_arrayExhibition, this.exhibitionVisited[i]) == index){
+
+                        loop ++;
+                        index  =  Math.floor((Math.random()*this.exhibitionMax) + 0);
+                        if(loop == this.exhibitionVisited.length){ break; }
+
+                    }
+
+                }
 
             }
 
