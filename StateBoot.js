@@ -1,3 +1,4 @@
+//State to set system settings of Phaser.
 var stateBoot = {
 
 	init: function(){

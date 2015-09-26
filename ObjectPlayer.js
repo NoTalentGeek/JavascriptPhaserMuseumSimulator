@@ -1,3 +1,5 @@
+/*Another hard coded version of the player.
+I will re - write this class for future iterations.*/
 ObjectPlayer                                            = function(_x, _y, _width, _height, _playerName){
 
     this.exhibitionMax                                  = 16;

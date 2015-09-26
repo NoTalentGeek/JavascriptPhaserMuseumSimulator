@@ -1,6 +1,8 @@
+/*An old obejct to create a simple button.
+I think I will remove this class or modify it wholly for future iteration.*/
 ObjectButton                        = function(_parent, _x, _y, _sprite, _func, _width, _height, _label){
 
-    this.parentObject                     = _parent;
+    this.parentObject               = _parent;
 
     this.justPressed                = false;
 

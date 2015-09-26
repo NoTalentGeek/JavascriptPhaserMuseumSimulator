@@ -1,3 +1,5 @@
+/*The holy shit hard coded version of previous milestone.
+Definetely not a good practice.*/
 ObjectPanelRoom 						= function(_x, _y, _roomName, _exhibitionNameArray, _sprite1, _sprite2, _sprite3){
 
     this.roomName                       = _roomName;

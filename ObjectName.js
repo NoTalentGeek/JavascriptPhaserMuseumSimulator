@@ -1,5 +1,5 @@
 /*An object to store a name.
-In this program a name consist of the real name and the alternative
+In this program a name consist of the full name and the alternative
     three words name.*/
 ObjectName              = function(_nameFull, _nameAlt){
 

@@ -1,3 +1,5 @@
+/*A simple panel UI class.
+I will re write this class for future iterations.*/
 ObjectPanel                         = function(_x, _y, _width, _height, _sprite, _panelName){
 
     this.visitor                    = 0;

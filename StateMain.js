@@ -1,3 +1,4 @@
+//The front - end class.
 stateMain = {
 
     create                      : function(){
@@ -76,25 +77,7 @@ stateMain = {
         console.log(this.arrayExhibition);
 
     },
+    
     update                      : function(){},
-    FindIndex                   : function(_targetArray, _variableName, _value){
-
-        //Verification.
-        if(
-
-              typeof _targetArray   !== 'object' &&
-              typeof _variableName  !== 'string' &&
-            ((typeof _value !== 'number') || (typeof _value !== 'string'))
-
-        ){ return undefined; }
-
-        /*What basically done here is to loop to all objects/elements within an array and then
-            check one by one the variable name to compare with the desired value.
-        This function return the desired index.
-        If the variable or the value is not found then return undefined*/
-        for(var i = 0; i < _targetArray.length; i ++){ if(_targetArray[i][_variableName] == _value){ return i; } }
-        return undefined;
-
-    }
 
 };
