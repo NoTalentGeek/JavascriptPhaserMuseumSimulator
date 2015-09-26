@@ -1,14 +1,14 @@
 //The front - end class.
 stateMain = {
 
-    create                      : function(){
+    create                          : function(){
 
-        this.arrayFloor         = new Array();
-        this.arrayRoom          = new Array();
-        this.arrayExhibition    = new Array();
-        this.arrayPlayer        = new Array();
+        this.arrayFloor             = new Array();
+        this.arrayRoom              = new Array();
+        this.arrayExhibition        = new Array();
+        this.arrayPlayer            = new Array();
 
-        var nameFloor           = [
+        var nameFloor               = [
 
             new ObjectName('First Floor'    , 'FLR_001'),
             new ObjectName('Second Floor'   , 'FLR_002'),
@@ -16,7 +16,7 @@ stateMain = {
             new ObjectName('Fourth Floor'   , 'FLR_004')
 
         ];
-        var nameRoom            = [
+        var nameRoom                = [
 
             new ObjectName('Room Africa'    , 'ROM_AFK'),
             new ObjectName('Room America'   , 'ROM_AME'),
@@ -24,7 +24,7 @@ stateMain = {
             new ObjectName('Room Europe'    , 'ROM_EUR')
 
         ];
-        var nameExhibition      = [
+        var nameExhibition          = [
 
             new ObjectName('Egyptian Exhibition'    , 'EXH_EGY'),
             new ObjectName('Ethiopian Exhibition'   , 'EXH_ETH'),
@@ -88,9 +88,11 @@ stateMain = {
 
         }
 
+        console.log(this.FindIndex(this.arrayFloor, 'objectNameAlt', 'FLR_001'));
+
     },
 
-    update                      : function(){
+    update                          : function(){
 
         /*
         for(var i = 0; i < this.arrayPlayer.length; i ++){
@@ -99,6 +101,21 @@ stateMain = {
 
         }
         */
+
+    },
+
+    FindIndex                       : function(_arrayTarget, _variableName, _variableValue){
+
+        for(var i = 0; i < _arrayTarget.length; i ++){
+            if(_arrayTarget[i][_variableName] == _variableValue){ return i; }
+        }
+        return undefined;
+
+    },
+
+    FindObjectInArray               : function(){
+
+
 
     }
 

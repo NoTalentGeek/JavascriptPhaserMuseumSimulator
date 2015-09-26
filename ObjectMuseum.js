@@ -6,6 +6,7 @@ ObjectMuseum                        = function(_objectParentNameAlt, _objectType
     this.objectParentNameAlt        = _objectParentNameAlt; //The object name alt for the parent object (string).
     this.objectType                 = _objectType; 			//The type of this object (fill in 'FLR', 'ROM', or 'EXH').
     this.objectName                 = _objectName;
+    this.objectNameAlt 				= this.objectName.nameAlt;
     this.visitorCurrentm            = 0;
     this.visitorTotal               = 0;
     this.tagsArray                  = new Array();
