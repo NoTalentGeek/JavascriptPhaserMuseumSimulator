@@ -77,7 +77,7 @@ stateMain = {
         console.log(this.arrayRoom);
         console.log(this.arrayExhibition);
 
-        this.playerCount = 100;
+        this.playerCount = 3000;
         for(var i = 0; i < this.playerCount; i ++){
 
             var randomNumber    = Math.floor((Math.random()*this.arrayExhibition.length) + 0);
@@ -97,10 +97,13 @@ stateMain = {
 
         for(var i = 0; i < this.arrayPlayer.length; i ++){
 
-            this.arrayPlayer[i].Auto(this.arrayExhibition);
-            console.log(this.arrayPlayer[i].exhibitionVisited);
+            this.arrayPlayer[i].AIAutoBool(this.arrayExhibition);
+            //console.log(i + ' ' + this.arrayPlayer[i].exhibitionVisitedStringArray.length);
+            //console.log(this.arrayPlayer[i].exhibitionVisitedStringArray);
 
         }
+
+        //console.log('TEST');
 
     },
 
