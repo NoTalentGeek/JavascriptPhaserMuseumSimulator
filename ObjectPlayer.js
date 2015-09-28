@@ -9,7 +9,7 @@ ObjectPlayer                                        = function(_exhibitionStartS
         this.timeCurrentExhibitionNum               = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                           = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
-        this.ExhibitionMoveStringArray              (_exhibitionStartString);   /*Set the this.exhibitionCurrentString to _exhibitionStart and also add that things to this.exhibitionVisited.*/
+        this.ExhibitionMoveStringArray              (_exhibitionStartString);   /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
 
     }
     else{ console.log                               ((typeof _exhibitionStartString) + ' supposed to be a string.'); }
@@ -45,7 +45,7 @@ ObjectPlayer.prototype.AIAutoBool                   = function(_exhibitionObject
 
                 /*If the index number is the same with the index of the current exhibition then you need to generate
                     new index number until the index is not the same with currently visited exhibition.*/
-                while(this.FindExhibitionIndexNum(_exhibitionObjectArray, this.exhibitionCurrentString) == indexNum){
+                while(this.FindExhibitionIndexNum(_exhibitionObjectArray, this.exhibitionCurrentString) == index){
 
                     indexNum = Math.floor((Math.random()*_exhibitionObjectArray.length) + 0);
 
@@ -81,7 +81,7 @@ ObjectPlayer.prototype.AIAutoBool                   = function(_exhibitionObject
                 }
 
                 
-                this.ExhibitionMoveStringArray  (_exhibitionObjectArray[indexNum].objectNameAlt);   /*Move player to the new exhibition.*/
+                this.FindExhibitionIndexNum     (_exhibitionObjectArray[indexNum].objectNameAlt);   /*Move player to the new exhibition.*/
                 /*PENDING: Add time current to total time before reseting it.*/
                 this.timeCurrentExhibitionNum   = 0;                                                /*Reset timer.*/
                 return                          true;
@@ -108,8 +108,8 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAl
     /*Verification of argument inputted.*/
     if(typeof _exhibitionNameAltString              === 'string'){
 
-        this.exhibitionCurrentString                = _exhibitionNameAltString;         /*Change the current eexhibition.*/
-        this.exhibitionVisitedStringArray           .push(_exhibitionNameAltString);    /*Push the name of the newly visited exhibition to the array of visited exhibition.*/
+        this.exhibitionCurrent                      = _exhibitionNameAltString;         /*Change the current eexhibition.*/
+        this.exhibitionVisited                      .push(_exhibitionNameAltString);    /*Push the name of the newly visited exhibition to the array of visited exhibition.*/
         
         /*PENDING: Add a code to check whether the visited exhibition is in the museum.*/
 
@@ -131,17 +131,17 @@ ObjectPlayer.prototype.FindExhibitionIndexNum       = function(_exhibitionObject
 
     if(
 
-        (typeof _exhibitionObjectArray              === 'object') &&
-        (typeof _exhibitionNameAltString            === 'string')
+        (typeof _arrayTarget     === 'object') &&
+        (typeof _variableValue   === 'string')
 
     ){
 
         /*Loop through the array.*/
-        for(var i = 0; i < _exhibitionObjectArray.length; i ++){
+        for(var i = 0; i < _arrayTarget.length; i ++){
 
             /*Check the variable name of nameObjectAlt one by one per array element.
             i is the index number when the variable name equals with the variable value.*/
-            if(_exhibitionObjectArray[i]['nameObjectAlt'] == _exhibitionNameAltString){ return i; }
+            if(_arrayTarget[i]['nameObjectAlt'] == _variableValue){ return i; }
 
         }
         return undefined;
@@ -149,8 +149,8 @@ ObjectPlayer.prototype.FindExhibitionIndexNum       = function(_exhibitionObject
     }
     else{
 
-        console.log((typeof _exhibitionObjectArray)   + ' is not an object.');
-        console.log((typeof _exhibitionNameAltString) + ' is not a string.' );
+        console.log((typeof _arrayTarget) + ' is not an object.');
+        console.log((typeof _variableValue) + ' is not a string.');
         return undefined;
 
     }
