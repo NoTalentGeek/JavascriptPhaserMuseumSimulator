@@ -1,10 +1,7 @@
-/*An object to store a name.
-In this program a name consist of the full name and the alternative
-    three words name.*/
-ObjectName              = function(_nameFull, _nameAlt){
+ObjectName 							= function(_nameFullString, _nameAltString){
 
-    this.nameFull       = _nameFull;
-    this.nameAlt        = _nameAlt;
+	this.nameFullString 			= _nameFullString;
+	this.nameAltString 				= _nameAltString;
 
 };
-ObjectName.prototype    = ObjectName;
+ObjectName.prototype.constructor 	= ObjectName;

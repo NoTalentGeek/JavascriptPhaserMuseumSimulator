@@ -50,7 +50,7 @@ stateMain = {
             var objectFloor = new ObjectMuseum(undefined, 'FLR', nameFloor[i]);
             this.arrayFloor.push(objectFloor);
 
-            console.log(objectFloor.objectName.nameAlt);
+            console.log(objectFloor.objectNameAltString);
 
         }
         for(var i = 0; i < nameRoom.length; i ++){
@@ -58,7 +58,7 @@ stateMain = {
             var objectRoom = new ObjectMuseum('FLR_001', 'ROM', nameRoom[i]);
             this.arrayRoom.push(objectRoom);
 
-            console.log(objectRoom.objectName.nameAlt);
+            console.log(objectRoom.objectNameAltString);
 
         }
         for(var i = 0; i < nameExhibition.length; i ++){
@@ -69,7 +69,7 @@ stateMain = {
             else if (i < 16){ var objectExhibition = new ObjectMuseum('ROM_EUR', 'EXH', nameExhibition[i]); }
             this.arrayExhibition.push(objectExhibition);
 
-            console.log(objectExhibition.objectName.nameAlt);
+            console.log(objectExhibition.objectNameAltString);
 
         }
 
@@ -81,7 +81,7 @@ stateMain = {
         for(var i = 0; i < this.playerCount; i ++){
 
             var randomNumber    = Math.floor((Math.random()*this.arrayExhibition.length) + 0);
-            var objectPlayer    = new ObjectPlayer(this.arrayExhibition[randomNumber].objectName.nameAlt);
+            var objectPlayer    = new ObjectPlayer(this.arrayExhibition[randomNumber].objectNameAltString);
             this.arrayPlayer    .push(objectPlayer);
 
             console.log(objectPlayer.exhibitionCurrent);
@@ -89,7 +89,7 @@ stateMain = {
         }
 
         console.log(this.FindIndex(this.arrayFloor, 'FLR_001'));
-        console.log(this.FindObjectInArray(this.arrayFloor, 'FLR_001').objectNameFull);
+        console.log(this.FindObjectInArray(this.arrayFloor, 'FLR_001').objectNameFullString);
 
     },
 
@@ -97,8 +97,8 @@ stateMain = {
 
         for(var i = 0; i < this.arrayPlayer.length; i ++){
 
-            this.arrayPlayer[i].Auto(this.arrayExhibition);
-            console.log(this.arrayPlayer[i].exhibitionVisited);
+            this.arrayPlayer[i].AIAutoBool(this.arrayExhibition);
+            console.log(this.arrayPlayer[i].exhibitionVisitedStringArray);
 
         }
 
@@ -107,7 +107,7 @@ stateMain = {
     FindIndex                       : function(_arrayTarget, _variableValue){
 
         for(var i = 0; i < _arrayTarget.length; i ++){
-            if(_arrayTarget[i]['objectNameAlt'] == _variableValue){ return i; }
+            if(_arrayTarget[i]['objectNameAltString'] == _variableValue){ return i; }
         }
         return undefined;
 
