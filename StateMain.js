@@ -88,15 +88,22 @@ stateMain = {
         for(var i = 0; i < this.playerCountNum; i ++){
 
             var randomExhibitionIndexNum    = Math.floor((Math.random()*this.exhibitionObjectArray.length) + 0);
-            var playerObject                = new ObjectPlayer(this.exhibitionObjectArray[randomExhibitionIndexNum].objectNameAltString);
+            var playerObject                = new ObjectPlayer(
+
+                this.exhibitionObjectArray[randomExhibitionIndexNum].objectNameAltString,
+                this.exhibitionObjectArray,
+                this.roomObjectArray,
+                this.floorObjectArray
+
+            );
             this.playerObjectArray          .push(playerObject);
 
             console.log(playerObject.exhibitionCurrentString);
 
         }
 
-        console.log(this.FindExhibitionIndexNum(this.floorObjectArray, 'FLR_001'));
-        console.log(this.FindExhibitionObject(this.floorObjectArray, 'FLR_001').objectNameFullString);
+        console.log(this.FindExhibitionIndexNum(this.floorObjectArray   , 'FLR_001'));
+        console.log(this.FindExhibitionObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
 
     },
 
@@ -110,10 +117,13 @@ stateMain = {
             then the next 100 - 199 will be updated in the next tick.*/
         for(var i = 0; i < this.playerObjectArray.length; i ++){
 
-            this.playerObjectArray[i].AIAutoBool(this.exhibitionObjectArray);
-            console.log(this.playerObjectArray[i].exhibitionVisitedStringArray);
+            this.playerObjectArray[i].AIAutoBool();
+            //console.log(this.playerObjectArray[i].exhibitionVisitedStringArray);
 
         }
+        for(var i = 0; i < this.exhibitionObjectArray.length; i ++) { console.log(this.exhibitionObjectArray[i] .objectNameAltString    + ': ' + this.exhibitionObjectArray[i]  .visitorCurrentNum); }
+        for(var i = 0; i < this.roomObjectArray.length; i ++)       { console.log(this.roomObjectArray[i]       .objectNameAltString    + ': ' + this.roomObjectArray[i]        .visitorCurrentNum); }
+        for(var i = 0; i < this.floorObjectArray.length; i ++)      { console.log(this.floorObjectArray[i]      .objectNameAltString    + ': ' + this.floorObjectArray[i]       .visitorCurrentNum); }
 
     },
 

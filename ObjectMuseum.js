@@ -11,7 +11,7 @@ ObjectMuseum                        = function(_objectParentAltNameString, _obje
 
     ){
 
-        this.objectParentNameAltStirng      = _objectParentAltNameString;           /*The object name alt for the parent object (string).*/
+        this.objectParentNameAltString      = _objectParentAltNameString;           /*The object name alt for the parent object (string).*/
         this.objectTypeString               = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', or 'EXH').*/
         this.objectNameString               = _objectNameString;
         this.objectNameFullString           = this.objectNameString.nameFullString;
