@@ -7,6 +7,7 @@ stateMain = {
         this.floorObjectArray               = new Array();
         this.roomObjectArray                = new Array();
         this.exhibitionObjectArray          = new Array();
+        this.tagObjectArray                 = new Array();
         this.playerObjectArray              = new Array();
 
         /*How many players in the scene initially.*/
@@ -59,20 +60,45 @@ stateMain = {
             new ObjectName('Russian Exhibition'     , 'EXH_RUS'),
 
         ];
+        /*Initial object name for tag.*/
+        var tagNameObjectArray              = [
+
+            new ObjectName('Agreeable'      , 'TAG_AGR'),
+            new ObjectName('Brave'          , 'TAG_BRA'),
+            new ObjectName('Calm'           , 'TAG_CAL'),
+            new ObjectName('Delightful'     , 'TAG_DEL'),
+            new ObjectName('Eager'          , 'TAG_EAG'),
+            new ObjectName('Faithful'       , 'TAG_FAI'),
+            new ObjectName('Gentle'         , 'TAG_GEN'),
+            new ObjectName('Happy'          , 'TAG_HAP'),
+            new ObjectName('Jolly'          , 'TAG_JOL'),
+            new ObjectName('Kind'           , 'TAG_KIN'),
+            new ObjectName('Lively'         , 'TAG_LIV'),
+            new ObjectName('Nice'           , 'TAG_NIC'),
+            new ObjectName('Obedient'       , 'TAG_OBE'),
+            new ObjectName('Proud'          , 'TAG_PRO'),
+            new ObjectName('Relieved'       , 'TAG_REL'),
+            new ObjectName('Silly'          , 'TAG_SIL'),
+            new ObjectName('Thankful'       , 'TAG_THA'),
+            new ObjectName('Victorious'     , 'TAG_VIC'),
+            new ObjectName('Witty'          , 'TAG_WIT'),
+            new ObjectName('Zealous'        , 'TAG_ZEA')
+
+        ];
 
         /*Initiates everything and put everythin in to its corresponding array.*/
         for(var i = 0; i < floorNameObjectArray.length; i ++){
 
-            var floorObject = new ObjectMuseum('XXX_XXX', 'FLR', floorNameObjectArray[i]);
-            this.floorObjectArray.push(floorObject);
+            var floorObject         = new ObjectMuseum('XXX_XXX', 'FLR', floorNameObjectArray[i]);
+            this.floorObjectArray   .push(floorObject);
 
             console.log(floorObject.objectNameAltString);
 
         }
         for(var i = 0; i < roomNameObjectArray.length; i ++){
 
-            var roomObject = new ObjectMuseum('FLR_001', 'ROM', roomNameObjectArray[i]);
-            this.roomObjectArray.push(roomObject);
+            var roomObject          = new ObjectMuseum('FLR_001', 'ROM', roomNameObjectArray[i]);
+            this.roomObjectArray    .push(roomObject);
 
             console.log(roomObject.objectNameAltString);
 
@@ -80,13 +106,45 @@ stateMain = {
         for(var i = 0; i < exhibitionNameObjectArray.length; i ++){
 
             /*Adding the exhibition based on index i that will determine the room location for an exhibition.*/
-            if      (i < 4 ){ var exhibitionObject = new ObjectMuseum('ROM_AFK', 'EXH', exhibitionNameObjectArray[i]); }
-            else if (i < 8 ){ var exhibitionObject = new ObjectMuseum('ROM_AME', 'EXH', exhibitionNameObjectArray[i]); }
-            else if (i < 12){ var exhibitionObject = new ObjectMuseum('ROM_ASI', 'EXH', exhibitionNameObjectArray[i]); }
-            else if (i < 16){ var exhibitionObject = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i]); }
-            this.exhibitionObjectArray.push(exhibitionObject);
+            if      (i < 4 ){ var exhibitionObject  = new ObjectMuseum('ROM_AFK', 'EXH', exhibitionNameObjectArray[i]); }
+            else if (i < 8 ){ var exhibitionObject  = new ObjectMuseum('ROM_AME', 'EXH', exhibitionNameObjectArray[i]); }
+            else if (i < 12){ var exhibitionObject  = new ObjectMuseum('ROM_ASI', 'EXH', exhibitionNameObjectArray[i]); }
+            else if (i < 16){ var exhibitionObject  = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i]); }
+            this.exhibitionObjectArray              .push(exhibitionObject);
 
             console.log(exhibitionObject.objectNameAltString);
+
+        }
+        for(var i = 0; i < tagNameObjectArray.length; i ++){
+
+            var tagObject           = new ObjectMuseum('XXX_XXX', 'TAG', tagNameObjectArray[i]);
+            this.tagObjectArray     .push(tagObject);
+
+            console.log(tagObject.objectNameAltString);
+
+        }
+        /*Put tags into exhibition randomly.*/
+        for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
+
+            for(var j = 0; j < this.exhibitionObjectArray[i].tagStringArray.length; j ++){
+
+                var indexNum                                = Math.floor((Math.random()*this.tagObjectArray.length) + 0);
+                var tagNameString                           = this.tagObjectArray[indexNum].objectNameAltString;
+                var loopNum                                 = 0;
+
+                while(this.exhibitionObjectArray[i].tagStringArray.indexOf(tagNameString) > -1){
+
+                    loopNum                                     ++;
+                    indexNum                                    = Math.floor((Math.random()*this.tagObjectArray.length) + 0);
+                    tagNameString                               = this.tagObjectArray[indexNum].objectNameAltString;
+                    if(loopNum >= this.tagObjectArray.length)   { break; }
+
+
+                }
+
+                this.exhibitionObjectArray[i].tagStringArray[j] = tagNameString;
+
+            }
 
         }
 
@@ -111,6 +169,8 @@ stateMain = {
             console.log(playerObject.exhibitionCurrentString);
 
         }
+
+        /**/
 
         console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
         console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
@@ -145,7 +205,15 @@ stateMain = {
         else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
 
             var indexNum            = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
-            console                 .log(this.exhibitionObjectArray[indexNum].objectNameAltString + ': ' + this.exhibitionObjectArray[indexNum].visitorCurrentNum);
+            console                 .log(
+
+                this.exhibitionObjectArray[indexNum].objectNameAltString + 
+                ': ' + 
+                this.exhibitionObjectArray[indexNum].tagStringArray +
+                ': ' + 
+                this.exhibitionObjectArray[indexNum].visitorCurrentNum 
+
+            );
 
         }
 

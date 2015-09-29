@@ -93,7 +93,7 @@ ObjectPlayer.prototype.AIAutoBool                   = function(){
 
                             loopNum     ++;
                             indexNum    = Math.floor((Math.random()*this.exhibitionObjectArray.length) + 0);
-                            if(loopNum  == this.exhibitionObjectArray.length){ break; }
+                            if(loopNum  >= this.exhibitionObjectArray.length){ break; }
 
 
                         }

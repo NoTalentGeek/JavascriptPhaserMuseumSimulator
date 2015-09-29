@@ -12,13 +12,13 @@ ObjectMuseum                        = function(_objectParentAltNameString, _obje
     ){
 
         this.objectParentNameAltString      = _objectParentAltNameString;           /*The object name alt for the parent object (string).*/
-        this.objectTypeString               = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', or 'EXH').*/
+        this.objectTypeString               = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', 'EXH', or 'TAG').*/
         this.objectNameString               = _objectNameString;
         this.objectNameFullString           = this.objectNameString.nameFullString;
         this.objectNameAltString            = this.objectNameString.nameAltString;
         this.visitorCurrentNum              = 0;
         this.visitorTotalNum                = 0;
-        this.tagsStringArray                = new Array();
+        this.tagStringArray                 = new Array(3);
 
     }
     else{
