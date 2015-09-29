@@ -9,6 +9,15 @@ stateMain = {
         this.exhibitionObjectArray          = new Array();
         this.playerObjectArray              = new Array();
 
+        this.playerCountNum                 = 100;
+
+        this.updateCountNum                 = 0;
+        this.updateCountTotalNum            = 0;
+        this.floorUpdateNum                 = 0;
+        this.roomUpdateNum                  = 0;
+        this.exhibitionUpdateNum            = 0;
+        this.playerUpdateNum                = 0;
+
         /*Initial object name for floor.*/
         var floorNameObjectArray            = [
 
@@ -83,7 +92,6 @@ stateMain = {
         console.log(this.roomObjectArray);
         console.log(this.exhibitionObjectArray);
 
-        this.playerCountNum = 100;
         /*Initiate players and generate random exhibition starting point.*/
         for(var i = 0; i < this.playerCountNum; i ++){
 
@@ -102,8 +110,8 @@ stateMain = {
 
         }
 
-        console.log(this.FindExhibitionIndexNum(this.floorObjectArray   , 'FLR_001'));
-        console.log(this.FindExhibitionObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
+        console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
+        console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
 
     },
 
@@ -115,21 +123,61 @@ stateMain = {
         I was thinking to create something like a loop based but per tick.
         For example player with index 0 - 99 will be updated in this tick,
             then the next 100 - 199 will be updated in the next tick.*/
+        /*
         for(var i = 0; i < this.playerObjectArray.length; i ++){
 
             this.playerObjectArray[i].AIAutoBool();
             //console.log(this.playerObjectArray[i].exhibitionVisitedStringArray);
 
         }
+        */
+
+        this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
+        this.playerUpdateNum = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
+
+        this.updateCountTotalNum = this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length;
+        if(this.updateCountNum < this.floorObjectArray.length){
+
+            var indexNum = this.updateCountNum;
+            console.log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
+
+        }
+        else if(this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
+
+            var indexNum = this.updateCountNum - this.floorObjectArray.length;
+            console.log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
+
+        }
+        else if(this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
+
+            var indexNum = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
+            console.log(this.exhibitionObjectArray[indexNum].objectNameAltString + ': ' + this.exhibitionObjectArray[indexNum].visitorCurrentNum);
+
+        }
+        this.updateCountNum = (this.updateCountNum < this.updateCountTotalNum - 1) ? (this.updateCountNum + 1) : 0;
+
+        /*
+        console.log(this.floorObjectArray[this.floorUpdateNum].objectNameAltString + ': ' + this.floorObjectArray[this.floorUpdateNum].visitorCurrentNum);
+        this.floorUpdateNum = (this.floorUpdateNum < this.floorObjectArray.length - 1) ? (this.floorUpdateNum + 1) : 0;
+
+        console.log(this.roomObjectArray[this.roomUpdateNum].objectNameAltString + ': ' + this.roomObjectArray[this.roomUpdateNum].visitorCurrentNum);
+        this.roomUpdateNum = (this.roomUpdateNum < this.roomObjectArray.length - 1) ? (this.roomUpdateNum + 1) : 0;
+
+        console.log(this.exhibitionObjectArray[this.exhibitionUpdateNum].objectNameAltString + ': ' + this.exhibitionObjectArray[this.exhibitionUpdateNum].visitorCurrentNum);
+        this.exhibitionUpdateNum = (this.exhibitionUpdateNum < this.exhibitionObjectArray.length - 1) ? (this.exhibitionUpdateNum + 1) : 0;
+        */
+
+        /*
         for(var i = 0; i < this.exhibitionObjectArray.length; i ++) { console.log(this.exhibitionObjectArray[i] .objectNameAltString    + ': ' + this.exhibitionObjectArray[i]  .visitorCurrentNum); }
         for(var i = 0; i < this.roomObjectArray.length; i ++)       { console.log(this.roomObjectArray[i]       .objectNameAltString    + ': ' + this.roomObjectArray[i]        .visitorCurrentNum); }
         for(var i = 0; i < this.floorObjectArray.length; i ++)      { console.log(this.floorObjectArray[i]      .objectNameAltString    + ': ' + this.floorObjectArray[i]       .visitorCurrentNum); }
+        */
 
     },
 
     /*A function to find the exhibition in an array of object exhibition, based on exhibition's
     name alt.*/
-    FindExhibitionIndexNum                  : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+    FindIndexNum                            : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
         if(
 
@@ -160,14 +208,14 @@ stateMain = {
     },
 
     /*Using the function to find object index, I created another function to return the object instead of the index.*/
-    FindExhibitionObject                    : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+    FindObject                              : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
         if(
 
             (typeof _exhibitionNameObjectArray  === 'object') &&
             (typeof _exhibitionNameAltString    === 'string')
 
-        ){ return _exhibitionNameObjectArray[this.FindExhibitionIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+        ){ return _exhibitionNameObjectArray[this.FindIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
         else{
 
             console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');

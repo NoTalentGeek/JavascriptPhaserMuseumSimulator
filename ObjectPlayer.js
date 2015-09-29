@@ -66,7 +66,7 @@ ObjectPlayer.prototype.AIAutoBool                   = function(){
 
                 /*If the index number is the same with the index of the current exhibition then you need to generate
                     new index number until the index is not the same with currently visited exhibition.*/
-                while(this.FindExhibitionIndexNum(this.exhibitionObjectArray, this.exhibitionCurrentString) == indexNum){
+                while(this.FindIndexNum(this.exhibitionObjectArray, this.exhibitionCurrentString) == indexNum){
 
                     indexNum = Math.floor((Math.random()*this.exhibitionObjectArray.length) + 0);
 
@@ -136,17 +136,24 @@ ObjectPlayer.prototype.AIAutoBool                   = function(){
 ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAltString, _exhibitionObjectArray, _roomObjectArray, _floorObjectArray){
 
     /*Verification of argument inputted.*/
-    if(typeof _exhibitionNameAltString              === 'string'){
+    if(
+
+        typeof _exhibitionNameAltString             === 'string' &&
+        typeof _exhibitionObjectArray               === 'object' &&
+        typeof _roomObjectArray                     === 'object' &&
+        typeof _floorObjectArray                    === 'object'
+
+    ){
 
         /*Add calculation for the current exhibition array before the this player is moved into new exhibition.*/
-        if(this.exhibitionCurrentString != undefined){
+        if(this.exhibitionCurrentString             != undefined){
 
-            var exhibitionCurrentObject = this.FindExhibitionObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
-            var roomCurrentObject       = this.FindExhibitionObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
-            var floorCurrentObject      = this.FindExhibitionObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
-            exhibitionCurrentObject     .visitorCurrentNum --;
-            roomCurrentObject           .visitorCurrentNum --;
-            floorCurrentObject          .visitorCurrentNum --;
+            var exhibitionCurrentObject             = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
+            var roomCurrentObject                   = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
+            var floorCurrentObject                  = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
+            exhibitionCurrentObject                 .visitorCurrentNum --;
+            roomCurrentObject                       .visitorCurrentNum --;
+            floorCurrentObject                      .visitorCurrentNum --;
 
         }
 
@@ -155,22 +162,26 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAl
         
         /*PENDING: Add a code to check whether the visited exhibition is in the museum.*/
 
-        var exhibitionCurrentObject = this.FindExhibitionObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
-        var roomCurrentObject       = this.FindExhibitionObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
-        var floorCurrentObject      = this.FindExhibitionObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
-        exhibitionCurrentObject     .visitorCurrentNum  ++;
-        roomCurrentObject           .visitorCurrentNum  ++;
-        floorCurrentObject          .visitorCurrentNum  ++;
-        exhibitionCurrentObject     .visitorTotalNum    ++;
-        roomCurrentObject           .visitorTotalNum    ++;
-        floorCurrentObject          .visitorTotalNum    ++;
+        /*Adding one additional visitor to a new exhibition.*/
+        var exhibitionCurrentObject                 = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
+        var roomCurrentObject                       = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
+        var floorCurrentObject                      = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
+        exhibitionCurrentObject                     .visitorCurrentNum  ++;
+        roomCurrentObject                           .visitorCurrentNum  ++;
+        floorCurrentObject                          .visitorCurrentNum  ++;
+        exhibitionCurrentObject                     .visitorTotalNum    ++;
+        roomCurrentObject                           .visitorTotalNum    ++;
+        floorCurrentObject                          .visitorTotalNum    ++;
 
         return                                      this.exhibitionVisited;             /*Return the array of visited exhbition.*/
 
     }
     else{
 
-        console.log     ((typeof _exhibitionNameAltString) + ' supposed to be a string.');
+        console.log     ((typeof _exhibitionNameAltString)  + ' supposed to be a string.');
+        console.log     ((typeof _exhibitionObjectArray)    + ' supposed to be a object.');
+        console.log     ((typeof _roomObjectArray)          + ' supposed to be a object.');
+        console.log     ((typeof _floorObjectArray)         + ' supposed to be a object.');
         return          undefined;
 
     }
@@ -179,7 +190,7 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAl
 
 /*A function to find the exhibition in an array of object exhibition, based on exhibition's
     name alt.*/
-ObjectPlayer.prototype.FindExhibitionIndexNum       = function(_exhibitionObjectArray, _exhibitionNameAltString){
+ObjectPlayer.prototype.FindIndexNum                 = function(_exhibitionObjectArray, _exhibitionNameAltString){
 
     if(
 
@@ -209,14 +220,14 @@ ObjectPlayer.prototype.FindExhibitionIndexNum       = function(_exhibitionObject
 
 };
 /*Using the function to find object index, I created another function to return the object instead of the index.*/
-ObjectPlayer.prototype.FindExhibitionObject         = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+ObjectPlayer.prototype.FindObject                   = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
     if(
 
-        (typeof _exhibitionNameObjectArray  === 'object') &&
-        (typeof _exhibitionNameAltString    === 'string')
+        (typeof _exhibitionNameObjectArray          === 'object') &&
+        (typeof _exhibitionNameAltString            === 'string')
 
-    ){ return _exhibitionNameObjectArray[this.FindExhibitionIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+    ){ return _exhibitionNameObjectArray[this.FindIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
     else{
 
         console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');
