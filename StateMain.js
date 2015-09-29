@@ -52,7 +52,7 @@ stateMain = {
         /*Initiates everything and put everythin in to its corresponding array.*/
         for(var i = 0; i < floorNameObjectArray.length; i ++){
 
-            var floorObject = new ObjectMuseum(undefined, 'FLR', floorNameObjectArray[i]);
+            var floorObject = new ObjectMuseum('XXX_XXX', 'FLR', floorNameObjectArray[i]);
             this.floorObjectArray.push(floorObject);
 
             console.log(floorObject.objectNameAltString);

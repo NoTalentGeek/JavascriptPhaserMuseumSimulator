@@ -1,16 +1,33 @@
 /*An object to handle all the museum related object.
 This object can be used as floor, room, and the exhibition itself.
 PENDING: Add verification for every arguments.*/ 
-ObjectMuseum                        = function(_objectParentNameAlt, _objectType, _objectName){
+ObjectMuseum                        = function(_objectParentAltNameString, _objectTypeString, _objectNameString){
 
-    this.objectParentNameAlt        = _objectParentNameAlt;     //The object name alt for the parent object (string).
-    this.objectType                 = _objectType;              //The type of this object (fill in 'FLR', 'ROM', or 'EXH').
-    this.objectName                 = _objectName;
-    this.objectNameFullString       = this.objectName.nameFullString;
-    this.objectNameAltString        = this.objectName.nameAltString;
-    this.visitorCurrentm            = 0;
-    this.visitorTotal               = 0;
-    this.tagsArray                  = new Array();
+    if(
 
+        typeof _objectParentAltNameString   === 'string' &&
+        typeof _objectTypeString            === 'string' &&
+        typeof _objectNameString            === 'object'
+
+    ){
+
+        this.objectParentNameAltStirng      = _objectParentAltNameString;           /*The object name alt for the parent object (string).*/
+        this.objectTypeString               = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', or 'EXH').*/
+        this.objectNameString               = _objectNameString;
+        this.objectNameFullString           = this.objectNameString.nameFullString;
+        this.objectNameAltString            = this.objectNameString.nameAltString;
+        this.visitorCurrentNum              = 0;
+        this.visitorTotalNum                = 0;
+        this.tagsStringArray                = new Array();
+
+    }
+    else{
+
+        console.log                         ((typeof _objectParentAltNameString)    + ' supposed to be a string.');
+        console.log                         ((typeof _objectTypeString)             + ' supposed to be a string.');
+        console.log                         ((typeof _objectNameString)             + ' supposed to be a object.');
+
+    }
+    
 }
 ObjectMuseum.prototype.construtor   = ObjectMuseum;
