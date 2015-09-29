@@ -117,61 +117,31 @@ stateMain = {
 
     update                                  : function(){
 
-        /*Update one by one the player objects.
-        PENDING: Add mechanics so that the players is not looped
-            within one ticks.
-        I was thinking to create something like a loop based but per tick.
-        For example player with index 0 - 99 will be updated in this tick,
-            then the next 100 - 199 will be updated in the next tick.*/
-        /*
-        for(var i = 0; i < this.playerObjectArray.length; i ++){
-
-            this.playerObjectArray[i].AIAutoBool();
-            //console.log(this.playerObjectArray[i].exhibitionVisitedStringArray);
-
-        }
-        */
-
         this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
         this.playerUpdateNum = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
 
         this.updateCountTotalNum = this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length;
-        if(this.updateCountNum < this.floorObjectArray.length){
 
-            var indexNum = this.updateCountNum;
-            console.log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
+        if                      (this.updateCountNum < this.floorObjectArray.length){
 
-        }
-        else if(this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
-
-            var indexNum = this.updateCountNum - this.floorObjectArray.length;
-            console.log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
+            var indexNum        = this.updateCountNum;
+            console             .log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
 
         }
-        else if(this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
+        else if                 (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
 
-            var indexNum = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
-            console.log(this.exhibitionObjectArray[indexNum].objectNameAltString + ': ' + this.exhibitionObjectArray[indexNum].visitorCurrentNum);
+            var indexNum        = this.updateCountNum - this.floorObjectArray.length;
+            console             .log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
 
         }
-        this.updateCountNum = (this.updateCountNum < this.updateCountTotalNum - 1) ? (this.updateCountNum + 1) : 0;
+        else if                 (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
 
-        /*
-        console.log(this.floorObjectArray[this.floorUpdateNum].objectNameAltString + ': ' + this.floorObjectArray[this.floorUpdateNum].visitorCurrentNum);
-        this.floorUpdateNum = (this.floorUpdateNum < this.floorObjectArray.length - 1) ? (this.floorUpdateNum + 1) : 0;
+            var indexNum        = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
+            console             .log(this.exhibitionObjectArray[indexNum].objectNameAltString + ': ' + this.exhibitionObjectArray[indexNum].visitorCurrentNum);
 
-        console.log(this.roomObjectArray[this.roomUpdateNum].objectNameAltString + ': ' + this.roomObjectArray[this.roomUpdateNum].visitorCurrentNum);
-        this.roomUpdateNum = (this.roomUpdateNum < this.roomObjectArray.length - 1) ? (this.roomUpdateNum + 1) : 0;
+        }
 
-        console.log(this.exhibitionObjectArray[this.exhibitionUpdateNum].objectNameAltString + ': ' + this.exhibitionObjectArray[this.exhibitionUpdateNum].visitorCurrentNum);
-        this.exhibitionUpdateNum = (this.exhibitionUpdateNum < this.exhibitionObjectArray.length - 1) ? (this.exhibitionUpdateNum + 1) : 0;
-        */
-
-        /*
-        for(var i = 0; i < this.exhibitionObjectArray.length; i ++) { console.log(this.exhibitionObjectArray[i] .objectNameAltString    + ': ' + this.exhibitionObjectArray[i]  .visitorCurrentNum); }
-        for(var i = 0; i < this.roomObjectArray.length; i ++)       { console.log(this.roomObjectArray[i]       .objectNameAltString    + ': ' + this.roomObjectArray[i]        .visitorCurrentNum); }
-        for(var i = 0; i < this.floorObjectArray.length; i ++)      { console.log(this.floorObjectArray[i]      .objectNameAltString    + ': ' + this.floorObjectArray[i]       .visitorCurrentNum); }
-        */
+        this.updateCountNum     = (this.updateCountNum < this.updateCountTotalNum - 1) ? (this.updateCountNum + 1) : 0;
 
     },
 
