@@ -1,14 +1,16 @@
-//The front - end class.
+/**State class to initiates some initial objects.*/
 stateMain = {
 
-    create                          : function(){
+    create                                  : function(){
 
-        this.arrayFloor             = new Array();
-        this.arrayRoom              = new Array();
-        this.arrayExhibition        = new Array();
-        this.arrayPlayer            = new Array();
+        /*Array to contain all object in the scene.*/
+        this.floorObjectArray               = new Array();
+        this.roomObjectArray                = new Array();
+        this.exhibitionObjectArray          = new Array();
+        this.playerObjectArray              = new Array();
 
-        var nameFloor               = [
+        /*Initial object name for floor.*/
+        var floorNameObjectArray            = [
 
             new ObjectName('First Floor'    , 'FLR_001'),
             new ObjectName('Second Floor'   , 'FLR_002'),
@@ -16,7 +18,8 @@ stateMain = {
             new ObjectName('Fourth Floor'   , 'FLR_004')
 
         ];
-        var nameRoom                = [
+        /*Initial object name for room.*/
+        var roomNameObjectArray             = [
 
             new ObjectName('Room Africa'    , 'ROM_AFK'),
             new ObjectName('Room America'   , 'ROM_AME'),
@@ -24,7 +27,8 @@ stateMain = {
             new ObjectName('Room Europe'    , 'ROM_EUR')
 
         ];
-        var nameExhibition          = [
+        /*Initial object name for exhibition.*/
+        var exhibitionNameObjectArray       = [
 
             new ObjectName('Egyptian Exhibition'    , 'EXH_EGY'),
             new ObjectName('Ethiopian Exhibition'   , 'EXH_ETH'),
@@ -45,74 +49,123 @@ stateMain = {
 
         ];
 
-        for(var i = 0; i < nameFloor.length; i ++){
+        /*Initiates everything and put everythin in to its corresponding array.*/
+        for(var i = 0; i < floorNameObjectArray.length; i ++){
 
-            var objectFloor = new ObjectMuseum(undefined, 'FLR', nameFloor[i]);
-            this.arrayFloor.push(objectFloor);
+            var floorObject = new ObjectMuseum(undefined, 'FLR', floorNameObjectArray[i]);
+            this.floorObjectArray.push(floorObject);
 
-            console.log(objectFloor.objectNameAltString);
-
-        }
-        for(var i = 0; i < nameRoom.length; i ++){
-
-            var objectRoom = new ObjectMuseum('FLR_001', 'ROM', nameRoom[i]);
-            this.arrayRoom.push(objectRoom);
-
-            console.log(objectRoom.objectNameAltString);
+            console.log(floorObject.objectNameAltString);
 
         }
-        for(var i = 0; i < nameExhibition.length; i ++){
+        for(var i = 0; i < roomNameObjectArray.length; i ++){
 
-            if      (i < 4 ){ var objectExhibition = new ObjectMuseum('ROM_AFK', 'EXH', nameExhibition[i]); }
-            else if (i < 8 ){ var objectExhibition = new ObjectMuseum('ROM_AME', 'EXH', nameExhibition[i]); }
-            else if (i < 12){ var objectExhibition = new ObjectMuseum('ROM_ASI', 'EXH', nameExhibition[i]); }
-            else if (i < 16){ var objectExhibition = new ObjectMuseum('ROM_EUR', 'EXH', nameExhibition[i]); }
-            this.arrayExhibition.push(objectExhibition);
+            var roomObject = new ObjectMuseum('FLR_001', 'ROM', roomNameObjectArray[i]);
+            this.roomObjectArray.push(roomObject);
 
-            console.log(objectExhibition.objectNameAltString);
+            console.log(roomObject.objectNameAltString);
 
         }
+        for(var i = 0; i < exhibitionNameObjectArray.length; i ++){
 
-        console.log(this.arrayFloor);
-        console.log(this.arrayRoom);
-        console.log(this.arrayExhibition);
+            /*Adding the exhibition based on index i that will determine the room location for an exhibition.*/
+            if      (i < 4 ){ var exhibitionObject = new ObjectMuseum('ROM_AFK', 'EXH', exhibitionNameObjectArray[i]); }
+            else if (i < 8 ){ var exhibitionObject = new ObjectMuseum('ROM_AME', 'EXH', exhibitionNameObjectArray[i]); }
+            else if (i < 12){ var exhibitionObject = new ObjectMuseum('ROM_ASI', 'EXH', exhibitionNameObjectArray[i]); }
+            else if (i < 16){ var exhibitionObject = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i]); }
+            this.exhibitionObjectArray.push(exhibitionObject);
 
-        this.playerCount = 100;
-        for(var i = 0; i < this.playerCount; i ++){
-
-            var randomNumber    = Math.floor((Math.random()*this.arrayExhibition.length) + 0);
-            var objectPlayer    = new ObjectPlayer(this.arrayExhibition[randomNumber].objectNameAltString);
-            this.arrayPlayer    .push(objectPlayer);
-
-            console.log(objectPlayer.exhibitionCurrent);
+            console.log(exhibitionObject.objectNameAltString);
 
         }
 
-        console.log(this.FindIndex(this.arrayFloor, 'FLR_001'));
-        console.log(this.FindObjectInArray(this.arrayFloor, 'FLR_001').objectNameFullString);
+        console.log(this.floorObjectArray);
+        console.log(this.roomObjectArray);
+        console.log(this.exhibitionObjectArray);
+
+        this.playerCountNum = 100;
+        /*Initiate players and generate random exhibition starting point.*/
+        for(var i = 0; i < this.playerCountNum; i ++){
+
+            var randomExhibitionIndexNum    = Math.floor((Math.random()*this.exhibitionObjectArray.length) + 0);
+            var playerObject                = new ObjectPlayer(this.exhibitionObjectArray[randomExhibitionIndexNum].objectNameAltString);
+            this.playerObjectArray          .push(playerObject);
+
+            console.log(playerObject.exhibitionCurrentString);
+
+        }
+
+        console.log(this.FindExhibitionIndexNum(this.floorObjectArray, 'FLR_001'));
+        console.log(this.FindExhibitionObject(this.floorObjectArray, 'FLR_001').objectNameFullString);
 
     },
 
-    update                          : function(){
+    update                                  : function(){
 
-        for(var i = 0; i < this.arrayPlayer.length; i ++){
+        /*Update one by one the player objects.
+        PENDING: Add mechanics so that the players is not looped
+            within one ticks.
+        I was thinking to create something like a loop based but per tick.
+        For example player with index 0 - 99 will be updated in this tick,
+            then the next 100 - 199 will be updated in the next tick.*/
+        for(var i = 0; i < this.playerObjectArray.length; i ++){
 
-            this.arrayPlayer[i].AIAutoBool(this.arrayExhibition);
-            console.log(this.arrayPlayer[i].exhibitionVisitedStringArray);
+            this.playerObjectArray[i].AIAutoBool(this.exhibitionObjectArray);
+            console.log(this.playerObjectArray[i].exhibitionVisitedStringArray);
 
         }
 
     },
 
-    FindIndex                       : function(_arrayTarget, _variableValue){
+    /*A function to find the exhibition in an array of object exhibition, based on exhibition's
+    name alt.*/
+    FindExhibitionIndexNum                  : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
-        for(var i = 0; i < _arrayTarget.length; i ++){
-            if(_arrayTarget[i]['objectNameAltString'] == _variableValue){ return i; }
+        if(
+
+            (typeof _exhibitionNameObjectArray  === 'object') &&
+            (typeof _exhibitionNameAltString    === 'string')
+
+        ){
+
+            /*Loop through the array.*/
+            for(var i = 0; i < _exhibitionNameObjectArray.length; i ++){
+
+                /*Check the variable name of nameObjectAlt one by one per array element.
+                i is the index number when the variable name equals with the variable value.*/
+                if(_exhibitionNameObjectArray[i]['objectNameAltString'] == _exhibitionNameAltString){ return i; }
+
+            }
+            return undefined;
+
         }
-        return undefined;
+        else{
+
+            console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');
+            console.log((typeof _exhibitionNameAltString)       + ' is not a string.');
+            return undefined;
+
+        }
 
     },
 
-    FindObjectInArray               : function(_arrayTarget, _variableValue){ return _arrayTarget[this.FindIndex(_arrayTarget, _variableValue)]; }
+    /*Using the function to find object index, I created another function to return the object instead of the index.*/
+    FindExhibitionObject                    : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+
+        if(
+
+            (typeof _exhibitionNameObjectArray  === 'object') &&
+            (typeof _exhibitionNameAltString    === 'string')
+
+        ){ return _exhibitionNameObjectArray[this.FindExhibitionIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+        else{
+
+            console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');
+            console.log((typeof _exhibitionNameAltString)       + ' is not a string.');
+            return undefined;
+
+        }
+
+    }
 
 };

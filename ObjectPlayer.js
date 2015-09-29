@@ -141,7 +141,7 @@ ObjectPlayer.prototype.FindExhibitionIndexNum       = function(_exhibitionObject
 
             /*Check the variable name of nameObjectAlt one by one per array element.
             i is the index number when the variable name equals with the variable value.*/
-            if(_exhibitionObjectArray[i]['nameObjectAltString'] == _exhibitionNameAltString){ return i; }
+            if(_exhibitionObjectArray[i]['objectNameAltString'] == _exhibitionNameAltString){ return i; }
 
         }
         return undefined;
