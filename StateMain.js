@@ -9,13 +9,15 @@ stateMain = {
         this.exhibitionObjectArray          = new Array();
         this.playerObjectArray              = new Array();
 
+        /*How many players in the scene initially.*/
         this.playerCountNum                 = 100;
 
+        /*Instead of using for loop I used a counter to update each array one
+            by one each tick passed.
+        With this method system will not be lagged with countless amount of museum
+            objects in the loop.*/
         this.updateCountNum                 = 0;
         this.updateCountTotalNum            = 0;
-        this.floorUpdateNum                 = 0;
-        this.roomUpdateNum                  = 0;
-        this.exhibitionUpdateNum            = 0;
         this.playerUpdateNum                = 0;
 
         /*Initial object name for floor.*/
@@ -117,30 +119,38 @@ stateMain = {
 
     update                                  : function(){
 
+        /*Loop through the players/visitors within the museum and activate its AI function.*/
         this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
-        this.playerUpdateNum = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
+        /*Simple loop control, if the value exceed the latest index from player array then reset the
+            counter back to 0.*/
+        this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
 
-        this.updateCountTotalNum = this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length;
+        /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
+        PENDING: I am not sure whether you can just dynamucally add an object while the loop is running.
+            If not then just reset the counter whenever an museum object goes into the array.*/
+        this.updateCountTotalNum    = this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length;
 
-        if                      (this.updateCountNum < this.floorObjectArray.length){
+        if                          (this.updateCountNum < this.floorObjectArray.length){
 
-            var indexNum        = this.updateCountNum;
-            console             .log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
-
-        }
-        else if                 (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
-
-            var indexNum        = this.updateCountNum - this.floorObjectArray.length;
-            console             .log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
-
-        }
-        else if                 (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
-
-            var indexNum        = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
-            console             .log(this.exhibitionObjectArray[indexNum].objectNameAltString + ': ' + this.exhibitionObjectArray[indexNum].visitorCurrentNum);
+            var indexNum            = this.updateCountNum;
+            console                 .log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
 
         }
+        else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
 
+            var indexNum            = this.updateCountNum - this.floorObjectArray.length;
+            console                 .log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
+
+        }
+        else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
+
+            var indexNum            = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
+            console                 .log(this.exhibitionObjectArray[indexNum].objectNameAltString + ': ' + this.exhibitionObjectArray[indexNum].visitorCurrentNum);
+
+        }
+
+        /*Loop counter controller, it resets back to 0 whenever the counter pass the highest index of object exhibition
+            in the whole museum.*/
         this.updateCountNum     = (this.updateCountNum < this.updateCountTotalNum - 1) ? (this.updateCountNum + 1) : 0;
 
     },
