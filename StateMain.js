@@ -132,6 +132,7 @@ stateMain = {
                 var tagNameString                           = this.tagObjectArray[indexNum].objectNameAltString;
                 var loopNum                                 = 0;
 
+                /*Make sure there is no tags with same name within the same exhibition.*/
                 while(this.exhibitionObjectArray[i].tagStringArray.indexOf(tagNameString) > -1){
 
                     loopNum                                     ++;
@@ -169,8 +170,6 @@ stateMain = {
             console.log(playerObject.exhibitionCurrentString);
 
         }
-
-        /**/
 
         console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
         console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
