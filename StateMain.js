@@ -22,25 +22,25 @@ stateMain = {
         this.playerUpdateNum                = 0;
 
         /*Initial object name for floor.*/
-        var floorNameObjectArray            = [
+        var floorNameObjectArray                    = [
 
-            new ObjectName('First Floor'    , 'FLR_001'),
-            new ObjectName('Second Floor'   , 'FLR_002'),
-            new ObjectName('Third Floor'    , 'FLR_003'),
-            new ObjectName('Fourth Floor'   , 'FLR_004')
+            new ObjectName('First Floor'            , 'FLR_001'),
+            new ObjectName('Second Floor'           , 'FLR_002'),
+            new ObjectName('Third Floor'            , 'FLR_003'),
+            new ObjectName('Fourth Floor'           , 'FLR_004')
 
         ];
         /*Initial object name for room.*/
-        var roomNameObjectArray             = [
+        var roomNameObjectArray                     = [
 
-            new ObjectName('Room Africa'    , 'ROM_AFK'),
-            new ObjectName('Room America'   , 'ROM_AME'),
-            new ObjectName('Room Asia'      , 'ROM_ASI'),
-            new ObjectName('Room Europe'    , 'ROM_EUR')
+            new ObjectName('Room Africa'            , 'ROM_AFK'),
+            new ObjectName('Room America'           , 'ROM_AME'),
+            new ObjectName('Room Asia'              , 'ROM_ASI'),
+            new ObjectName('Room Europe'            , 'ROM_EUR')
 
         ];
         /*Initial object name for exhibition.*/
-        var exhibitionNameObjectArray       = [
+        var exhibitionNameObjectArray               = [
 
             new ObjectName('Egyptian Exhibition'    , 'EXH_EGY'),
             new ObjectName('Ethiopian Exhibition'   , 'EXH_ETH'),
@@ -61,28 +61,28 @@ stateMain = {
 
         ];
         /*Initial object name for tag.*/
-        var tagNameObjectArray              = [
+        var tagNameObjectArray                      = [
 
-            new ObjectName('Agreeable'      , 'TAG_AGR'),
-            new ObjectName('Brave'          , 'TAG_BRA'),
-            new ObjectName('Calm'           , 'TAG_CAL'),
-            new ObjectName('Delightful'     , 'TAG_DEL'),
-            new ObjectName('Eager'          , 'TAG_EAG'),
-            new ObjectName('Faithful'       , 'TAG_FAI'),
-            new ObjectName('Gentle'         , 'TAG_GEN'),
-            new ObjectName('Happy'          , 'TAG_HAP'),
-            new ObjectName('Jolly'          , 'TAG_JOL'),
-            new ObjectName('Kind'           , 'TAG_KIN'),
-            new ObjectName('Lively'         , 'TAG_LIV'),
-            new ObjectName('Nice'           , 'TAG_NIC'),
-            new ObjectName('Obedient'       , 'TAG_OBE'),
-            new ObjectName('Proud'          , 'TAG_PRO'),
-            new ObjectName('Relieved'       , 'TAG_REL'),
-            new ObjectName('Silly'          , 'TAG_SIL'),
-            new ObjectName('Thankful'       , 'TAG_THA'),
-            new ObjectName('Victorious'     , 'TAG_VIC'),
-            new ObjectName('Witty'          , 'TAG_WIT'),
-            new ObjectName('Zealous'        , 'TAG_ZEA')
+            new ObjectName('Agreeable'              , 'TAG_AGR'),
+            new ObjectName('Brave'                  , 'TAG_BRA'),
+            new ObjectName('Calm'                   , 'TAG_CAL'),
+            new ObjectName('Delightful'             , 'TAG_DEL'),
+            new ObjectName('Eager'                  , 'TAG_EAG'),
+            new ObjectName('Faithful'               , 'TAG_FAI'),
+            new ObjectName('Gentle'                 , 'TAG_GEN'),
+            new ObjectName('Happy'                  , 'TAG_HAP'),
+            new ObjectName('Jolly'                  , 'TAG_JOL'),
+            new ObjectName('Kind'                   , 'TAG_KIN'),
+            new ObjectName('Lively'                 , 'TAG_LIV'),
+            new ObjectName('Nice'                   , 'TAG_NIC'),
+            new ObjectName('Obedient'               , 'TAG_OBE'),
+            new ObjectName('Proud'                  , 'TAG_PRO'),
+            new ObjectName('Relieved'               , 'TAG_REL'),
+            new ObjectName('Silly'                  , 'TAG_SIL'),
+            new ObjectName('Thankful'               , 'TAG_THA'),
+            new ObjectName('Victorious'             , 'TAG_VIC'),
+            new ObjectName('Witty'                  , 'TAG_WIT'),
+            new ObjectName('Zealous'                , 'TAG_ZEA')
 
         ];
 
@@ -106,13 +106,13 @@ stateMain = {
         for(var i = 0; i < exhibitionNameObjectArray.length; i ++){
 
             /*Adding the exhibition based on index i that will determine the room location for an exhibition.*/
-            if      (i < 4 ){ var exhibitionObject  = new ObjectMuseum('ROM_AFK', 'EXH', exhibitionNameObjectArray[i]); }
-            else if (i < 8 ){ var exhibitionObject  = new ObjectMuseum('ROM_AME', 'EXH', exhibitionNameObjectArray[i]); }
-            else if (i < 12){ var exhibitionObject  = new ObjectMuseum('ROM_ASI', 'EXH', exhibitionNameObjectArray[i]); }
-            else if (i < 16){ var exhibitionObject  = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i]); }
+            if      (i < 4 ){ var exhibitionObject  = new ObjectMuseum('ROM_AFK', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
+            else if (i < 8 ){ var exhibitionObject  = new ObjectMuseum('ROM_AME', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
+            else if (i < 12){ var exhibitionObject  = new ObjectMuseum('ROM_ASI', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
+            else if (i < 16){ var exhibitionObject  = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
             this.exhibitionObjectArray              .push(exhibitionObject);
 
-            console.log(exhibitionObject);
+            console.log(exhibitionObject.objectNameAltString);
 
         }
         for(var i = 0; i < tagNameObjectArray.length; i ++){

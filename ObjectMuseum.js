@@ -17,6 +17,7 @@ ObjectMuseum                                        = function(){
 }
 ObjectMuseum.prototype.construtor                   = ObjectMuseum;
 
+/*The normal constructor.*/
 ObjectMuseum.prototype.PolyConstructor              = function(_objectParentAltNameString, _objectTypeString, _objectNameString){
 
     if(
@@ -47,6 +48,7 @@ ObjectMuseum.prototype.PolyConstructor              = function(_objectParentAltN
 
 };
 
+/*Constructor used when this object is used to instantiate exhibition object.*/
 ObjectMuseum.prototype.PolyConstructorExhibition    = function(_objectParentAltNameString, _objectTypeString, _objectNameString, _roomObjectArray){
 
     if(
