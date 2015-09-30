@@ -3,7 +3,9 @@ ObjectPlayer                                        = function(_exhibitionStartS
     if(
 
         typeof _exhibitionStartString               === 'string' &&
-        typeof _exhibitionObjectArray               === 'object'
+        typeof _exhibitionObjectArray               === 'object' &&
+        typeof _roomObjectArray                     === 'object' &&
+        typeof _floorObjectArray                    === 'object'
 
     ){
 
@@ -30,8 +32,10 @@ ObjectPlayer                                        = function(_exhibitionStartS
     }
     else{
 
-        console.log                                 ((typeof _exhibitionStartString) + ' supposed to be a string.' );
-        console.log                                 ((typeof _exhibitionObjectArray) + ' supposed to be an object.');
+        console.log                                 ((typeof _exhibitionStartString)    + ' supposed to be a string.' );
+        console.log                                 ((typeof _exhibitionObjectArray)    + ' supposed to be an object.');
+        console.log                                 ((typeof _roomObjectArray)          + ' supposed to be an object.');
+        console.log                                 ((typeof _floorObjectArray)         + ' supposed to be an object.');
 
     }
 
