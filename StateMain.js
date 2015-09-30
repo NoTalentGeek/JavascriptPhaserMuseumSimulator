@@ -112,7 +112,7 @@ stateMain = {
             else if (i < 16){ var exhibitionObject  = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i]); }
             this.exhibitionObjectArray              .push(exhibitionObject);
 
-            console.log(exhibitionObject.objectNameAltString);
+            console.log(exhibitionObject);
 
         }
         for(var i = 0; i < tagNameObjectArray.length; i ++){
