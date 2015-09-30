@@ -13,7 +13,7 @@ ObjectPlayer                                        = function(_exhibitionStartS
         this.floorObjectArray                       = _floorObjectArray;
         this.exhibitionTargetStringArray            = new Array();              /*PENDING: Current target exhibition of which has more priority over other exhibitions.*/
         this.exhibitionVisitedStringArray           = new Array();              /*List of exhibition that has been visited by this player.*/
-        this.tagFavoriteStringArray                 = new Array();              /*PENDING: List of all favorites tags gathered by this player by visiting exhibition.*/
+        this.tagMixedArray                          = new Array();              /*PENDING: List of all favorites tags gathered by this player by visiting exhibition.*/
         this.timeCurrentExhibitionNum               = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                           = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
@@ -172,6 +172,38 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAl
         exhibitionCurrentObject                     .visitorTotalNum    ++;
         roomCurrentObject                           .visitorTotalNum    ++;
         floorCurrentObject                          .visitorTotalNum    ++;
+
+        for(var i = 0; i < exhibitionCurrentObject.tagStringArray.length; i ++){
+
+            /*Add the tags from exhibition to the this.tagMixedArray.*/
+            var tagMixedArray                       = new Array(2);
+            tagMixedArray[0]                        = exhibitionCurrentObject.tagStringArray[i];
+
+            var isNewBool                           = true;
+            var indexNum                            = undefined;
+
+            for(var j = 0; j < this.tagMixedArray.length; j ++){
+
+                if(tagMixedArray[0] == this.tagMixedArray[j][0]){
+
+                    isNewBool                       = false;
+                    indexNum                        = j;
+                    break;
+
+                }
+
+            }
+
+            if(isNewBool){
+
+                tagMixedArray[1]                    = 1;
+                this.tagMixedArray                  .push(tagMixedArray);
+
+            }
+            else if (!isNewBool){ this.tagMixedArray[indexNum][1] = this.tagMixedArray[indexNum][1] + 1; }
+
+        }
+        console.log(this.tagMixedArray[0][1]);
 
         return                                      this.exhibitionVisited;             /*Return the array of visited exhbition.*/
 

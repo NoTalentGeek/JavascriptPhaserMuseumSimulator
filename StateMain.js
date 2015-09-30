@@ -11,7 +11,7 @@ stateMain = {
         this.playerObjectArray              = new Array();
 
         /*How many players in the scene initially.*/
-        this.playerCountNum                 = 100;
+        this.playerCountNum                 = 20;
 
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
@@ -180,6 +180,12 @@ stateMain = {
 
         /*Loop through the players/visitors within the museum and activate its AI function.*/
         this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
+        //console.log(this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length);
+        for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
+
+            console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);
+
+        }
         /*Simple loop control, if the value exceed the latest index from player array then reset the
             counter back to 0.*/
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
