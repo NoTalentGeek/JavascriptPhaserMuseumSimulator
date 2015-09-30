@@ -180,7 +180,8 @@ stateMain = {
 
         /*Loop through the players/visitors within the museum and activate its AI function.*/
         this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
-        //console.log(this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length);
+        /*A console.log() function to return how many tags have been captured during this time.
+        Not necessarily to be active all the time due to for loop.*/
         for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
 
             console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);

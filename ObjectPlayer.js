@@ -132,6 +132,22 @@ ObjectPlayer.prototype.AIAutoBool                   = function(){
 
 };
 
+/*Ascending comparison function.*/
+/*
+ObjectPlayer.prototype.CompareTagNum                    = function(_elementMixedArray1, _elementMixedArray2){
+
+    return _elementMixedArray1[1] - _elementMixedArray2[1];
+
+};
+*/
+/*Descending comparison function.*/
+ObjectPlayer.prototype.CompareTagNum                    = function(_elementMixedArray1, _elementMixedArray2){
+
+    return _elementMixedArray2[1] - _elementMixedArray1[1];
+
+};
+
+
 /*A function to move this player to new exhibition.*/
 ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAltString, _exhibitionObjectArray, _roomObjectArray, _floorObjectArray){
 
@@ -173,17 +189,24 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAl
         roomCurrentObject                           .visitorTotalNum    ++;
         floorCurrentObject                          .visitorTotalNum    ++;
 
+        /*These codes below is to add tags into player array.
+        And then it gives value for every tags inside the array.*/
         for(var i = 0; i < exhibitionCurrentObject.tagStringArray.length; i ++){
 
             /*Add the tags from exhibition to the this.tagMixedArray.*/
             var tagMixedArray                       = new Array(2);
             tagMixedArray[0]                        = exhibitionCurrentObject.tagStringArray[i];
 
-            var isNewBool                           = true;
-            var indexNum                            = undefined;
+            var isNewBool                           = true;         /*Whether the tag is new to the array or there is already existing one.*/
+            var indexNum                            = undefined;    /*If there is the corresponding tag already in the array return its index with this variable, otherwise it keeps undefined.*/
 
+            /*Check inside this.tagMixedArray to see if the newly received tags
+                are inside the array already.
+            The checking is one per tag.*/
             for(var j = 0; j < this.tagMixedArray.length; j ++){
 
+                /*If one or more tags is found within the this.tagMixedArray,
+                    then set isNewBool to false and set the indexNum for future access.*/
                 if(tagMixedArray[0] == this.tagMixedArray[j][0]){
 
                     isNewBool                       = false;
@@ -194,18 +217,22 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray    = function(_exhibitionNameAl
 
             }
 
+            /*If the tag is new to the this.tagMixedArray, then add 1 to the second array element and
+                push the string value of tag name and number value of tag value to the this.tagMixedArray.*/
             if(isNewBool){
 
                 tagMixedArray[1]                    = 1;
                 this.tagMixedArray                  .push(tagMixedArray);
 
             }
+            /*If the tag already exist in this.tagMixedArray then using the indexNum to increase the visiting value with additional
+                one value.*/
             else if (!isNewBool){ this.tagMixedArray[indexNum][1] = this.tagMixedArray[indexNum][1] + 1; }
 
         }
-        console.log(this.tagMixedArray[0][1]);
+        this.SortArray(this.tagMixedArray, this.CompareTagNum);
 
-        return                                      this.exhibitionVisited;             /*Return the array of visited exhbition.*/
+        return this.exhibitionVisited;             /*Return the array of visited exhbition.*/
 
     }
     else{
@@ -251,6 +278,7 @@ ObjectPlayer.prototype.FindIndexNum                 = function(_exhibitionObject
     }
 
 };
+
 /*Using the function to find object index, I created another function to return the object instead of the index.*/
 ObjectPlayer.prototype.FindObject                   = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
@@ -267,5 +295,20 @@ ObjectPlayer.prototype.FindObject                   = function(_exhibitionNameOb
         return undefined;
 
     }
+
+};
+
+/*Generic sorting array function.*/
+ObjectPlayer.prototype.SortArray                    = function(_targetArray, _compareFunction){
+
+    if(
+
+        typeof _targetArray     !== 'object' &&
+        typeof _compareFunction !== 'function'
+
+    ){ return 'undefined'; }
+
+    _targetArray.sort(_compareFunction);
+    return _targetArray;
 
 };
