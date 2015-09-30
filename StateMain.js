@@ -11,7 +11,7 @@ stateMain = {
         this.playerObjectArray              = new Array();
 
         /*How many players in the scene initially.*/
-        this.playerCountNum                 = 20;
+        this.playerCountNum                 = 1;
 
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
@@ -92,7 +92,7 @@ stateMain = {
             var floorObject         = new ObjectMuseum('XXX_XXX', 'FLR', floorNameObjectArray[i]);
             this.floorObjectArray   .push(floorObject);
 
-            console.log(floorObject.objectNameAltString);
+            //console.log(floorObject.objectNameAltString);
 
         }
         for(var i = 0; i < roomNameObjectArray.length; i ++){
@@ -100,7 +100,7 @@ stateMain = {
             var roomObject          = new ObjectMuseum('FLR_001', 'ROM', roomNameObjectArray[i]);
             this.roomObjectArray    .push(roomObject);
 
-            console.log(roomObject.objectNameAltString);
+            //console.log(roomObject.objectNameAltString);
 
         }
         for(var i = 0; i < exhibitionNameObjectArray.length; i ++){
@@ -112,7 +112,7 @@ stateMain = {
             else if (i < 16){ var exhibitionObject  = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
             this.exhibitionObjectArray              .push(exhibitionObject);
 
-            console.log(exhibitionObject.objectNameAltString);
+            //console.log(exhibitionObject.objectNameAltString);
 
         }
         for(var i = 0; i < tagNameObjectArray.length; i ++){
@@ -120,7 +120,7 @@ stateMain = {
             var tagObject           = new ObjectMuseum('XXX_XXX', 'TAG', tagNameObjectArray[i]);
             this.tagObjectArray     .push(tagObject);
 
-            console.log(tagObject.objectNameAltString);
+            //console.log(tagObject.objectNameAltString);
 
         }
         /*Put tags into exhibition randomly.*/
@@ -149,9 +149,9 @@ stateMain = {
 
         }
 
-        console.log(this.floorObjectArray);
-        console.log(this.roomObjectArray);
-        console.log(this.exhibitionObjectArray);
+        //console.log(this.floorObjectArray);
+        //console.log(this.roomObjectArray);
+        //console.log(this.exhibitionObjectArray);
 
         /*Initiate players and generate random exhibition starting point.*/
         for(var i = 0; i < this.playerCountNum; i ++){
@@ -167,12 +167,12 @@ stateMain = {
             );
             this.playerObjectArray          .push(playerObject);
 
-            console.log(playerObject.exhibitionCurrentString);
+            //console.log(playerObject.exhibitionCurrentString);
 
         }
 
-        console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
-        console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
+        //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
+        //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
 
     },
 
@@ -180,13 +180,15 @@ stateMain = {
 
         /*Loop through the players/visitors within the museum and activate its AI function.*/
         this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
-        /*A console.log() function to return how many tags have been captured during this time.
+        /*A //console.log() function to return how many tags have been captured during this time.
         Not necessarily to be active all the time due to for loop.*/
+        /*
         for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
 
             console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);
 
         }
+        */
         /*Simple loop control, if the value exceed the latest index from player array then reset the
             counter back to 0.*/
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
@@ -199,19 +201,20 @@ stateMain = {
         if                          (this.updateCountNum < this.floorObjectArray.length){
 
             var indexNum            = this.updateCountNum;
-            console                 .log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
+            //console                 .log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
 
         }
         else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
 
             var indexNum            = this.updateCountNum - this.floorObjectArray.length;
-            console                 .log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
+            //console               .log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
 
         }
         else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
 
             var indexNum            = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
-            console                 .log(
+            /*
+            console               .log(
 
                 this.exhibitionObjectArray[indexNum].objectNameAltString + 
                 ': ' + 
@@ -220,6 +223,7 @@ stateMain = {
                 this.exhibitionObjectArray[indexNum].visitorCurrentNum 
 
             );
+            */
 
         }
 
