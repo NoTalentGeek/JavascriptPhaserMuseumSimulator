@@ -250,51 +250,51 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray                = function(_exhi
     /*Verification of argument inputted.*/
     if(
 
-        typeof _exhibitionNameAltString                             === 'string' &&
-        typeof _exhibitionObjectArray                               === 'object' &&
-        typeof _roomObjectArray                                     === 'object' &&
-        typeof _floorObjectArray                                    === 'object'
+        typeof _exhibitionNameAltString                         === 'string' &&
+        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _roomObjectArray                                 === 'object' &&
+        typeof _floorObjectArray                                === 'object'
 
     ){
 
         /*Add calculation for the current exhibition array before the this player is moved into new exhibition.*/
-        if(this.exhibitionCurrentString                             != undefined){
+        if(this.exhibitionCurrentString                         != undefined){
 
-            var exhibitionCurrentObject                             = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
-            var roomCurrentObject                                   = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
-            var floorCurrentObject                                  = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
-            exhibitionCurrentObject                                 .visitorCurrentNum --;
-            roomCurrentObject                                       .visitorCurrentNum --;
-            floorCurrentObject                                      .visitorCurrentNum --;
+            var exhibitionCurrentObject                         = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
+            var roomCurrentObject                               = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
+            var floorCurrentObject                              = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
+            exhibitionCurrentObject                             .visitorCurrentNum --;
+            roomCurrentObject                                   .visitorCurrentNum --;
+            floorCurrentObject                                  .visitorCurrentNum --;
 
         }
 
-        this.exhibitionCurrentString                                = _exhibitionNameAltString;         /*Change the current eexhibition.*/
-        this.exhibitionVisitedStringArray                           .push(_exhibitionNameAltString);    /*Push the name of the newly visited exhibition to the array of visited exhibition.*/
+        this.exhibitionCurrentString                            = _exhibitionNameAltString;         /*Change the current eexhibition.*/
+        this.exhibitionVisitedStringArray                       .push(_exhibitionNameAltString);    /*Push the name of the newly visited exhibition to the array of visited exhibition.*/
         
         /*PENDING: Add a code to check whether the visited exhibition is in the museum.*/
 
         /*Adding one additional visitor to a new exhibition.*/
-        var exhibitionCurrentObject                                 = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
-        var roomCurrentObject                                       = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
-        var floorCurrentObject                                      = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
-        exhibitionCurrentObject                                     .visitorCurrentNum  ++;
-        roomCurrentObject                                           .visitorCurrentNum  ++;
-        floorCurrentObject                                          .visitorCurrentNum  ++;
-        exhibitionCurrentObject                                     .visitorTotalNum    ++;
-        roomCurrentObject                                           .visitorTotalNum    ++;
-        floorCurrentObject                                          .visitorTotalNum    ++;
+        var exhibitionCurrentObject                             = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
+        var roomCurrentObject                                   = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
+        var floorCurrentObject                                  = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
+        exhibitionCurrentObject                                 .visitorCurrentNum  ++;
+        roomCurrentObject                                       .visitorCurrentNum  ++;
+        floorCurrentObject                                      .visitorCurrentNum  ++;
+        exhibitionCurrentObject                                 .visitorTotalNum    ++;
+        roomCurrentObject                                       .visitorTotalNum    ++;
+        floorCurrentObject                                      .visitorTotalNum    ++;
 
         /*These codes below is to add tags into player array.
         And then it gives value for every tags inside the array.*/
         for(var i = 0; i < exhibitionCurrentObject.tagStringArray.length; i ++){
 
             /*Add the tags from exhibition to the this.tagMixedArray.*/
-            var tagMixedArray                                       = new Array(2);
-            tagMixedArray[0]                                        = exhibitionCurrentObject.tagStringArray[i];
+            var tagMixedArray                                   = new Array(2);
+            tagMixedArray[0]                                    = exhibitionCurrentObject.tagStringArray[i];
 
-            var isNewBool                                           = true;         /*Whether the tag is new to the array or there is already existing one.*/
-            var indexNum                                            = undefined;    /*If there is the corresponding tag already in the array return its index with this variable, otherwise it keeps undefined.*/
+            var isNewBool                                       = true;         /*Whether the tag is new to the array or there is already existing one.*/
+            var indexNum                                        = undefined;    /*If there is the corresponding tag already in the array return its index with this variable, otherwise it keeps undefined.*/
 
             /*Check inside this.tagMixedArray to see if the newly received tags
                 are inside the array already.
@@ -305,8 +305,8 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray                = function(_exhi
                     then set isNewBool to false and set the indexNum for future access.*/
                 if(tagMixedArray[0] == this.tagMixedArray[j][0]){
 
-                    isNewBool                                       = false;
-                    indexNum                                        = j;
+                    isNewBool                                   = false;
+                    indexNum                                    = j;
                     break;
 
                 }
@@ -317,8 +317,8 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray                = function(_exhi
                 push the string value of tag name and number value of tag value to the this.tagMixedArray.*/
             if(isNewBool){
 
-                tagMixedArray[1]                                    = 1;
-                this.tagMixedArray                                  .push(tagMixedArray);
+                tagMixedArray[1]                                = 1;
+                this.tagMixedArray                              .push(tagMixedArray);
 
             }
             /*If the tag already exist in this.tagMixedArray then using the indexNum to increase the visiting value with additional
