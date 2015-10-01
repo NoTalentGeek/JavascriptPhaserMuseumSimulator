@@ -83,7 +83,7 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
         if(this.objectTypeString                    == 'EXH'){
 
             this.objectRoomString                   = this.objectParentNameAltString;
-            this.objectFloorString                  = this.FindObject(_roomObjectArray, this.objectRoomString).objectParentNameAltString;
+            this.objectFloorString                  = this.FindObject1(_roomObjectArray, this.objectRoomString).objectParentNameAltString;
 
         }
 
@@ -99,20 +99,53 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
 
 };
 
-ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXNum, _offsetYNum){
+ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXNum, _offsetYNum, _totalRowNum, _floorObjectArray, _roomObjectArray){
 
     /*Search on how many museum object share the same parent.*/
-    if(this.objectTypeString    == 'FLR'){
+    if(this.objectTypeString        == 'FLR'){
 
-        var countNum            = 0;
-        var countParentNum      = 0;
+        this.panelWidthNum          =  game.width  - (_offsetXNum*2);
+        this.panelHeightNum         = (game.height - ((_offsetYNum*_totalRowNum) + _offsetYNum))/_totalRowNum;
 
-        this.panelWidthNum      =  game.width  - (_offsetXNum*2);
-        this.panelHeight        = (game.height - ((_offsetYNum*_totalRowNum) + _offsetYNum))/_totalRowNum;
+        var panelObject             = game.add.sprite(
 
-        var panelObject         = game.add.sprite(_offsetXNum + (_index*_offsetXNum), _offsetYNum + (_index*_offsetYNum), 'ImagePanel2New');
-        this.panelXNum          = panelObject.x;
-        this.panelYNum          = panelObject.y;
+            _offsetXNum + (_index*this.panelWidthNum) + (_index*_offsetXNum),
+            _offsetYNum,
+            'ImagePanel2New'
+
+        );
+            panelObject.width       = this.panelWidthNum;
+            panelObject.height      = this.panelHeightNum;
+        this.panelXNum              = panelObject.x;
+        this.panelYNum              = panelObject.y;
+
+    }
+    else if(this.objectTypeString   == 'ROM'){
+
+        var siblingCountNum         = 0;
+        for(var i = 0; i < _roomObjectArray.length; i ++){
+
+            if(_roomObjectArray[i].objectParentNameAltString == this.objectParentNameAltString){ siblingCountNum ++; }
+
+        }
+        siblingCountNum             = (siblingCountNum == 0) ? 1 : siblingCountNum;
+
+        var parentObject            = this.FindObject1(_floorObjectArray, this.objectParentNameAltString);
+
+        this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
+        this.panelHeightNum         = parentObject.panelHeightNum;
+
+        var panelObject             = game.add.sprite(
+
+            parentObject.panelXNum  + (_index*this.panelWidthNum) + (_index*_offsetXNum),
+            parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
+            'ImagePanel3New'
+
+        );
+            panelObject.width       = this.panelWidthNum;
+            panelObject.height      = this.panelHeightNum;
+        this.panelXNum              = panelObject.x;
+        this.panelYNum              = panelObject.y;
 
     }
 
@@ -120,7 +153,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXN
 
 /*A function to find the exhibition in an array of object exhibition, based on exhibition's
     name alt.*/
-ObjectMuseum.prototype.FindIndexNum                 = function(_exhibitionObjectArray, _exhibitionNameAltString){
+ObjectMuseum.prototype.FindIndexNum1                = function(_exhibitionObjectArray, _exhibitionNameAltString){
 
     if(
 
@@ -149,16 +182,63 @@ ObjectMuseum.prototype.FindIndexNum                 = function(_exhibitionObject
     }
 
 };
+ObjectMuseum.prototype.FindIndexNum2                = function(_exhibitionObjectArray, _exhibitionNameAltString){
+
+    if(
+
+        (typeof _exhibitionObjectArray              === 'object') &&
+        (typeof _exhibitionNameAltString            === 'string')
+
+    ){
+
+        /*Loop through the array.*/
+        for(var i = 0; i < _exhibitionObjectArray.length; i ++){
+
+            /*Check the variable name of nameObjectAlt one by one per array element.
+            i is the index number when the variable name equals with the variable value.*/
+            if(_exhibitionObjectArray[i]['objectParentNameAltString'] == _exhibitionNameAltString){ return i; }
+
+        }
+        return undefined;
+
+    }
+    else{
+
+        console.log((typeof _exhibitionObjectArray)     + ' is not an object.');
+        console.log((typeof _exhibitionNameAltString)   + ' is not a string.');
+        return undefined;
+
+    }
+
+};
+
 
 /*Using the function to find object index, I created another function to return the object instead of the index.*/
-ObjectMuseum.prototype.FindObject                   = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+ObjectMuseum.prototype.FindObject1                  = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
     if(
 
         (typeof _exhibitionNameObjectArray          === 'object') &&
         (typeof _exhibitionNameAltString            === 'string')
 
-    ){ return _exhibitionNameObjectArray[this.FindIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+    ){ return _exhibitionNameObjectArray[this.FindIndexNum1(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+    else{
+
+        console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');
+        console.log((typeof _exhibitionNameAltString)       + ' is not a string.');
+        return undefined;
+
+    }
+
+};
+ObjectMuseum.prototype.FindObject2                  = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+
+    if(
+
+        (typeof _exhibitionNameObjectArray          === 'object') &&
+        (typeof _exhibitionNameAltString            === 'string')
+
+    ){ return _exhibitionNameObjectArray[this.FindIndexNum2(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
     else{
 
         console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');

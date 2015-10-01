@@ -24,10 +24,10 @@ stateMain = {
         /*Initial object name for floor.*/
         var floorNameObjectArray                    = [
 
-            new ObjectName('First Floor'            , 'FLR_001')
-            //new ObjectName('Second Floor'         , 'FLR_002'),
-            //new ObjectName('Third Floor'          , 'FLR_003'),
-            //new ObjectName('Fourth Floor'         , 'FLR_004')
+            new ObjectName('First Floor'            , 'FLR_001'),
+            new ObjectName('Second Floor'           , 'FLR_002'),
+            new ObjectName('Third Floor'            , 'FLR_003'),
+            new ObjectName('Fourth Floor'           , 'FLR_004')
 
         ];
         /*Initial object name for room.*/
@@ -188,12 +188,12 @@ stateMain = {
 
         for(var i = 0; i < this.floorObjectArray.length; i ++){
 
-            var floorObjectPanelWidthNum    = (game.width - ((this.offsetXNum*this.floorObjectArray.length) + this.offsetXNum))/this.floorObjectArray.length;
-            var floorObjectPanelHeightNum   = (game.height - ((this.offsetYNum*this.totalRowNum) + this.offsetYNum))/this.totalRowNum; 
-            var floorObjectPanel            = game.add.sprite(((i*floorObjectPanelWidthNum) + ((i*this.offsetXNum) + this.offsetXNum)), this.offsetYNum, 'ImagePanel2New');
-                floorObjectPanel.width      = floorObjectPanelWidthNum;
-                floorObjectPanel.height     = floorObjectPanelHeightNum;
-            this.floorObjectPanelArray.push (floorObjectPanel);
+            this.floorObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray);
+
+        }
+        for(var i = 0; i < this.roomObjectArray.length; i ++){
+
+            this.roomObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray);
 
         }
 
