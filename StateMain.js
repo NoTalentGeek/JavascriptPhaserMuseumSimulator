@@ -24,10 +24,10 @@ stateMain = {
         /*Initial object name for floor.*/
         var floorNameObjectArray                    = [
 
-            new ObjectName('First Floor'            , 'FLR_001'),
-            new ObjectName('Second Floor'           , 'FLR_002'),
-            new ObjectName('Third Floor'            , 'FLR_003'),
-            new ObjectName('Fourth Floor'           , 'FLR_004')
+            new ObjectName('First Floor'            , 'FLR_001')
+            //new ObjectName('Second Floor'         , 'FLR_002'),
+            //new ObjectName('Third Floor'          , 'FLR_003'),
+            //new ObjectName('Fourth Floor'         , 'FLR_004')
 
         ];
         /*Initial object name for room.*/
@@ -173,6 +173,29 @@ stateMain = {
 
         //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
         //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
+
+        game.stage.backgroundColor          = 0x4A148C;
+
+        this.offsetXMulNum                  = (5/1024);
+        this.offsetYMulNum                  = (5/576);
+        this.offsetXNum                     = game.width*this.offsetXMulNum;
+        this.offsetYNum                     = game.height*this.offsetYMulNum;
+        this.totalRowNum                    = 3 + (Math.ceil(this.exhibitionObjectArray.length/this.playerObjectArray.length) + 1);
+
+        this.floorObjectPanelArray          = new Array();
+        this.roomObjectPanelArray           = new Array();
+        this.exhibitionObjectPanelArray     = new Array();
+
+        for(var i = 0; i < this.floorObjectArray.length; i ++){
+
+            var floorObjectPanelWidthNum    = (game.width - ((this.offsetXNum*this.floorObjectArray.length) + this.offsetXNum))/this.floorObjectArray.length;
+            var floorObjectPanelHeightNum   = (game.height - ((this.offsetYNum*this.totalRowNum) + this.offsetYNum))/this.totalRowNum; 
+            var floorObjectPanel            = game.add.sprite(((i*floorObjectPanelWidthNum) + ((i*this.offsetXNum) + this.offsetXNum)), this.offsetYNum, 'ImagePanel2New');
+                floorObjectPanel.width      = floorObjectPanelWidthNum;
+                floorObjectPanel.height     = floorObjectPanelHeightNum;
+            this.floorObjectPanelArray.push (floorObjectPanel);
+
+        }
 
     },
 
