@@ -7,10 +7,10 @@ ObjectMuseum                                        = function(){
     switch(arguments.length){
 
         case(3):
-            this.PolyConstructor            (arguments[0], arguments[1], arguments[2]);
+            this.PolyConsVoid            (arguments[0], arguments[1], arguments[2]);
         break;
         case(4):
-            this.PolyConstructorExhibition  (arguments[0], arguments[1], arguments[2], arguments[3]);
+            this.PolyConsExhibitionVoid  (arguments[0], arguments[1], arguments[2], arguments[3]);
         break;
 
     }   
@@ -19,17 +19,17 @@ ObjectMuseum                                        = function(){
 ObjectMuseum.prototype.construtor                   = ObjectMuseum;
 
 /*The normal constructor.*/
-ObjectMuseum.prototype.PolyConstructor              = function(_objectParentAltNameString, _objectTypeString, _objectNameString){
+ObjectMuseum.prototype.PolyConsVoid                 = function(_objectParentNameAltString, _objectTypeString, _objectNameString){
 
     if(
 
-        typeof _objectParentAltNameString           === 'string' &&
+        typeof _objectParentNameAltString           === 'string' &&
         typeof _objectTypeString                    === 'string' &&
         typeof _objectNameString                    === 'object'
 
     ){
 
-        this.objectParentNameAltString              = _objectParentAltNameString;           /*The object name alt for the parent object (string).*/
+        this.objectParentNameAltString              = _objectParentNameAltString;           /*The object name alt for the parent object (string).*/
         this.objectTypeString                       = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', 'EXH', or 'TAG').*/
         this.objectNameString                       = _objectNameString;
         this.objectNameFullString                   = this.objectNameString.nameFullString;
@@ -38,10 +38,15 @@ ObjectMuseum.prototype.PolyConstructor              = function(_objectParentAltN
         this.visitorTotalNum                        = 0;
         this.tagStringArray                         = new Array(3);
 
+        this.panelXNum                              = 0;
+        this.panelYNum                              = 0;
+        this.panelWidthNum                          = 0;
+        this.panelHeightNum                         = 0;
+
     }
     else{
 
-        console.log                                 ((typeof _objectParentAltNameString)    + ' supposed to be a string.');
+        console.log                                 ((typeof _objectParentNameAltString)    + ' supposed to be a string.');
         console.log                                 ((typeof _objectTypeString)             + ' supposed to be a string.');
         console.log                                 ((typeof _objectNameString)             + ' supposed to be a object.');
 
@@ -50,18 +55,18 @@ ObjectMuseum.prototype.PolyConstructor              = function(_objectParentAltN
 };
 
 /*Constructor used when this object is used to instantiate exhibition object.*/
-ObjectMuseum.prototype.PolyConstructorExhibition    = function(_objectParentAltNameString, _objectTypeString, _objectNameString, _roomObjectArray){
+ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentNameAltString, _objectTypeString, _objectNameString, _roomObjectArray){
 
     if(
 
-        typeof _objectParentAltNameString           === 'string' &&
+        typeof _objectParentNameAltString           === 'string' &&
         typeof _objectTypeString                    === 'string' &&
         typeof _objectNameString                    === 'object' &&
         typeof _roomObjectArray                     === 'object'
 
     ){
 
-        this.objectParentNameAltString              = _objectParentAltNameString;           /*The object name alt for the parent object (string).*/
+        this.objectParentNameAltString              = _objectParentNameAltString;           /*The object name alt for the parent object (string).*/
         this.objectTypeString                       = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', 'EXH', or 'TAG').*/
         this.objectNameString                       = _objectNameString;
         this.objectNameFullString                   = this.objectNameString.nameFullString;
@@ -69,6 +74,11 @@ ObjectMuseum.prototype.PolyConstructorExhibition    = function(_objectParentAltN
         this.visitorCurrentNum                      = 0;
         this.visitorTotalNum                        = 0;
         this.tagStringArray                         = new Array(3);
+
+        this.panelXNum                              = 0;
+        this.panelYNum                              = 0;
+        this.panelWidthNum                          = 0;
+        this.panelHeightNum                         = 0;
 
         if(this.objectTypeString                    == 'EXH'){
 
@@ -80,10 +90,29 @@ ObjectMuseum.prototype.PolyConstructorExhibition    = function(_objectParentAltN
     }
     else{
 
-        console.log                                 ((typeof _objectParentAltNameString)    + ' supposed to be a string.');
+        console.log                                 ((typeof _objectParentNameAltString)    + ' supposed to be a string.');
         console.log                                 ((typeof _objectTypeString)             + ' supposed to be a string.');
         console.log                                 ((typeof _objectNameString)             + ' supposed to be a object.');
         console.log                                 ((typeof _roomObjectArray)              + ' supposed to be a object.');
+
+    }
+
+};
+
+ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXNum, _offsetYNum){
+
+    /*Search on how many museum object share the same parent.*/
+    if(this.objectTypeString    == 'FLR'){
+
+        var countNum            = 0;
+        var countParentNum      = 0;
+
+        this.panelWidthNum      =  game.width  - (_offsetXNum*2);
+        this.panelHeight        = (game.height - ((_offsetYNum*_totalRowNum) + _offsetYNum))/_totalRowNum;
+
+        var panelObject         = game.add.sprite(_offsetXNum + (_index*_offsetXNum), _offsetYNum + (_index*_offsetYNum), 'ImagePanel2New');
+        this.panelXNum          = panelObject.x;
+        this.panelYNum          = panelObject.y;
 
     }
 
