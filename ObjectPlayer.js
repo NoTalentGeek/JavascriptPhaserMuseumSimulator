@@ -167,7 +167,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         }
 
     }
-    console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
 
     /*Stage two sort.
     Stage two sort is to make the exhibition that has been visited before has 90% chance to make into target exhibition.
@@ -195,7 +195,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         }
 
     }
-    console.log('Stage two: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage two: ' + this.exhibitionTargetStringArray.length);
 
     /*Stage three sort.
     So now this application compare the the most visited tags from this player profile (take three most visited tags)
@@ -232,7 +232,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
-    console.log('Stage three: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage three: ' + this.exhibitionTargetStringArray.length);
 
     /*Stage four sort.
     The fourth sort is to make the exhibition target that are not in the same floor of which player's
@@ -251,7 +251,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
-    console.log('Stage four: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage four: ' + this.exhibitionTargetStringArray.length);
 
     /*Stage five sort.
     The fifth sort is to make the exhibition target that are not in the same room of which player's
@@ -270,7 +270,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
-    console.log('Stage five: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage five: ' + this.exhibitionTargetStringArray.length);
 
     /*In case in the end of final sort the target exhibition array have length more than 3, make it just have 3 elements.*/
     this.exhibitionTargetStringArray.splice(3, this.exhibitionObjectArray.length);
