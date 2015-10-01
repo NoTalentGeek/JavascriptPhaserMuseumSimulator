@@ -64,6 +64,7 @@ ObjectPlayer.prototype.AIAutoBool                               = function(){
             this.DetermineExhibitionTargetStringArray();
 
             /*
+            <<This is an old method to generate target exhibitions.>>
             <<Generate random index number.
             The index number refer to he array list of exhibition objects.
             The index number must not go below 0 and must not go above the length of total exhibition objects.>>
@@ -148,11 +149,17 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 
 ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
+    /*Need to empty the array whenever this player is looking for another exhibitions.*/
     this.exhibitionTargetStringArray = [];
 
-    /*Stage one sort.*/
+    /*Stage one sort.
+    Stage one sort is to remove the currently visited exhibition from the target exhibition index.
+    So that the player have no chance on visiting the exhibition that he/she  currently visits.*/
     for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
 
+        /*Compare the current exihibition with the object exhibitiob array.
+        After that remove the object exhibition that is the current exhibition and put the rest
+            of the exhibition in the target exhibition array string.*/
         if(this.exhibitionCurrentString != this.exhibitionObjectArray[i].objectNameAltString){
 
             this.exhibitionTargetStringArray.push(this.exhibitionObjectArray[i].objectNameAltString);
@@ -162,15 +169,25 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
     }
     console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage two sort.*/
+    /*Stage two sort.
+    Stage two sort is to make the exhibition that has been visited before has 90% chance to make into target exhibition.
+    For example the visitor is now in the Exhibition C as he/she used to visits Exhibition A and Exhibition B before,
+        the system now will let Exhibition A and Exhibition B to have 10% chance to be not removed from the target
+        exhibition array.*/
     for(var i = 0; i < this.exhibitionVisitedStringArray.length; i ++){
 
         for(var j = 0; j < this.exhibitionTargetStringArray.length; j ++){
 
+            /*Compare the target exhibitions with all visited exhibition.
+            If it matches then the corresponding exhibition has 90% chance to be deleted
+                from target exhibition array.*/
             if(this.exhibitionVisitedStringArray[i] == this.exhibitionTargetStringArray[j]){
 
                 if(Math.random() < 0.90){ this.exhibitionTargetStringArray.splice(j, 1); }
 
+                /*After each splice make sure to have the exhibition target length to be 3.
+                If not 3 elements in the target exhibition array, then return the last 3 elements
+                    of target exhibition array ever exist.*/
                 if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
             }
@@ -180,7 +197,14 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
     }
     console.log('Stage two: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage three sort.*/
+    /*Stage three sort.
+    So now this application compare the the most visited tags from this player profile (take three most visited tags)
+        and compared to the exhibition tag.
+    Each exhibition has 3 tags so,
+        if nothing match the exhibition is excluded from from the target exhibition array,
+        if one tag is match the exhibition has 66% chance of being removed from the target exhibition array,
+        if two tags are match the exhibition has 33% chance of being removed from the target exhibition array,
+        if three tags are match the exhibition will stay in the target exhibition array.*/
     var tempTagStringArray = new Array(3);
     for(var i = 0; i < tempTagStringArray.length; i ++){ tempTagStringArray[i] = this.tagMixedArray[i][0]; }
     for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
@@ -191,11 +215,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
             for(var k = 0; k < tempTagStringArray.length; k ++){
 
-                if(exhibitionTargetObject.tagStringArray[j] == tempTagStringArray[k]){
-
-                    tagSameCountNum ++;
-
-                }
+                if(exhibitionTargetObject.tagStringArray[j] == tempTagStringArray[k]){ tagSameCountNum ++; }
 
             }
 
@@ -206,12 +226,17 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         else if (tagSameCountNum == 2)          { if(Math.random() < 0.33){ this.exhibitionTargetStringArray.splice(i, 1); } }
         else if (tagSameCountNum == 3)          {  }
 
+        /*After each splice make sure to have the exhibition target length to be 3.
+        If not 3 elements in the target exhibition array, then return the last 3 elements
+            of target exhibition array ever exist.*/
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
     console.log('Stage three: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage four sort.*/
+    /*Stage four sort.
+    The fourth sort is to make the exhibition target that are not in the same floor of which player's
+        current exhibition to have 50% chance of stay.*/
     var exhibitionCurrentObject         = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
     var exhibitionFloorString           = exhibitionCurrentObject.objectFloorString;
     for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
@@ -220,12 +245,17 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         var exhibitionTargetFloorString =  exhibitionTargetObject.objectFloorString;
         if(exhibitionTargetFloorString  != exhibitionFloorString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); } }
 
+        /*After each splice make sure to have the exhibition target length to be 3.
+        If not 3 elements in the target exhibition array, then return the last 3 elements
+            of target exhibition array ever exist.*/
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
     console.log('Stage four: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage five sort.*/
+    /*Stage five sort.
+    The fifth sort is to make the exhibition target that are not in the same room of which player's
+        current exhibition to have 50% chance of stay.*/
     var exhibitionCurrentObject         = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
     var exhibitionRoomString            = exhibitionCurrentObject.objectFloorString;
     for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
@@ -234,12 +264,17 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         var exhibitionTargetRoomString  =  exhibitionTargetObject.objectRoomString;
         if(exhibitionTargetRoomString   != exhibitionRoomString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); } }
 
+        /*After each splice make sure to have the exhibition target length to be 3.
+        If not 3 elements in the target exhibition array, then return the last 3 elements
+            of target exhibition array ever exist.*/
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
     console.log('Stage five: ' + this.exhibitionTargetStringArray.length);
 
+    /*In case in the end of final sort the target exhibition array have length more than 3, make it just have 3 elements.*/
     this.exhibitionTargetStringArray.splice(3, this.exhibitionObjectArray.length);
+
     return this.exhibitionTargetStringArray;
 
 };

@@ -3,6 +3,7 @@ This object can be used as floor, room, and the exhibition itself.
 PENDING: Add verification for every arguments.*/ 
 ObjectMuseum                                        = function(){
 
+    /*Example of Javascript polymorphism.*/
     switch(arguments.length){
 
         case(3):
