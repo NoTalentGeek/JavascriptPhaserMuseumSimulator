@@ -19,6 +19,13 @@ ObjectPlayer                                                    = function(_exhi
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
+        this.indexNum                                           = 0;
+        this.panelXNum                                          = 0;
+        this.panelYNum                                          = 0;
+        this.panelWidthNum                                      = 0;
+        this.panelHeightNum                                     = 0;
+        this.panelObject                                        = undefined;
+
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
         this.ExhibitionMoveStringArray                          (
 
@@ -45,7 +52,7 @@ ObjectPlayer.prototype.constructor                              = ObjectPlayer;
 /*AIAutoBool is a function that move this player object automatically to the exahibition.
 This function returns true if the player just move to new exhibition and false if the player
     stay in the current exhibition.*/
-ObjectPlayer.prototype.AIAutoBool                               = function(){
+ObjectPlayer.prototype.AIAutoBool                               = function(_indexNum, _offsetXNum, _offsetYNum){
 
     /*Check wether this player has already visited most exhibitions in the museum.
     I checked the whether the exhibition visited has the same amount of length with total exhibition length.
@@ -118,6 +125,7 @@ ObjectPlayer.prototype.AIAutoBool                               = function(){
                 this.floorObjectArray
 
             );
+            this.CreatePanelVoid(_indexNum, _offsetXNum, _offsetYNum);
 
             /*PENDING: Add time current to total time before reseting it.*/
 
@@ -144,6 +152,39 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 ObjectPlayer.prototype.CompareTagNum                            = function(_elementMixedArray1, _elementMixedArray2){
 
     return _elementMixedArray2[1] - _elementMixedArray1[1];
+
+};
+
+ObjectPlayer.prototype.CreatePanelVoid                          = function(_indexNum, _offsetXNum, _offsetYNum){
+
+    if(this.panelObject != undefined)                           { this.panelObject.destroy(true);}
+
+    this.indexNum                                               = _indexNum;
+
+    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
+    var exhibitionCurrentVisitorNum                             = exhibitionCurrentObject.visitorCurrentNum;
+    var siblingCountNum                                         = exhibitionCurrentVisitorNum;
+        siblingCountNum                                         = (siblingCountNum == 0) ? 1 : siblingCountNum;
+
+    /*These lines of codes below is to determine the width and the height of the panel.
+    For object other than floor object you need to compare the width and height based on the parent object.*/
+    this.panelWidthNum                                          = exhibitionCurrentObject.panelWidthNum;
+    this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
+
+    /*Create the panel image here.*/
+    this.panelObject                                        = game.add.sprite(
+
+        exhibitionCurrentObject.panelXNum,
+        exhibitionCurrentObject.panelXNum  + (this.indexNum*this.panelHeightNum) + (this.indexNum*_offsetYNum),
+        'ImagePanel5New'
+
+    );
+    /*Set the width and the height for the object to meet the variables we have made before.*/
+    this.panelObject.width                                  = this.panelWidthNum;
+    this.panelObject.height                                 = this.panelHeightNum;
+    /*Refer back the panel x and y position to the variables for easy referencing.*/
+    this.panelXNum                                              = this.panelObject.x;
+    this.panelYNum                                              = this.panelObject.y;
 
 };
 

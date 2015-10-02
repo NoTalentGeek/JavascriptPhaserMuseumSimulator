@@ -171,7 +171,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(
 
             /*These lines of codes below is to determine the width and the height of the panel.
             For object other than floor object you need to compare the width and height based on the parent object.*/
-            this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
+            this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum;
             this.panelHeightNum         = parentObject.panelHeightNum;
 
             /*Create the panel image here.*/

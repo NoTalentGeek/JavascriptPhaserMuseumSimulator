@@ -20,6 +20,7 @@ stateMain = {
         this.updateCountNum                 = 0;
         this.updateCountTotalNum            = 0;
         this.playerUpdateNum                = 0;
+        this.playerIndexNum                 = 0;
 
         /*Initial object name for floor.*/
         var floorNameObjectArray                    = [
@@ -175,9 +176,9 @@ stateMain = {
         //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
 
         /*Before we add the graphical user interface we sort all the array.*/
-        this.SortArray(this.floorObjectArray        , this.CompareNum);
-        this.SortArray(this.roomObjectArray         , this.CompareNum);
-        this.SortArray(this.exhibitionObjectArray   , this.CompareNum);
+        this.SortArray(this.floorObjectArray        , this.CompareObjectParentNum);
+        this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
+        this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
 
 
         game.stage.backgroundColor          = 0x4A148C;
@@ -216,8 +217,8 @@ stateMain = {
             this.roomObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray);
 
         }
-        var indexNum = 0;
 
+        var indexNum = 0;
         for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
 
             if(i != 0)                                      {
@@ -234,8 +235,14 @@ stateMain = {
 
     update                                  :function(){
 
+        this.SortArray(this.playerObjectArray, this.CompareCurrentExhibitionNum);
         /*Loop through the players/visitors within the museum and activate its AI function.*/
-        this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
+        if(this.playerIndexNum != 0){
+
+            if(this.playerObjectArray[this.playerIndexNum].exhibitionCurrentString != this.playerObjectArray[this.playerIndexNum - 1].exhibitionCurrentString){ this.playerIndexNum = 0 }
+
+        }
+        this.playerObjectArray[this.playerUpdateNum].AIAutoBool(this.playerIndexNum, this.offsetXNum, this.offsetYNum);
         /*A //console.log() function to return how many tags have been captured during this time.
         Not necessarily to be active all the time due to for loop.*/
         /*
@@ -247,6 +254,7 @@ stateMain = {
         */
         /*Simple loop control, if the value exceed the latest index from player array then reset the
             counter back to 0.*/
+        this.playerIndexNum         ++;
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
 
         /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
@@ -289,8 +297,33 @@ stateMain = {
 
     },
 
+    CompareCurrentExhibitionNum             :function(_1object, _2object){
+
+        /*Argument verification.*/
+        if(
+
+            typeof _1object === 'object' &&
+            typeof _2object === 'object'
+
+        ){
+
+            if(_1object.exhibitionCurrentString < _2object.exhibitionCurrentString){ return -1; }
+            if(_1object.exhibitionCurrentString > _2object.exhibitionCurrentString){ return  1; }
+            return 0;
+
+        }
+        else{
+
+            console.log((typeof _1object)   + ' is not an object.');
+            console.log((typeof _2object)   + ' is not an object.');
+            return undefined;
+
+        }
+
+    },
+
     /*In this case for every museum object we want to compare its parent object alternative name.*/
-    CompareNum                              :function(_1object, _2object){
+    CompareObjectParentNum                  :function(_1object, _2object){
 
         /*Argument verification.*/
         if(
@@ -313,7 +346,6 @@ stateMain = {
 
         }
         
-
     },
 
     /*A function to find the exhibition in an array of object exhibition, based on exhibition's
