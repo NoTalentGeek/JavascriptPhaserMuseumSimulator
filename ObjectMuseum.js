@@ -102,7 +102,17 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
 };
 
 /*A function to create a graphical user interface for each museum object.*/
-ObjectMuseum.prototype.CreatePanelVoid              = function(_indexNum, _offsetXNum, _offsetYNum, _totalRowNum, _floorObjectArray, _roomObjectArray, _exhibitionObjectArray){
+ObjectMuseum.prototype.CreatePanelVoid              = function(
+
+    _indexNum               ,
+    _offsetXNum             ,
+    _offsetYNum             ,
+    _totalRowNum            ,
+    _floorObjectArray       ,
+    _roomObjectArray        ,
+    _exhibitionObjectArray
+
+){
 
     if(
 
