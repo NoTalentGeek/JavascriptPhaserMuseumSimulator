@@ -11,7 +11,7 @@ stateMain = {
         this.playerObjectArray              = new Array();
 
         /*How many players in the scene initially.*/
-        this.playerCountNum                 = 100;
+        this.playerCountNum                 = 10;
 
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
@@ -187,7 +187,8 @@ stateMain = {
         this.offsetYMulNum                  = (5/576);
         this.offsetXNum                     = game.width*this.offsetXMulNum;
         this.offsetYNum                     = game.height*this.offsetYMulNum;
-        this.totalRowNum                    = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length));
+        //this.totalRowNum                  = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length));
+        this.totalRowNum                    = 3 + this.playerObjectArray.length;
 
         this.floorObjectPanelArray          = new Array();
         this.roomObjectPanelArray           = new Array();
@@ -236,26 +237,45 @@ stateMain = {
     update                                  :function(){
 
         this.SortArray(this.playerObjectArray, this.CompareCurrentExhibitionNum);
-        /*Loop through the players/visitors within the museum and activate its AI function.*/
+        for(var i = 0; i < this.playerObjectArray.length; i ++){
+            //console.log(i + ': ' + Math.ceil(this.playerObjectArray[i].panelXNum) + ' ' + Math.ceil(this.playerObjectArray[i].panelYNum));
+            //console.log(this.playerObjectArray[i].exhibitionCurrentString);
+        }
+
+        /*
+        <<Loop through the players/visitors within the museum and activate its AI function.>>
         if(this.playerIndexNum != 0){
 
             if(this.playerObjectArray[this.playerIndexNum].exhibitionCurrentString != this.playerObjectArray[this.playerIndexNum - 1].exhibitionCurrentString){ this.playerIndexNum = 0 }
 
         }
-        this.playerObjectArray[this.playerUpdateNum].AIAutoBool(this.playerIndexNum, this.offsetXNum, this.offsetYNum);
-        /*A //console.log() function to return how many tags have been captured during this time.
-        Not necessarily to be active all the time due to for loop.*/
-        /*
+        this.playerObjectArray[this.playerUpdateNum].AIAutoString(this.playerIndexNum, this.offsetXNum, this.offsetYNum);
+        <<A console.log() function to return how many tags have been captured during this time.
+        Not necessarily to be active all the time due to for loop.>>
+        <<
         for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
 
             console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);
 
         }
-        */
-        /*Simple loop control, if the value exceed the latest index from player array then reset the
-            counter back to 0.*/
+        >>
+        <<Simple loop control, if the value exceed the latest index from player array then reset the
+            counter back to 0.>>
         this.playerIndexNum         ++;
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
+        */
+        this.playerIndexNum = 0;
+        for(var i = 0; i < this.playerObjectArray.length; i ++){
+
+            if(i != 0)                                      {
+
+                if(this.playerObjectArray[i].exhibitionCurrentString != this.playerObjectArray[i - 1].exhibitionCurrentString){ this.playerIndexNum = 0; }
+
+            }
+            this.playerObjectArray[i].AIAutoString          (this.playerIndexNum, this.offsetXNum, this.offsetYNum);
+            this.playerIndexNum                             ++;
+
+        }
 
         /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
         PENDING: I am not sure whether you can just dynamucally add an object while the loop is running.

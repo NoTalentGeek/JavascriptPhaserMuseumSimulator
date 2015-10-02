@@ -27,7 +27,7 @@ ObjectPlayer                                                    = function(_exhi
         this.panelObject                                        = undefined;
 
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
-        this.ExhibitionMoveStringArray                          (
+        this.ExhibitionMoveString                               (
 
             _exhibitionStartString,
             this.exhibitionObjectArray,
@@ -52,7 +52,7 @@ ObjectPlayer.prototype.constructor                              = ObjectPlayer;
 /*AIAutoBool is a function that move this player object automatically to the exahibition.
 This function returns true if the player just move to new exhibition and false if the player
     stay in the current exhibition.*/
-ObjectPlayer.prototype.AIAutoBool                               = function(_indexNum, _offsetXNum, _offsetYNum){
+ObjectPlayer.prototype.AIAutoString                             = function(_indexNum, _offsetXNum, _offsetYNum){
 
     /*Check wether this player has already visited most exhibitions in the museum.
     I checked the whether the exhibition visited has the same amount of length with total exhibition length.
@@ -116,8 +116,8 @@ ObjectPlayer.prototype.AIAutoBool                               = function(_inde
             */
 
             /*Move player to the new exhibition.*/
-            var randomIndexNum = Math.floor((Math.random()*this.exhibitionTargetStringArray.length) + 0);
-            this.ExhibitionMoveStringArray(
+            var randomIndexNum      = Math.floor((Math.random()*this.exhibitionTargetStringArray.length) + 0);
+            var newExhibitionString = this.ExhibitionMoveString(
 
                 this.exhibitionTargetStringArray[randomIndexNum],
                 this.exhibitionObjectArray,
@@ -130,13 +130,13 @@ ObjectPlayer.prototype.AIAutoBool                               = function(_inde
             /*PENDING: Add time current to total time before reseting it.*/
 
             this.timeCurrentExhibitionNum   = 0;    /*Reset timer.*/
-            return                          true;
+            return                          newExhibitionString;
 
         }
-        else{ return false; }
+        else{ return undefined; }
 
     }
-    else{ return false; }
+    else{ return undefined; }
 
 };
 
@@ -162,9 +162,6 @@ ObjectPlayer.prototype.CreatePanelVoid                          = function(_inde
     this.indexNum                                               = _indexNum;
 
     var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
-    var exhibitionCurrentVisitorNum                             = exhibitionCurrentObject.visitorCurrentNum;
-    var siblingCountNum                                         = exhibitionCurrentVisitorNum;
-        siblingCountNum                                         = (siblingCountNum == 0) ? 1 : siblingCountNum;
 
     /*These lines of codes below is to determine the width and the height of the panel.
     For object other than floor object you need to compare the width and height based on the parent object.*/
@@ -172,16 +169,16 @@ ObjectPlayer.prototype.CreatePanelVoid                          = function(_inde
     this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
 
     /*Create the panel image here.*/
-    this.panelObject                                        = game.add.sprite(
+    this.panelObject                                            = game.add.sprite(
 
         exhibitionCurrentObject.panelXNum,
-        exhibitionCurrentObject.panelXNum  + (this.indexNum*this.panelHeightNum) + (this.indexNum*_offsetYNum),
+        exhibitionCurrentObject.panelYNum,
         'ImagePanel5New'
 
     );
     /*Set the width and the height for the object to meet the variables we have made before.*/
-    this.panelObject.width                                  = this.panelWidthNum;
-    this.panelObject.height                                 = this.panelHeightNum;
+    this.panelObject.width                                      = this.panelWidthNum;
+    this.panelObject.height                                     = this.panelHeightNum;
     /*Refer back the panel x and y position to the variables for easy referencing.*/
     this.panelXNum                                              = this.panelObject.x;
     this.panelYNum                                              = this.panelObject.y;
@@ -321,7 +318,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 };
 
 /*A function to move this player to new exhibition.*/
-ObjectPlayer.prototype.ExhibitionMoveStringArray                = function(_exhibitionNameAltString, _exhibitionObjectArray, _roomObjectArray, _floorObjectArray){
+ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhibitionNameAltString, _exhibitionObjectArray, _roomObjectArray, _floorObjectArray){
 
     /*Verification of argument inputted.*/
     if(
@@ -404,7 +401,7 @@ ObjectPlayer.prototype.ExhibitionMoveStringArray                = function(_exhi
         }
         this.SortArray(this.tagMixedArray, this.CompareTagNum);
 
-        return this.exhibitionVisited;                              /*Return the array of visited exhbition.*/
+        return this.exhibitionCurrentString; /*Return the array of visited exhbition.*/
 
     }
     else{
