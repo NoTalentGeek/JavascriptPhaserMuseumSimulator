@@ -38,6 +38,7 @@ ObjectMuseum.prototype.PolyConsVoid                 = function(_objectParentName
         this.visitorTotalNum                        = 0;
         this.tagStringArray                         = new Array(3);
 
+        this.indexNum                               = 0;
         this.panelXNum                              = 0;
         this.panelYNum                              = 0;
         this.panelWidthNum                          = 0;
@@ -75,6 +76,7 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
         this.visitorTotalNum                        = 0;
         this.tagStringArray                         = new Array(3);
 
+        this.indexNum                               = 0;
         this.panelXNum                              = 0;
         this.panelYNum                              = 0;
         this.panelWidthNum                          = 0;
@@ -102,80 +104,130 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
 /*A function to create a graphical user interface for each museum object.*/
 ObjectMuseum.prototype.CreatePanelVoid              = function(_indexNum, _offsetXNum, _offsetYNum, _totalRowNum, _floorObjectArray, _roomObjectArray, _exhibitionObjectArray){
 
-    this.indexNum                   = _indexNum;
+    if(
 
-    if(this.objectTypeString        == 'FLR'){
+        typeof _indexNum                === 'number' &&
+        typeof _offsetXNum              === 'number' &&
+        typeof _offsetYNum              === 'number' &&
+        typeof _totalRowNum             === 'number' &&
+        typeof _floorObjectArray        === 'object' &&
+        typeof _roomObjectArray         === 'object' &&
+        typeof _exhibitionObjectArray   === 'object'
 
-        this.panelWidthNum          =  game.width  - (_offsetXNum*2);
-        this.panelHeightNum         = (game.height - ((_offsetYNum*_totalRowNum) + _offsetYNum))/_totalRowNum;
+    ){
 
-        var panelObject             = game.add.sprite(
+        /*Assign the index num into local variable.*/
+        this.indexNum                   = _indexNum;
 
-            _offsetXNum + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
-            _offsetYNum,
-            'ImagePanel2New'
+        /*If this object is a floor object.*/
+        if(this.objectTypeString        == 'FLR'){
 
-        );
-            panelObject.width       = this.panelWidthNum;
-            panelObject.height      = this.panelHeightNum;
-        this.panelXNum              = panelObject.x;
-        this.panelYNum              = panelObject.y;
+            /*These lines of codes below is to determine the width and the height of the panel.
+            For floor object you do not need to compare it to the parent, because floor object has no parent.*/
+            this.panelWidthNum          =  game.width  - (_offsetXNum*2);
+            this.panelHeightNum         = (game.height - ((_offsetYNum*_totalRowNum) + _offsetYNum))/_totalRowNum;
 
-    }
-    else if(this.objectTypeString   == 'ROM'){
+            /*Create the panel image here.*/
+            var panelObject             = game.add.sprite(
 
-        var siblingCountNum         = 0;
-        for(var i = 0; i < _roomObjectArray.length; i ++){
+                _offsetXNum + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
+                _offsetYNum,
+                'ImagePanel2New'
 
-            if(_roomObjectArray[i].objectParentNameAltString == this.objectParentNameAltString){ siblingCountNum ++; }
-
-        }
-        siblingCountNum             = (siblingCountNum == 0) ? 1 : siblingCountNum;
-
-        var parentObject            = this.FindObject(_floorObjectArray, this.objectParentNameAltString);
-
-        this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
-        this.panelHeightNum         = parentObject.panelHeightNum;
-
-        var panelObject             = game.add.sprite(
-
-            parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
-            parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
-            'ImagePanel3New'
-
-        );
-            panelObject.width       = this.panelWidthNum;
-            panelObject.height      = this.panelHeightNum;
-        this.panelXNum              = panelObject.x;
-        this.panelYNum              = panelObject.y;
-
-    }
-    else if(this.objectTypeString   == 'EXH'){
-
-        var siblingCountNum         = 0;
-        for(var i = 0; i < _exhibitionObjectArray.length; i ++){
-
-            if(_exhibitionObjectArray[i].objectParentNameAltString == this.objectParentNameAltString){ siblingCountNum ++; }
+            );
+            /*Set the width and the height for the object to meet the variables we have made before.*/
+                panelObject.width       = this.panelWidthNum;
+                panelObject.height      = this.panelHeightNum;
+            /*Refer back the panel x and y position to the variables for easy referencing.*/
+            this.panelXNum              = panelObject.x;
+            this.panelYNum              = panelObject.y;
 
         }
-        siblingCountNum             = (siblingCountNum == 0) ? 1 : siblingCountNum;
+        /*If this object is a room object.*/
+        else if(this.objectTypeString   == 'ROM'){
 
-        var parentObject            = this.FindObject(_roomObjectArray, this.objectParentNameAltString);
+            /*With this codes below I want to know how many object shared with same parent.
+            This information can be used to determine the division of layout.*/
+            var siblingCountNum         = 0;
+            for(var i = 0; i < _roomObjectArray.length; i ++){
 
-        this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
-        this.panelHeightNum         = parentObject.panelHeightNum;
+                if(_roomObjectArray[i].objectParentNameAltString == this.objectParentNameAltString){ siblingCountNum ++; }
 
-        var panelObject             = game.add.sprite(
+            }
+            siblingCountNum             = (siblingCountNum == 0) ? 1 : siblingCountNum;
 
-            parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
-            parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
-            'ImagePanel4New'
+            /*Get reference to the parent object.*/
+            var parentObject            = this.FindObject(_floorObjectArray, this.objectParentNameAltString);
 
-        );
-            panelObject.width       = this.panelWidthNum;
-            panelObject.height      = this.panelHeightNum;
-        this.panelXNum              = panelObject.x;
-        this.panelYNum              = panelObject.y;
+            /*These lines of codes below is to determine the width and the height of the panel.
+            For object other than floor object you need to compare the width and height based on the parent object.*/
+            this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
+            this.panelHeightNum         = parentObject.panelHeightNum;
+
+            /*Create the panel image here.*/
+            var panelObject             = game.add.sprite(
+
+                parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
+                parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
+                'ImagePanel3New'
+
+            );
+            /*Set the width and the height for the object to meet the variables we have made before.*/
+                panelObject.width       = this.panelWidthNum;
+                panelObject.height      = this.panelHeightNum;
+            /*Refer back the panel x and y position to the variables for easy referencing.*/
+            this.panelXNum              = panelObject.x;
+            this.panelYNum              = panelObject.y;
+
+        }
+        /*If this object is a exhibition object.*/
+        else if(this.objectTypeString   == 'EXH'){
+
+            /*With this codes below I want to know how many object shared with same parent.
+            This information can be used to determine the division of layout.*/
+            var siblingCountNum         = 0;
+            for(var i = 0; i < _exhibitionObjectArray.length; i ++){
+
+                if(_exhibitionObjectArray[i].objectParentNameAltString == this.objectParentNameAltString){ siblingCountNum ++; }
+
+            }
+            siblingCountNum             = (siblingCountNum == 0) ? 1 : siblingCountNum;
+
+            /*Get reference to the parent object.*/
+            var parentObject            = this.FindObject(_roomObjectArray, this.objectParentNameAltString);
+
+            /*These lines of codes below is to determine the width and the height of the panel.
+            For object other than floor object you need to compare the width and height based on the parent object.*/
+            this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
+            this.panelHeightNum         = parentObject.panelHeightNum;
+
+            /*Create the panel image here.*/
+            var panelObject             = game.add.sprite(
+
+                parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
+                parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
+                'ImagePanel4New'
+
+            );
+            /*Set the width and the height for the object to meet the variables we have made before.*/
+                panelObject.width       = this.panelWidthNum;
+                panelObject.height      = this.panelHeightNum;
+            /*Refer back the panel x and y position to the variables for easy referencing.*/
+            this.panelXNum              = panelObject.x;
+            this.panelYNum              = panelObject.y;
+
+        }
+
+    }
+    else{
+
+        console.log((typeof _indexNum)                  + ' is not a number.' );
+        console.log((typeof _offsetXNum)                + ' is not a number.' );
+        console.log((typeof _offsetYNum)                + ' is not a number.' );
+        console.log((typeof _totalRowNum)               + ' is not a number.' );
+        console.log((typeof _floorObjectArray)          + ' is not an object.');
+        console.log((typeof _roomObjectArray)           + ' is not an object.');
+        console.log((typeof _exhibitionObjectArray)     + ' is not an object.');
 
     }
 
