@@ -11,7 +11,7 @@ stateMain = {
         this.playerObjectArray              = new Array();
 
         /*How many players in the scene initially.*/
-        this.playerCountNum                 = 10;
+        this.playerCountNum                 = 30;
 
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
@@ -187,8 +187,8 @@ stateMain = {
         this.offsetYMulNum                  = (5/576);
         this.offsetXNum                     = game.width*this.offsetXMulNum;
         this.offsetYNum                     = game.height*this.offsetYMulNum;
-        //this.totalRowNum                  = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length));
-        this.totalRowNum                    = 3 + this.playerObjectArray.length;
+        this.totalRowNum                    = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length) + 5);
+        //this.totalRowNum                  = 3 + this.playerObjectArray.length;
 
         this.floorObjectPanelArray          = new Array();
         this.roomObjectPanelArray           = new Array();

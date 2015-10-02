@@ -165,23 +165,26 @@ ObjectPlayer.prototype.CreatePanelVoid                          = function(_inde
 
     /*These lines of codes below is to determine the width and the height of the panel.
     For object other than floor object you need to compare the width and height based on the parent object.*/
+    this.panelXNum                                              = exhibitionCurrentObject.panelXNum;
+    this.panelYNum                                              = exhibitionCurrentObject.panelYNum + ((this.indexNum + 1)*this.panelHeightNum) + ((this.indexNum + 1)*_offsetYNum);
     this.panelWidthNum                                          = exhibitionCurrentObject.panelWidthNum;
     this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
 
     /*Create the panel image here.*/
     this.panelObject                                            = game.add.sprite(
 
-        exhibitionCurrentObject.panelXNum,
-        exhibitionCurrentObject.panelYNum,
+        this.panelXNum,
+        this.panelYNum,
         'ImagePanel5New'
 
     );
+
     /*Set the width and the height for the object to meet the variables we have made before.*/
     this.panelObject.width                                      = this.panelWidthNum;
     this.panelObject.height                                     = this.panelHeightNum;
     /*Refer back the panel x and y position to the variables for easy referencing.*/
-    this.panelXNum                                              = this.panelObject.x;
-    this.panelYNum                                              = this.panelObject.y;
+    this.panelObject.x                                          = exhibitionCurrentObject.panelXNum;
+    //this.panelObject.y                                          = exhibitionCurrentObject.panelYNum;
 
 };
 
