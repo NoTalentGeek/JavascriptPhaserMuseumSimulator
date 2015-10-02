@@ -188,12 +188,39 @@ stateMain = {
 
         for(var i = 0; i < this.floorObjectArray.length; i ++){
 
-            this.floorObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray);
+
+            if(i != 0)                                      {
+
+                if(this.exhibitionObjectArray[i].objectParentNameAltString != this.exhibitionObjectArray[i - 1].objectParentNameAltString){ indexNum = 0; }
+
+            }
+            this.floorObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray);
 
         }
+
+        var indexNum = 0;
         for(var i = 0; i < this.roomObjectArray.length; i ++){
 
-            this.roomObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray);
+            if(i != 0)                                      {
+
+                if(this.exhibitionObjectArray[i].objectParentNameAltString != this.exhibitionObjectArray[i - 1].objectParentNameAltString){ indexNum = 0; }
+
+            }
+
+            this.roomObjectArray[i].CreatePanelVoid(i, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray);
+
+        }
+        var indexNum = 0;
+        
+        for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
+
+            if(i != 0)                                      {
+
+                if(this.exhibitionObjectArray[i].objectParentNameAltString != this.exhibitionObjectArray[i - 1].objectParentNameAltString){ indexNum = 0; }
+
+            }
+            this.exhibitionObjectArray[i].CreatePanelVoid   (indexNum, this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray);
+            indexNum                                        ++;
 
         }
 

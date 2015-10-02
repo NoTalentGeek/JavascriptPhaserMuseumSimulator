@@ -99,7 +99,9 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
 
 };
 
-ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXNum, _offsetYNum, _totalRowNum, _floorObjectArray, _roomObjectArray){
+ObjectMuseum.prototype.CreatePanelVoid              = function(_indexNum, _offsetXNum, _offsetYNum, _totalRowNum, _floorObjectArray, _roomObjectArray, _exhibitionObjectArray){
+
+    this.indexNum                   = _indexNum;
 
     /*Search on how many museum object share the same parent.*/
     if(this.objectTypeString        == 'FLR'){
@@ -109,7 +111,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXN
 
         var panelObject             = game.add.sprite(
 
-            _offsetXNum + (_index*this.panelWidthNum) + (_index*_offsetXNum),
+            _offsetXNum + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
             _offsetYNum,
             'ImagePanel2New'
 
@@ -137,9 +139,37 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(_index, _offsetXN
 
         var panelObject             = game.add.sprite(
 
-            parentObject.panelXNum  + (_index*this.panelWidthNum) + (_index*_offsetXNum),
+            parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
             parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
             'ImagePanel3New'
+
+        );
+            panelObject.width       = this.panelWidthNum;
+            panelObject.height      = this.panelHeightNum;
+        this.panelXNum              = panelObject.x;
+        this.panelYNum              = panelObject.y;
+
+    }
+    else if(this.objectTypeString   == 'EXH'){
+
+        var siblingCountNum         = 0;
+        for(var i = 0; i < _exhibitionObjectArray.length; i ++){
+
+            if(_exhibitionObjectArray[i].objectParentNameAltString == this.objectParentNameAltString){ siblingCountNum ++; }
+
+        }
+        siblingCountNum             = (siblingCountNum == 0) ? 1 : siblingCountNum;
+
+        var parentObject            = this.FindObject1(_roomObjectArray, this.objectParentNameAltString);
+
+        this.panelWidthNum          = (parentObject.panelWidthNum - (_offsetXNum*(siblingCountNum - 1)))/siblingCountNum
+        this.panelHeightNum         = parentObject.panelHeightNum;
+
+        var panelObject             = game.add.sprite(
+
+            parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*_offsetXNum),
+            parentObject.panelYNum  + parentObject.panelHeightNum + _offsetYNum,
+            'ImagePanel4New'
 
         );
             panelObject.width       = this.panelWidthNum;
