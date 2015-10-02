@@ -1,7 +1,7 @@
 /**State class to initiates some initial objects.*/
 stateMain = {
 
-    create                                  : function(){
+    create                                  :function(){
 
         /*Array to contain all object in the scene.*/
         this.floorObjectArray               = new Array();
@@ -11,7 +11,7 @@ stateMain = {
         this.playerObjectArray              = new Array();
 
         /*How many players in the scene initially.*/
-        this.playerCountNum                 = 1;
+        this.playerCountNum                 = 100;
 
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
@@ -174,13 +174,19 @@ stateMain = {
         //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
         //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
 
+        /*Before we add the graphical user interface we sort all the array.*/
+        this.SortArray(this.floorObjectArray        , this.CompareNum);
+        this.SortArray(this.roomObjectArray         , this.CompareNum);
+        this.SortArray(this.exhibitionObjectArray   , this.CompareNum);
+
+
         game.stage.backgroundColor          = 0x4A148C;
 
         this.offsetXMulNum                  = (5/1024);
         this.offsetYMulNum                  = (5/576);
         this.offsetXNum                     = game.width*this.offsetXMulNum;
         this.offsetYNum                     = game.height*this.offsetYMulNum;
-        this.totalRowNum                    = 3 + (Math.ceil(this.exhibitionObjectArray.length/this.playerObjectArray.length) + 1);
+        this.totalRowNum                    = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length));
 
         this.floorObjectPanelArray          = new Array();
         this.roomObjectPanelArray           = new Array();
@@ -211,7 +217,7 @@ stateMain = {
 
         }
         var indexNum = 0;
-        
+
         for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
 
             if(i != 0)                                      {
@@ -226,7 +232,7 @@ stateMain = {
 
     },
 
-    update                                  : function(){
+    update                                  :function(){
 
         /*Loop through the players/visitors within the museum and activate its AI function.*/
         this.playerObjectArray[this.playerUpdateNum].AIAutoBool();
@@ -283,9 +289,36 @@ stateMain = {
 
     },
 
+    /*In this case for every museum object we want to compare its parent object alternative name.*/
+    CompareNum                              :function(_1object, _2object){
+
+        /*Argument verification.*/
+        if(
+
+            typeof _1object === 'object' &&
+            typeof _2object === 'object'
+
+        ){
+
+            if(_1object.objectParentNameAltString < _2object.objectParentNameAltString){ return -1; }
+            if(_1object.objectParentNameAltString > _2object.objectParentNameAltString){ return  1; }
+            return 0;
+
+        }
+        else{
+
+            console.log((typeof _1object)   + ' is not an object.');
+            console.log((typeof _2object)   + ' is not an object.');
+            return undefined;
+
+        }
+        
+
+    },
+
     /*A function to find the exhibition in an array of object exhibition, based on exhibition's
     name alt.*/
-    FindIndexNum                            : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+    FindIndexNum                            :function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
         if(
 
@@ -316,7 +349,7 @@ stateMain = {
     },
 
     /*Using the function to find object index, I created another function to return the object instead of the index.*/
-    FindObject                              : function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+    FindObject                              :function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
         if(
 
@@ -327,8 +360,34 @@ stateMain = {
         else{
 
             console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');
-            console.log((typeof _exhibitionNameAltString)       + ' is not a string.');
+            console.log((typeof _exhibitionNameAltString)       + ' is not a string.' );
             return undefined;
+
+        }
+
+    },
+
+    /*A function to sort array based on its properties.
+    The second argument is a comparison function to select which things should be sorted.*/
+    SortArray                               :function(_targetArray, _compareFunction){
+
+        /*Arguments verification.*/
+        if(
+
+            typeof _targetArray             === 'object' &&
+            typeof _compareFunction         === 'function'
+
+        ){
+
+            _targetArray.sort(_compareFunction);
+            return _targetArray;
+
+        }
+        else{
+
+            console.log((typeof _targetArray)       + ' is not an object.');
+            console.log((typeof _compareFunction)   + ' is not a function.');
+            return undefined; 
 
         }
 
