@@ -12,7 +12,7 @@ ObjectPlayer                                                    = function(
         typeof _floorObjectArray                                === 'object' &&
         typeof _roomObjectArray                                 === 'object' &&
         typeof _exhibitionObjectArray                           === 'object' &&
-        typeof _playerOBjectArray                               === 'object'
+        typeof _playerObjectArray                               === 'object'
 
     ){
 
@@ -193,6 +193,25 @@ ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
 
 };
 
+/*PENDING: Move this later after done.*/
+ObjectPlayer.prototype.AddRemoveChildObjectArray                = function(_isAdd){
+
+    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
+
+    if      (_isAdd )                                           { exhibitionCurrentObject.childObjectArray.push(this); }
+    else if (!_isAdd)                                           {
+
+        var indexNum                                            = exhibitionCurrentObject.childObjectArray.indexOf(this);
+                                                                  exhibitionCurrentObject.childObjectArray.splice(indexNum, 1);
+
+    }
+
+    console.log(exhibitionCurrentObject.childObjectArray);
+    return exhibitionCurrentObject.childObjectArray;
+
+}
+
+
 ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
     /*Need to empty the array whenever this player is looking for another exhibitions.*/
@@ -339,6 +358,8 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
 
     ){
 
+        if(this.exhibitionCurrentString != undefined){ this.AddRemoveChildObjectArray(false); }
+
         /*Add calculation for the current exhibition array before the this player is moved into new exhibition.*/
         if(this.exhibitionCurrentString                         != undefined){
 
@@ -408,9 +429,10 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
             else if (!isNewBool){ this.tagMixedArray[indexNum][1] = this.tagMixedArray[indexNum][1] + 1; }
 
         }
-        this.SortArray(this.tagMixedArray, this.CompareTagNum);
 
-        return this.exhibitionCurrentString; /*Return the array of visited exhbition.*/
+        this.SortArray(this.tagMixedArray, this.CompareTagNum);
+        this.AddRemoveChildObjectArray(true);
+        return this.exhibitionCurrentString;                        /*Return the array of visited exhbition.*/
 
     }
     else{
