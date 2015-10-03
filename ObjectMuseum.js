@@ -29,6 +29,7 @@ ObjectMuseum.prototype.PolyConsVoid                 = function(_objectParentName
 
     ){
 
+        this.childObjectArray                       = new Array();
         this.objectParentNameAltString              = _objectParentNameAltString;           /*The object name alt for the parent object (string).*/
         this.objectTypeString                       = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', 'EXH', or 'TAG').*/
         this.objectNameString                       = _objectNameString;
@@ -38,13 +39,12 @@ ObjectMuseum.prototype.PolyConsVoid                 = function(_objectParentName
         this.visitorTotalNum                        = 0;
         this.tagStringArray                         = new Array(3);
 
-        this.indexNum                               = 0;
+        /*Panel graphical user interface variables.*/
+        this.indexNum                               = 0;                                    /*PENDING: Remove this variable when the method of displaying graphical user interface done.*/
         this.panelXNum                              = 0;
         this.panelYNum                              = 0;
         this.panelWidthNum                          = 0;
         this.panelHeightNum                         = 0;
-
-        this.childObject                            = new Array();
 
     }
     else{
@@ -69,6 +69,8 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
 
     ){
 
+
+        this.childObjectArray                       = new Array();
         this.objectParentNameAltString              = _objectParentNameAltString;           /*The object name alt for the parent object (string).*/
         this.objectTypeString                       = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', 'EXH', or 'TAG').*/
         this.objectNameString                       = _objectNameString;
@@ -78,13 +80,13 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
         this.visitorTotalNum                        = 0;
         this.tagStringArray                         = new Array(3);
 
-        this.indexNum                               = 0;
+        /*Panel graphical user interface variables.*/
+        this.indexNum                               = 0;                                    /*PENDING: Remove this variable when the method of displaying graphical user interface done.*/
         this.panelXNum                              = 0;
         this.panelYNum                              = 0;
         this.panelWidthNum                          = 0;
         this.panelHeightNum                         = 0;
 
-        this.childObject                            = new Array();
 
         if(this.objectTypeString                    == 'EXH'){
 

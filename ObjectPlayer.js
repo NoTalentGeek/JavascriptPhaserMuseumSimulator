@@ -1,5 +1,12 @@
-ObjectPlayer                                                    = function(_exhibitionStartString, _exhibitionObjectArray, _roomObjectArray, _floorObjectArray){
+ObjectPlayer                                                    = function(
+    _exhibitionStartString  ,
+    _floorObjectArray       ,
+    _roomObjectArray        ,
+    _exhibitionObjectArray  ,
+    _playeObjectArray
+){
 
+    /*PENDING: Fix the verification method.*/
     if(
 
         typeof _exhibitionStartString                           === 'string' &&
@@ -15,14 +22,11 @@ ObjectPlayer                                                    = function(_exhi
         this.floorObjectArray                                   = _floorObjectArray;
         this.exhibitionTargetStringArray                        = new Array();              /*PENDING: Current target exhibition of which has more priority over other exhibitions.*/
         this.exhibitionVisitedStringArray                       = new Array();              /*List of exhibition that has been visited by this player.*/
+        this.sibling
         this.tagMixedArray                                      = new Array();              /*PENDING: List of all favorites tags gathered by this player by visiting exhibition.*/
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
-
-        /*PROTOTYPE.*/
-        this.exhibitionCurrentObject                            = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
-        this.playerSiblingObjectArray                           = new Array();
-
+        this.siblingObjectArray                                 = new Array();
         this.indexNum                                           = 0;
         this.panelXNum                                          = 0;
         this.panelYNum                                          = 0;
@@ -34,9 +38,9 @@ ObjectPlayer                                                    = function(_exhi
         this.ExhibitionMoveString                               (
 
             _exhibitionStartString,
-            this.exhibitionObjectArray,
+            this.floorObjectArray,
             this.roomObjectArray,
-            this.floorObjectArray
+            this.exhibitionObjectArray
 
         );
 
@@ -56,7 +60,7 @@ ObjectPlayer.prototype.constructor                              = ObjectPlayer;
 /*AIAutoBool is a function that move this player object automatically to the exahibition.
 This function returns true if the player just move to new exhibition and false if the player
     stay in the current exhibition.*/
-ObjectPlayer.prototype.AIAutoString                             = function(_indexNum, _offsetXNum, _offsetYNum){
+ObjectPlayer.prototype.AIAutoString                             = function(){
 
     /*Check wether this player has already visited most exhibitions in the museum.
     I checked the whether the exhibition visited has the same amount of length with total exhibition length.
@@ -119,26 +123,20 @@ ObjectPlayer.prototype.AIAutoString                             = function(_inde
             }
             */
 
+            /*PENDING: Remove this player from current exhibition string.*/
+
             /*Move player to the new exhibition.*/
             var randomIndexNum      = Math.floor((Math.random()*this.exhibitionTargetStringArray.length) + 0);
             var newExhibitionString = this.ExhibitionMoveString(
 
                 this.exhibitionTargetStringArray[randomIndexNum],
-                this.exhibitionObjectArray,
+                this.floorObjectArray,
                 this.roomObjectArray,
-                this.floorObjectArray
+                this.exhibitionObjectArray
 
             );
 
-            this.playerSiblingObjectArray = [];
-            /*Setting player sibling (player that resides in the same exhibition).*/
-            for(var i = 0; i < this.playerObjectArray.length; i ++){
-
-                if(this.playerObjectArray[i].exhibitionCurrentString == this.exhibitionCurrentString){ this.playerSiblingObjectArray.push(this.playerObjectArray[i]); }
-
-            }
-
-            this.CreatePanelVoid(_indexNum, _offsetXNum, _offsetYNum);
+            this.CreatePanelVoid();
 
             /*PENDING: Add time current to total time before reseting it.*/
 
@@ -170,21 +168,15 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 
 ObjectPlayer.prototype.CreatePanelVoid                          = function(){
 
-    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentObject);
-    var parentObject                                            = exhibitionCurrentObject;
-    var siblingExhibitionObjectArray                            = new Array();
 
-    for(var i = 0; i < this.playerObjectArray.length; i ++){
 
-        if(this.playerObjectArray[i].exhibitionCurrentObject == parentObject){
+};
 
-            siblingExhibitionObjectArray.push(this.playerObjectArray[i]);
+/*PENDING: Move this later after done.*/
+ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
 
-        }
-
-    }
-
-    /*Set children of the parent object.*/
+    //var exhibitionCurrentObject                               = this.FindArray(this.exhibitionObjectArray, this.exhibitionCurrentString);
+    for(var i = 0; i < this.playerObjectArray.length; i ++){}
 
 };
 
@@ -321,24 +313,26 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 };
 
 /*A function to move this player to new exhibition.*/
-ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhibitionNameAltString, _exhibitionObjectArray, _roomObjectArray, _floorObjectArray){
+ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhibitionNameAltString, _floorObjectArray, _roomObjectArray, _exhibitionObjectArray){
 
     /*Verification of argument inputted.*/
     if(
 
         typeof _exhibitionNameAltString                         === 'string' &&
-        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _floorObjectArray                                === 'object' &&
         typeof _roomObjectArray                                 === 'object' &&
-        typeof _floorObjectArray                                === 'object'
+        typeof _exhibitionObjectArray                           === 'object'
+        
 
     ){
 
         /*Add calculation for the current exhibition array before the this player is moved into new exhibition.*/
         if(this.exhibitionCurrentString                         != undefined){
 
-            var roomCurrentObject                               = this.FindObject(_roomObjectArray        , this.exhibitionCurrentObject    .objectParentNameAltString);
+            var exhibitionCurrentObject                         = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
+            var roomCurrentObject                               = this.FindObject(_roomObjectArray        , exhibitionCurrentObject         .objectParentNameAltString);
             var floorCurrentObject                              = this.FindObject(_floorObjectArray       , roomCurrentObject               .objectParentNameAltString);
-            this.exhibitionCurrentObject                        .visitorCurrentNum --;
+            exhibitionCurrentObject                             .visitorCurrentNum --;
             roomCurrentObject                                   .visitorCurrentNum --;
             floorCurrentObject                                  .visitorCurrentNum --;
 
@@ -350,18 +344,19 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
         /*PENDING: Add a code to check whether the visited exhibition is in the museum.*/
 
         /*Adding one additional visitor to a new exhibition.*/
-        var roomCurrentObject                                   = this.FindObject(_roomObjectArray        , this.exhibitionCurrentObject    .objectParentNameAltString);
+        var exhibitionCurrentObject                             = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
+        var roomCurrentObject                                   = this.FindObject(_roomObjectArray        , exhibitionCurrentObject         .objectParentNameAltString);
         var floorCurrentObject                                  = this.FindObject(_floorObjectArray       , roomCurrentObject               .objectParentNameAltString);
-        this.exhibitionCurrentObject                            .visitorCurrentNum  ++;
+        exhibitionCurrentObject                                 .visitorCurrentNum  ++;
         roomCurrentObject                                       .visitorCurrentNum  ++;
         floorCurrentObject                                      .visitorCurrentNum  ++;
-        this.exhibitionCurrentObject                            .visitorTotalNum    ++;
+        exhibitionCurrentObject                                 .visitorTotalNum    ++;
         roomCurrentObject                                       .visitorTotalNum    ++;
         floorCurrentObject                                      .visitorTotalNum    ++;
 
         /*These codes below is to add tags into player array.
         And then it gives value for every tags inside the array.*/
-        for(var i = 0; i < this.exhibitionCurrentObject.tagStringArray.length; i ++){
+        for(var i = 0; i < exhibitionCurrentObject.tagStringArray.length; i ++){
 
             /*Add the tags from exhibition to the this.tagMixedArray.*/
             var tagMixedArray                                   = new Array(2);
@@ -408,9 +403,9 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
     else{
 
         console.log     ((typeof _exhibitionNameAltString)  + ' supposed to be a string.');
-        console.log     ((typeof _exhibitionObjectArray)    + ' supposed to be a object.');
-        console.log     ((typeof _roomObjectArray)          + ' supposed to be a object.');
         console.log     ((typeof _floorObjectArray)         + ' supposed to be a object.');
+        console.log     ((typeof _roomObjectArray)          + ' supposed to be a object.');
+        console.log     ((typeof _exhibitionObjectArray)    + ' supposed to be a object.');
         return          undefined;
 
     }

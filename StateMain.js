@@ -20,7 +20,6 @@ stateMain = {
         this.updateCountNum                 = 0;
         this.updateCountTotalNum            = 0;
         this.playerUpdateNum                = 0;
-        this.playerIndexNum                 = 0;
 
         /*Initial object name for floor.*/
         var floorNameObjectArray                    = [
@@ -161,9 +160,9 @@ stateMain = {
             var playerObject                = new ObjectPlayer(
 
                 this.exhibitionObjectArray[randomExhibitionIndexNum].objectNameAltString,
-                this.exhibitionObjectArray,
+                this.floorObjectArray,
                 this.roomObjectArray,
-                this.floorObjectArray
+                this.exhibitionObjectArray
 
             );
             this.playerObjectArray          .push(playerObject);
@@ -237,10 +236,6 @@ stateMain = {
     update                                  :function(){
 
         this.SortArray(this.playerObjectArray, this.CompareCurrentExhibitionNum);
-        for(var i = 0; i < this.playerObjectArray.length; i ++){
-            //console.log(i + ': ' + Math.ceil(this.playerObjectArray[i].panelXNum) + ' ' + Math.ceil(this.playerObjectArray[i].panelYNum));
-            //console.log(this.playerObjectArray[i].exhibitionCurrentString);
-        }
 
         /*
         <<Loop through the players/visitors within the museum and activate its AI function.>>
@@ -264,18 +259,7 @@ stateMain = {
         this.playerIndexNum         ++;
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
         */
-        this.playerIndexNum = 0;
-        for(var i = 0; i < this.playerObjectArray.length; i ++){
-
-            if(i != 0)                                      {
-
-                if(this.playerObjectArray[i].exhibitionCurrentString != this.playerObjectArray[i - 1].exhibitionCurrentString){ this.playerIndexNum = 0; }
-
-            }
-            this.playerObjectArray[i].AIAutoString          (this.playerIndexNum, this.offsetXNum, this.offsetYNum);
-            this.playerIndexNum                             ++;
-
-        }
+        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
 
         /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
         PENDING: I am not sure whether you can just dynamucally add an object while the loop is running.
