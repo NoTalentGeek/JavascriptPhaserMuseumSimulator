@@ -59,6 +59,36 @@ ObjectPlayer                                                    = function(
 };
 ObjectPlayer.prototype.constructor                              = ObjectPlayer;
 
+/*Add or remove this player from the parent object.*/
+ObjectPlayer.prototype.AddRemoveChildObjectArray                = function(_isAdd){
+
+    if(typeof _isAdd === 'boolean'){
+
+        /*Make reference to the current exhibition visited.*/
+        var exhibitionCurrentObject                             = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
+
+        /*Add this player to the child of the exhibition object.*/
+        if      (_isAdd )                                       { exhibitionCurrentObject.childObjectArray.push(this); }
+        /*Remove this player from the child of the exhibition object.*/
+        else if (!_isAdd)                                       {
+
+            var indexNum                                        = exhibitionCurrentObject.childObjectArray.indexOf(this);
+                                                                  exhibitionCurrentObject.childObjectArray.splice(indexNum, 1);
+
+        }
+
+        return exhibitionCurrentObject.childObjectArray;
+
+    }
+    else{
+
+        console.log                                             ((typeof _isAdd) + ' supposed to be a boolean.');
+        return undefined;
+
+    }
+
+}
+
 /*AIAutoBool is a function that move this player object automatically to the exahibition.
 This function returns true if the player just move to new exhibition and false if the player
     stay in the current exhibition.*/
@@ -125,8 +155,6 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
             }
             */
 
-            /*PENDING: Remove this player from current exhibition string.*/
-
             /*Move player to the new exhibition.*/
             var randomIndexNum      = Math.floor((Math.random()*this.exhibitionTargetStringArray.length) + 0);
             var newExhibitionString = this.ExhibitionMoveString(
@@ -138,10 +166,8 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
 
             );
 
-            this.CalculateSiblingObjectArray();
             this.CreatePanelVoid();
 
-            /*PENDING: Add time current to total time before reseting it.*/
 
             this.timeCurrentExhibitionNum   = 0;    /*Reset timer.*/
             return                          newExhibitionString;
@@ -151,6 +177,28 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
 
     }
     else{ return undefined; }
+
+};
+
+/*This function is to calculate how many player object share the same parent object.*/
+ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
+
+    /*Always empty the object array, due to we will fill with the new one.*/
+    this.siblingObjectArray                                     = [];
+
+    /*Iterate through the object player array.*/
+    for(var i = 0; i < this.playerObjectArray.length; i ++)     {
+
+        /*If an object share the same parent name than add the object to this.siblingObjectArray.*/
+        if(this.playerObjectArray[i].exhibitionCurrentString    == this.exhibitionCurrentString){
+
+            this.siblingObjectArray.push(this.playerObjectArray[i]);
+
+        }
+
+    }
+
+    return this.siblingObjectArray;
 
 };
 
@@ -174,43 +222,6 @@ ObjectPlayer.prototype.CreatePanelVoid                          = function(){
 
 
 };
-
-/*PENDING: Move this later after done.*/
-ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
-
-    this.siblingObjectArray                                     = [];
-    for(var i = 0; i < this.playerObjectArray.length; i ++)     {
-
-        if(this.playerObjectArray[i].exhibitionCurrentString    == this.exhibitionCurrentString){
-
-            this.siblingObjectArray.push(this.playerObjectArray[i]);
-
-        }
-
-    }
-
-    return this.siblingObjectArray;
-
-};
-
-/*PENDING: Move this later after done.*/
-ObjectPlayer.prototype.AddRemoveChildObjectArray                = function(_isAdd){
-
-    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
-
-    if      (_isAdd )                                           { exhibitionCurrentObject.childObjectArray.push(this); }
-    else if (!_isAdd)                                           {
-
-        var indexNum                                            = exhibitionCurrentObject.childObjectArray.indexOf(this);
-                                                                  exhibitionCurrentObject.childObjectArray.splice(indexNum, 1);
-
-    }
-
-    console.log(exhibitionCurrentObject.childObjectArray);
-    return exhibitionCurrentObject.childObjectArray;
-
-}
-
 
 ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
@@ -430,8 +441,9 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
 
         }
 
-        this.SortArray(this.tagMixedArray, this.CompareTagNum);
-        this.AddRemoveChildObjectArray(true);
+        this.SortArray(this.tagMixedArray, this.CompareTagNum);     /*Sort the array so that the highest point of tags is always on top.*/
+        this.AddRemoveChildObjectArray(true);                       /*Add this player to the new exhibition parent.*/
+        this.CalculateSiblingObjectArray();                         /*Re calculate the sibling array.*/
         return this.exhibitionCurrentString;                        /*Return the array of visited exhbition.*/
 
     }
