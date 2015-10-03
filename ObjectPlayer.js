@@ -3,7 +3,7 @@ ObjectPlayer                                                    = function(
     _floorObjectArray       ,
     _roomObjectArray        ,
     _exhibitionObjectArray  ,
-    _playeObjectArray
+    _playerObjectArray
 ){
 
     /*PENDING: Fix the verification method.*/
@@ -17,12 +17,13 @@ ObjectPlayer                                                    = function(
     ){
 
         this.exhibitionCurrentString                            = undefined;                /*The current exhibition of which this player resides in.*/
-        this.exhibitionObjectArray                              = _exhibitionObjectArray;
-        this.roomObjectArray                                    = _roomObjectArray;
         this.floorObjectArray                                   = _floorObjectArray;
+        this.roomObjectArray                                    = _roomObjectArray;
+        this.exhibitionObjectArray                              = _exhibitionObjectArray;
+        this.playerObjectArray                                  = _playerObjectArray;
         this.exhibitionTargetStringArray                        = new Array();              /*PENDING: Current target exhibition of which has more priority over other exhibitions.*/
         this.exhibitionVisitedStringArray                       = new Array();              /*List of exhibition that has been visited by this player.*/
-        this.sibling
+        this.siblingObjectArray                                 = new Array();
         this.tagMixedArray                                      = new Array();              /*PENDING: List of all favorites tags gathered by this player by visiting exhibition.*/
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
@@ -136,6 +137,7 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
 
             );
 
+            this.CalculateSiblingObjectArray();
             this.CreatePanelVoid();
 
             /*PENDING: Add time current to total time before reseting it.*/
@@ -175,8 +177,19 @@ ObjectPlayer.prototype.CreatePanelVoid                          = function(){
 /*PENDING: Move this later after done.*/
 ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
 
-    //var exhibitionCurrentObject                               = this.FindArray(this.exhibitionObjectArray, this.exhibitionCurrentString);
-    for(var i = 0; i < this.playerObjectArray.length; i ++){}
+    this.siblingObjectArray                                     = [];
+    for(var i = 0; i < this.playerObjectArray.length; i ++)     {
+
+        if(this.playerObjectArray[i].exhibitionCurrentString    == this.exhibitionCurrentString){
+
+            this.siblingObjectArray.push(this.playerObjectArray[i]);
+
+        }
+
+    }
+
+    console.log(this.siblingObjectArray);
+    return this.siblingObjectArray;
 
 };
 

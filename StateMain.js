@@ -162,7 +162,8 @@ stateMain = {
                 this.exhibitionObjectArray[randomExhibitionIndexNum].objectNameAltString,
                 this.floorObjectArray,
                 this.roomObjectArray,
-                this.exhibitionObjectArray
+                this.exhibitionObjectArray,
+                this.playerObjectArray
 
             );
             this.playerObjectArray          .push(playerObject);
