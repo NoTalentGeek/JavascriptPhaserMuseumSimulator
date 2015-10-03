@@ -44,6 +44,8 @@ ObjectMuseum.prototype.PolyConsVoid                 = function(_objectParentName
         this.panelWidthNum                          = 0;
         this.panelHeightNum                         = 0;
 
+        this.childObject                            = new Array();
+
     }
     else{
 
@@ -81,6 +83,8 @@ ObjectMuseum.prototype.PolyConsExhibitionVoid       = function(_objectParentName
         this.panelYNum                              = 0;
         this.panelWidthNum                          = 0;
         this.panelHeightNum                         = 0;
+
+        this.childObject                            = new Array();
 
         if(this.objectTypeString                    == 'EXH'){
 

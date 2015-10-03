@@ -19,6 +19,10 @@ ObjectPlayer                                                    = function(_exhi
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
+        /*PROTOTYPE.*/
+        this.exhibitionCurrentObject                            = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
+        this.playerSiblingObjectArray                           = new Array();
+
         this.indexNum                                           = 0;
         this.panelXNum                                          = 0;
         this.panelYNum                                          = 0;
@@ -125,6 +129,15 @@ ObjectPlayer.prototype.AIAutoString                             = function(_inde
                 this.floorObjectArray
 
             );
+
+            this.playerSiblingObjectArray = [];
+            /*Setting player sibling (player that resides in the same exhibition).*/
+            for(var i = 0; i < this.playerObjectArray.length; i ++){
+
+                if(this.playerObjectArray[i].exhibitionCurrentString == this.exhibitionCurrentString){ this.playerSiblingObjectArray.push(this.playerObjectArray[i]); }
+
+            }
+
             this.CreatePanelVoid(_indexNum, _offsetXNum, _offsetYNum);
 
             /*PENDING: Add time current to total time before reseting it.*/
@@ -155,36 +168,23 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 
 };
 
-ObjectPlayer.prototype.CreatePanelVoid                          = function(_indexNum, _offsetXNum, _offsetYNum){
+ObjectPlayer.prototype.CreatePanelVoid                          = function(){
 
-    if(this.panelObject != undefined)                           { this.panelObject.destroy(true);}
+    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentObject);
+    var parentObject                                            = exhibitionCurrentObject;
+    var siblingExhibitionObjectArray                            = new Array();
 
-    this.indexNum                                               = _indexNum;
+    for(var i = 0; i < this.playerObjectArray.length; i ++){
 
-    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
+        if(this.playerObjectArray[i].exhibitionCurrentObject == parentObject){
 
-    /*These lines of codes below is to determine the width and the height of the panel.
-    For object other than floor object you need to compare the width and height based on the parent object.*/
-    this.panelXNum                                              = exhibitionCurrentObject.panelXNum;
-    this.panelYNum                                              = exhibitionCurrentObject.panelYNum + ((this.indexNum + 1)*this.panelHeightNum) + ((this.indexNum + 1)*_offsetYNum);
-    this.panelWidthNum                                          = exhibitionCurrentObject.panelWidthNum;
-    this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
+            siblingExhibitionObjectArray.push(this.playerObjectArray[i]);
 
-    /*Create the panel image here.*/
-    this.panelObject                                            = game.add.sprite(
+        }
 
-        this.panelXNum,
-        this.panelYNum,
-        'ImagePanel5New'
+    }
 
-    );
-
-    /*Set the width and the height for the object to meet the variables we have made before.*/
-    this.panelObject.width                                      = this.panelWidthNum;
-    this.panelObject.height                                     = this.panelHeightNum;
-    /*Refer back the panel x and y position to the variables for easy referencing.*/
-    this.panelObject.x                                          = exhibitionCurrentObject.panelXNum;
-    //this.panelObject.y                                          = exhibitionCurrentObject.panelYNum;
+    /*Set children of the parent object.*/
 
 };
 
@@ -336,10 +336,9 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
         /*Add calculation for the current exhibition array before the this player is moved into new exhibition.*/
         if(this.exhibitionCurrentString                         != undefined){
 
-            var exhibitionCurrentObject                         = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
-            var roomCurrentObject                               = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
-            var floorCurrentObject                              = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
-            exhibitionCurrentObject                             .visitorCurrentNum --;
+            var roomCurrentObject                               = this.FindObject(_roomObjectArray        , this.exhibitionCurrentObject    .objectParentNameAltString);
+            var floorCurrentObject                              = this.FindObject(_floorObjectArray       , roomCurrentObject               .objectParentNameAltString);
+            this.exhibitionCurrentObject                        .visitorCurrentNum --;
             roomCurrentObject                                   .visitorCurrentNum --;
             floorCurrentObject                                  .visitorCurrentNum --;
 
@@ -351,19 +350,18 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
         /*PENDING: Add a code to check whether the visited exhibition is in the museum.*/
 
         /*Adding one additional visitor to a new exhibition.*/
-        var exhibitionCurrentObject                             = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
-        var roomCurrentObject                                   = this.FindObject(_roomObjectArray        , exhibitionCurrentObject   .objectParentNameAltString);
-        var floorCurrentObject                                  = this.FindObject(_floorObjectArray       , roomCurrentObject         .objectParentNameAltString);
-        exhibitionCurrentObject                                 .visitorCurrentNum  ++;
+        var roomCurrentObject                                   = this.FindObject(_roomObjectArray        , this.exhibitionCurrentObject    .objectParentNameAltString);
+        var floorCurrentObject                                  = this.FindObject(_floorObjectArray       , roomCurrentObject               .objectParentNameAltString);
+        this.exhibitionCurrentObject                            .visitorCurrentNum  ++;
         roomCurrentObject                                       .visitorCurrentNum  ++;
         floorCurrentObject                                      .visitorCurrentNum  ++;
-        exhibitionCurrentObject                                 .visitorTotalNum    ++;
+        this.exhibitionCurrentObject                            .visitorTotalNum    ++;
         roomCurrentObject                                       .visitorTotalNum    ++;
         floorCurrentObject                                      .visitorTotalNum    ++;
 
         /*These codes below is to add tags into player array.
         And then it gives value for every tags inside the array.*/
-        for(var i = 0; i < exhibitionCurrentObject.tagStringArray.length; i ++){
+        for(var i = 0; i < this.exhibitionCurrentObject.tagStringArray.length; i ++){
 
             /*Add the tags from exhibition to the this.tagMixedArray.*/
             var tagMixedArray                                   = new Array(2);
