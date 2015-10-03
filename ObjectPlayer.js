@@ -6,13 +6,13 @@ ObjectPlayer                                                    = function(
     _playerObjectArray
 ){
 
-    /*PENDING: Fix the verification method.*/
     if(
 
         typeof _exhibitionStartString                           === 'string' &&
-        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _floorObjectArray                                === 'object' &&
         typeof _roomObjectArray                                 === 'object' &&
-        typeof _floorObjectArray                                === 'object'
+        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _playerOBjectArray                               === 'object'
 
     ){
 
@@ -49,9 +49,10 @@ ObjectPlayer                                                    = function(
     else{
 
         console.log                                             ((typeof _exhibitionStartString)    + ' supposed to be a string.' );
-        console.log                                             ((typeof _exhibitionObjectArray)    + ' supposed to be an object.');
-        console.log                                             ((typeof _roomObjectArray)          + ' supposed to be an object.');
         console.log                                             ((typeof _floorObjectArray)         + ' supposed to be an object.');
+        console.log                                             ((typeof _roomObjectArray)          + ' supposed to be an object.');
+        console.log                                             ((typeof _exhibitionObjectArray)    + ' supposed to be an object.');
+        console.log                                             ((typeof _playerObjectArray)        + ' supposed to be an object.');
 
     }
 
@@ -188,7 +189,6 @@ ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
 
     }
 
-    console.log(this.siblingObjectArray);
     return this.siblingObjectArray;
 
 };
