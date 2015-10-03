@@ -22,21 +22,21 @@ ObjectPlayer                                                    = function(
         this.roomObjectArray                                    = _roomObjectArray;
         this.exhibitionObjectArray                              = _exhibitionObjectArray;
         this.playerObjectArray                                  = _playerObjectArray;
-        
+        this.siblingObjectArray                                 = new Array();
+
         this.exhibitionCurrentString                            = undefined;                /*The current exhibition of which this player resides in.*/
         this.exhibitionTargetStringArray                        = new Array();              /*PENDING: Current target exhibition of which has more priority over other exhibitions.*/
         this.exhibitionVisitedStringArray                       = new Array();              /*List of exhibition that has been visited by this player.*/
-        this.siblingObjectArray                                 = new Array();
         this.tagMixedArray                                      = new Array();              /*PENDING: List of all favorites tags gathered by this player by visiting exhibition.*/
+        
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
-        this.siblingObjectArray                                 = new Array();
-        this.indexNum                                           = 0;
+
+        this.panelObject                                        = undefined;
         this.panelXNum                                          = 0;
         this.panelYNum                                          = 0;
         this.panelWidthNum                                      = 0;
         this.panelHeightNum                                     = 0;
-        this.panelObject                                        = undefined;
         this.offsetYNum                                         = _offsetYNum
 
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
