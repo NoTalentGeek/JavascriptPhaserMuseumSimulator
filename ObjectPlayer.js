@@ -3,7 +3,8 @@ ObjectPlayer                                                    = function(
     _floorObjectArray       ,
     _roomObjectArray        ,
     _exhibitionObjectArray  ,
-    _playerObjectArray
+    _playerObjectArray      ,
+    _offsetYNum
 ){
 
     if(
@@ -12,7 +13,8 @@ ObjectPlayer                                                    = function(
         typeof _floorObjectArray                                === 'object' &&
         typeof _roomObjectArray                                 === 'object' &&
         typeof _exhibitionObjectArray                           === 'object' &&
-        typeof _playerObjectArray                               === 'object'
+        typeof _playerObjectArray                               === 'object' &&
+        typeof _offsetYNum                                      === 'number'
 
     ){
 
@@ -34,6 +36,7 @@ ObjectPlayer                                                    = function(
         this.panelWidthNum                                      = 0;
         this.panelHeightNum                                     = 0;
         this.panelObject                                        = undefined;
+        this.offsetYNum                                         = _offsetYNum
 
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
         this.ExhibitionMoveString                               (
@@ -41,8 +44,9 @@ ObjectPlayer                                                    = function(
             _exhibitionStartString,
             this.floorObjectArray,
             this.roomObjectArray,
-            this.exhibitionObjectArray
-
+            this.exhibitionObjectArray,
+            this.offsetYNum
+            
         );
 
     }
@@ -53,6 +57,7 @@ ObjectPlayer                                                    = function(
         console.log                                             ((typeof _roomObjectArray)          + ' supposed to be an object.');
         console.log                                             ((typeof _exhibitionObjectArray)    + ' supposed to be an object.');
         console.log                                             ((typeof _playerObjectArray)        + ' supposed to be an object.');
+        console.log                                             ((typeof _offsetYNum)               + ' supposed to be an number.');
 
     }
 
@@ -162,12 +167,10 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
                 this.exhibitionTargetStringArray[randomIndexNum],
                 this.floorObjectArray,
                 this.roomObjectArray,
-                this.exhibitionObjectArray
+                this.exhibitionObjectArray,
+                this.offsetYNum
 
             );
-
-            this.CreatePanelVoid();
-
 
             this.timeCurrentExhibitionNum   = 0;    /*Reset timer.*/
             return                          newExhibitionString;
@@ -217,9 +220,26 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 
 };
 
-ObjectPlayer.prototype.CreatePanelVoid                          = function(){
+ObjectPlayer.prototype.CreatePanelObject                        = function(){
 
+    var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
 
+    this.panelWidthNum                                          = exhibitionCurrentObject.panelWidthNum;
+    this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
+
+    if(this.panelObject != undefined)                           { this.panelObject.destroy(); }
+    this.panelObject                                            = game.add.sprite(
+
+        exhibitionCurrentObject.panelXNum,
+        exhibitionCurrentObject.panelYNum,
+        'ImagePanel5New'
+
+    );
+
+    this.panelObject.width                                      = this.panelWidthNum;
+    this.panelObject.height                                     = this.panelHeightNum;
+
+    return this.panelObject;
 
 };
 
@@ -356,7 +376,13 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 };
 
 /*A function to move this player to new exhibition.*/
-ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhibitionNameAltString, _floorObjectArray, _roomObjectArray, _exhibitionObjectArray){
+ObjectPlayer.prototype.ExhibitionMoveString                     = function(
+    _exhibitionNameAltString    ,
+    _floorObjectArray           ,
+    _roomObjectArray            ,
+    _exhibitionObjectArray      ,
+    _offsetYNum
+){
 
     /*Verification of argument inputted.*/
     if(
@@ -364,7 +390,8 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
         typeof _exhibitionNameAltString                         === 'string' &&
         typeof _floorObjectArray                                === 'object' &&
         typeof _roomObjectArray                                 === 'object' &&
-        typeof _exhibitionObjectArray                           === 'object'
+        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _offsetYNum                                      === 'number'
         
 
     ){
@@ -444,6 +471,7 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
         this.SortArray(this.tagMixedArray, this.CompareTagNum);     /*Sort the array so that the highest point of tags is always on top.*/
         this.AddRemoveChildObjectArray(true);                       /*Add this player to the new exhibition parent.*/
         this.CalculateSiblingObjectArray();                         /*Re calculate the sibling array.*/
+        this.CreatePanelObject(_offsetYNum);                        /*Create graphical representation of this player.*/
         return this.exhibitionCurrentString;                        /*Return the array of visited exhbition.*/
 
     }
@@ -453,6 +481,7 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(_exhi
         console.log     ((typeof _floorObjectArray)         + ' supposed to be a object.');
         console.log     ((typeof _roomObjectArray)          + ' supposed to be a object.');
         console.log     ((typeof _exhibitionObjectArray)    + ' supposed to be a object.');
+        console.log     ((typeof _offsetYNum)               + ' supposed to be a number.');
         return          undefined;
 
     }

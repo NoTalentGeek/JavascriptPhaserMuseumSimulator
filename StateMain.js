@@ -3,12 +3,20 @@ stateMain = {
 
     create                                  :function(){
 
+        game.stage.backgroundColor          = 0x4A148C;
+
         /*Array to contain all object in the scene.*/
         this.floorObjectArray               = new Array();
         this.roomObjectArray                = new Array();
         this.exhibitionObjectArray          = new Array();
         this.tagObjectArray                 = new Array();
         this.playerObjectArray              = new Array();
+
+        this.offsetXMulNum                  = (5/1024);
+        this.offsetYMulNum                  = (5/576);
+        this.offsetXNum                     = game.width*this.offsetXMulNum;
+        this.offsetYNum                     = game.height*this.offsetYMulNum;
+        this.totalRowNum                    = 0;
 
         /*How many players in the scene initially.*/
         this.playerCountNum                 = 30;
@@ -163,7 +171,8 @@ stateMain = {
                 this.floorObjectArray,
                 this.roomObjectArray,
                 this.exhibitionObjectArray,
-                this.playerObjectArray
+                this.playerObjectArray,
+                this.offsetYNum
 
             );
             this.playerObjectArray          .push(playerObject);
@@ -171,6 +180,8 @@ stateMain = {
             //console.log(playerObject.exhibitionCurrentString);
 
         }
+
+        this.totalRowNum                    = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length) + 5);
 
         //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
         //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
@@ -180,19 +191,6 @@ stateMain = {
         this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
         this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
 
-
-        game.stage.backgroundColor          = 0x4A148C;
-
-        this.offsetXMulNum                  = (5/1024);
-        this.offsetYMulNum                  = (5/576);
-        this.offsetXNum                     = game.width*this.offsetXMulNum;
-        this.offsetYNum                     = game.height*this.offsetYMulNum;
-        this.totalRowNum                    = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length) + 5);
-        //this.totalRowNum                  = 3 + this.playerObjectArray.length;
-
-        this.floorObjectPanelArray          = new Array();
-        this.roomObjectPanelArray           = new Array();
-        this.exhibitionObjectPanelArray     = new Array();
 
         for(var i = 0; i < this.floorObjectArray.length; i ++){
 
