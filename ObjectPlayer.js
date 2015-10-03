@@ -18,11 +18,12 @@ ObjectPlayer                                                    = function(
 
     ){
 
-        this.exhibitionCurrentString                            = undefined;                /*The current exhibition of which this player resides in.*/
         this.floorObjectArray                                   = _floorObjectArray;
         this.roomObjectArray                                    = _roomObjectArray;
         this.exhibitionObjectArray                              = _exhibitionObjectArray;
         this.playerObjectArray                                  = _playerObjectArray;
+        
+        this.exhibitionCurrentString                            = undefined;                /*The current exhibition of which this player resides in.*/
         this.exhibitionTargetStringArray                        = new Array();              /*PENDING: Current target exhibition of which has more priority over other exhibitions.*/
         this.exhibitionVisitedStringArray                       = new Array();              /*List of exhibition that has been visited by this player.*/
         this.siblingObjectArray                                 = new Array();
