@@ -46,7 +46,7 @@ ObjectPlayer                                                    = function(
             this.roomObjectArray,
             this.exhibitionObjectArray,
             this.offsetYNum
-            
+
         );
 
     }
@@ -124,7 +124,7 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
 
             <<If the index number is the same with the index of the current exhibition then you need to generate
                 new index number until the index is not the same with currently visited exhibition.>>
-            while(this.FindIndexNum(this.exhibitionObjectArray, this.exhibitionCurrentString) == indexNum){
+            while(this.FindIndexNameAltNum(this.exhibitionObjectArray, this.exhibitionCurrentString) == indexNum){
 
                 indexNum = Math.floor((Math.random()*this.exhibitionObjectArray.length) + 0);
 
@@ -220,22 +220,31 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 
 };
 
+/*Create the graphical user interface of this player.*/
 ObjectPlayer.prototype.CreatePanelObject                        = function(){
 
+    /*Take reference to this player current exhibition.*/
     var exhibitionCurrentObject                                 = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
+    
+    /*Take reference to this player index within exhibition object child array.*/
+    var indexNum                                                = this.FindIndexObjectNum(exhibitionCurrentObject.childObjectArray, this);
 
     this.panelWidthNum                                          = exhibitionCurrentObject.panelWidthNum;
     this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
 
+    /*Destroy the previously created panel.*/
     if(this.panelObject != undefined)                           { this.panelObject.destroy(); }
+
     this.panelObject                                            = game.add.sprite(
 
         exhibitionCurrentObject.panelXNum,
-        exhibitionCurrentObject.panelYNum,
+        exhibitionCurrentObject.panelYNum + ((indexNum + 1)*this.offsetYNum) + ((indexNum + 1)*this.panelHeightNum),
         'ImagePanel5New'
 
     );
 
+    this.panelXNum                                              = this.panelObject.x;
+    this.panelYNum                                              = this.panelObject.y;
     this.panelObject.width                                      = this.panelWidthNum;
     this.panelObject.height                                     = this.panelHeightNum;
 
@@ -472,6 +481,10 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
         this.AddRemoveChildObjectArray(true);                       /*Add this player to the new exhibition parent.*/
         this.CalculateSiblingObjectArray();                         /*Re calculate the sibling array.*/
         this.CreatePanelObject(_offsetYNum);                        /*Create graphical representation of this player.*/
+
+        /*For every player moved, update the panel position of all player.*/
+        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].CreatePanelObject(); }
+
         return this.exhibitionCurrentString;                        /*Return the array of visited exhbition.*/
 
     }
@@ -490,7 +503,7 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
 
 /*A function to find the exhibition in an array of object exhibition, based on exhibition's
     name alt.*/
-ObjectPlayer.prototype.FindIndexNum                             = function(_exhibitionObjectArray, _exhibitionNameAltString){
+ObjectPlayer.prototype.FindIndexNameAltNum                      = function(_exhibitionObjectArray, _exhibitionNameAltString){
 
     if(
 
@@ -520,6 +533,36 @@ ObjectPlayer.prototype.FindIndexNum                             = function(_exhi
 
 };
 
+ObjectPlayer.prototype.FindIndexObjectNum                       = function(_playerObjectArray, _exhibitionObject){
+
+    if(
+
+        (typeof _playerObjectArray                              === 'object') &&
+        (typeof _exhibitionObject                               === 'object')
+
+    ){
+
+        /*Loop through the array.*/
+        for(var i = 0; i < _playerObjectArray.length; i ++){
+
+            /*Check the variable name of nameObjectAlt one by one per array element.
+            i is the index number when the variable name equals with the variable value.*/
+            if(_playerObjectArray[i] == _exhibitionObject){ return i; }
+
+        }
+        return undefined;
+
+    }
+    else{
+
+        console.log((typeof _playerObjectArray)         + ' is not an object.');
+        console.log((typeof _exhibitionObject)          + ' is not an object.');
+        return undefined;
+
+    }
+
+};
+
 /*Using the function to find object index, I created another function to return the object instead of the index.*/
 ObjectPlayer.prototype.FindObject                               = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
@@ -528,7 +571,7 @@ ObjectPlayer.prototype.FindObject                               = function(_exhi
         (typeof _exhibitionNameObjectArray                      === 'object') &&
         (typeof _exhibitionNameAltString                        === 'string')
 
-    ){ return _exhibitionNameObjectArray[this.FindIndexNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+    ){ return _exhibitionNameObjectArray[this.FindIndexNameAltNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
     else{
 
         console.log((typeof _exhibitionNameObjectArray)         + ' is not an object.');
