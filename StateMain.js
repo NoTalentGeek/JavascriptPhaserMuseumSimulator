@@ -94,19 +94,47 @@ stateMain = {
 
         ];
 
+        //this.totalRowNum                          = 3 + (Math.ceil(this.playerCountNum/this.exhibitionObjectArray.length) + 5);
+        this.totalRowNum                            = 3 + (Math.ceil(this.playerCountNum/exhibitionNameObjectArray.length) + 5);
+
+
         /*Initiates everything and put everythin in to its corresponding array.*/
         for(var i = 0; i < floorNameObjectArray.length; i ++){
 
-            var floorObject         = new ObjectMuseum('XXX_XXX', 'FLR', floorNameObjectArray[i]);
-            this.floorObjectArray   .push(floorObject);
+            var floorObject = new ObjectMuseum(
+
+                'XXX_XXX',
+                'FLR',
+                floorNameObjectArray[i],
+                this.offsetXNum,
+                this.offsetYNum,
+                this.totalRowNum,
+                this.floorObjectArray,
+                this.roomObjectArray,
+                this.exhibitionObjectArray
+
+            );
+            this.floorObjectArray.push(floorObject);
 
             //console.log(floorObject.objectNameAltString);
 
         }
         for(var i = 0; i < roomNameObjectArray.length; i ++){
 
-            var roomObject          = new ObjectMuseum('FLR_001', 'ROM', roomNameObjectArray[i]);
-            this.roomObjectArray    .push(roomObject);
+            var roomObject = new ObjectMuseum(
+
+                'FLR_001',
+                'ROM',
+                roomNameObjectArray[i],
+                this.offsetXNum,
+                this.offsetYNum,
+                this.totalRowNum,
+                this.floorObjectArray,
+                this.roomObjectArray,
+                this.exhibitionObjectArray
+
+            );
+            this.roomObjectArray.push(roomObject);
 
             //console.log(roomObject.objectNameAltString);
 
@@ -114,19 +142,95 @@ stateMain = {
         for(var i = 0; i < exhibitionNameObjectArray.length; i ++){
 
             /*Adding the exhibition based on index i that will determine the room location for an exhibition.*/
-            if      (i < 4 ){ var exhibitionObject  = new ObjectMuseum('ROM_AFK', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
-            else if (i < 8 ){ var exhibitionObject  = new ObjectMuseum('ROM_AME', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
-            else if (i < 12){ var exhibitionObject  = new ObjectMuseum('ROM_ASI', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
-            else if (i < 16){ var exhibitionObject  = new ObjectMuseum('ROM_EUR', 'EXH', exhibitionNameObjectArray[i], this.roomObjectArray); }
-            this.exhibitionObjectArray              .push(exhibitionObject);
+            if(i < 4 ){
+
+                var exhibitionObject  = new ObjectMuseum(
+
+                    'ROM_AFK', 
+                    'EXH', 
+                    exhibitionNameObjectArray[i],
+                    this.offsetXNum, 
+                    this.offsetYNum, 
+                    this.totalRowNum, 
+                    this.floorObjectArray, 
+                    this.roomObjectArray, 
+                    this.exhibitionObjectArray
+
+                );
+
+            }
+            else if(i < 8 ){
+
+                var exhibitionObject = new ObjectMuseum(
+
+                    'ROM_AME', 
+                    'EXH', 
+                    exhibitionNameObjectArray[i],
+                    this.offsetXNum,
+                    this.offsetYNum,
+                    this.totalRowNum,
+                    this.floorObjectArray,
+                    this.roomObjectArray,
+                    this.exhibitionObjectArray
+
+                );
+
+            }
+            else if(i < 12){
+
+                var exhibitionObject = new ObjectMuseum(
+
+                    'ROM_ASI', 
+                    'EXH', 
+                    exhibitionNameObjectArray[i],
+                    this.offsetXNum,
+                    this.offsetYNum,
+                    this.totalRowNum,
+                    this.floorObjectArray,
+                    this.roomObjectArray,
+                    this.exhibitionObjectArray
+
+                );
+
+            }
+            else if(i < 16){
+
+                var exhibitionObject = new ObjectMuseum(
+
+                    'ROM_EUR', 
+                    'EXH', 
+                    exhibitionNameObjectArray[i],
+                    this.offsetXNum,
+                    this.offsetYNum,
+                    this.totalRowNum,
+                    this.floorObjectArray,
+                    this.roomObjectArray,
+                    this.exhibitionObjectArray
+
+                );
+
+            }
+            this.exhibitionObjectArray.push(exhibitionObject);
 
             //console.log(exhibitionObject.objectNameAltString);
 
         }
         for(var i = 0; i < tagNameObjectArray.length; i ++){
 
-            var tagObject           = new ObjectMuseum('XXX_XXX', 'TAG', tagNameObjectArray[i]);
-            this.tagObjectArray     .push(tagObject);
+            var tagObject = new ObjectMuseum(
+
+                'XXX_XXX',
+                'TAG',
+                tagNameObjectArray[i],
+                this.offsetXNum,
+                this.offsetYNum,
+                this.totalRowNum,
+                this.floorObjectArray,
+                this.roomObjectArray,
+                this.exhibitionObjectArray
+
+            );
+            this.tagObjectArray.push(tagObject);
 
             //console.log(tagObject.objectNameAltString);
 
@@ -160,9 +264,6 @@ stateMain = {
         //console.log(this.floorObjectArray);
         //console.log(this.roomObjectArray);
         //console.log(this.exhibitionObjectArray);
-
-        this.totalRowNum                    = 3 + (Math.ceil(this.playerCountNum/this.exhibitionObjectArray.length) + 5);
-
         //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
         //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
 
@@ -171,9 +272,9 @@ stateMain = {
         this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
         this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
 
-        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]      .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
-        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]       .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
-        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i] .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]      .CreatePanelVoid(); }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]       .CreatePanelVoid(); }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i] .CreatePanelVoid(); }
 
         /*Initiate players and generate random exhibition starting point.*/
         for(var i = 0; i < this.playerCountNum; i ++){

@@ -53,12 +53,12 @@ ObjectPlayer                                                    = function(
     }
     else{
 
-        console.log                                             ((typeof _exhibitionStartString)    + ' supposed to be a string.' );
-        console.log                                             ((typeof _floorObjectArray)         + ' supposed to be an object.');
-        console.log                                             ((typeof _roomObjectArray)          + ' supposed to be an object.');
-        console.log                                             ((typeof _exhibitionObjectArray)    + ' supposed to be an object.');
-        console.log                                             ((typeof _playerObjectArray)        + ' supposed to be an object.');
-        console.log                                             ((typeof _offsetYNum)               + ' supposed to be an number.');
+        console.log                                             ((typeof _exhibitionStartString)    + ' is not a string.' );
+        console.log                                             ((typeof _floorObjectArray)         + ' is not an object.');
+        console.log                                             ((typeof _roomObjectArray)          + ' is not an object.');
+        console.log                                             ((typeof _exhibitionObjectArray)    + ' is not an object.');
+        console.log                                             ((typeof _playerObjectArray)        + ' is not an object.');
+        console.log                                             ((typeof _offsetYNum)               + ' is not an number.');
 
     }
 
@@ -87,7 +87,7 @@ ObjectPlayer.prototype.AddRemoveChildObjectArray                = function(_isAd
     }
     else{
 
-        console.log                                             ((typeof _isAdd) + ' supposed to be a boolean.');
+        console.log                                             ((typeof _isAdd) + ' is not a boolean.');
         return undefined;
 
     }
@@ -490,11 +490,11 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
     }
     else{
 
-        console.log     ((typeof _exhibitionNameAltString)  + ' supposed to be a string.');
-        console.log     ((typeof _floorObjectArray)         + ' supposed to be a object.');
-        console.log     ((typeof _roomObjectArray)          + ' supposed to be a object.');
-        console.log     ((typeof _exhibitionObjectArray)    + ' supposed to be a object.');
-        console.log     ((typeof _offsetYNum)               + ' supposed to be a number.');
+        console.log     ((typeof _exhibitionNameAltString)  + ' is not a string.');
+        console.log     ((typeof _floorObjectArray)         + ' is not a object.');
+        console.log     ((typeof _roomObjectArray)          + ' is not a object.');
+        console.log     ((typeof _exhibitionObjectArray)    + ' is not a object.');
+        console.log     ((typeof _offsetYNum)               + ' is not a number.');
         return          undefined;
 
     }
