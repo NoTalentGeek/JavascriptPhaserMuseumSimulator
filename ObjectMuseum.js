@@ -61,6 +61,10 @@ ObjectMuseum                                        =  function(
         this.panelYNum                              = 0;
         this.panelWidthNum                          = 0;
         this.panelHeightNum                         = 0;
+        this.panelObject                            = undefined;
+        this.panelLabelObject                       = undefined;
+
+        this.fontSizeNum                            = 32;
 
         this.AddRemoveChildObjectArray              (true);
 
@@ -147,7 +151,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         this.panelHeightNum         = (game.height - ((this.offsetYNum*this.totalRowNum) + this.offsetYNum))/this.totalRowNum;
 
         /*Create the panel image here.*/
-        var panelObject             = game.add.sprite(
+        this.panelObject             = game.add.sprite(
 
             this.offsetXNum + (indexNum*this.panelWidthNum) + (indexNum*this.offsetXNum),
             this.offsetYNum,
@@ -155,11 +159,11 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
         );
         /*Set the width and the height for the object to meet the variables we have made before.*/
-            panelObject.width       = this.panelWidthNum;
-            panelObject.height      = this.panelHeightNum;
+            this.panelObject.width  = this.panelWidthNum;
+            this.panelObject.height = this.panelHeightNum;
         /*Refer back the panel x and y position to the variables for easy referencing.*/
-        this.panelXNum              = panelObject.x;
-        this.panelYNum              = panelObject.y;
+        this.panelXNum              = this.panelObject.x;
+        this.panelYNum              = this.panelObject.y;
 
     }
     /*If this object is a room object.*/
@@ -181,7 +185,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         this.panelHeightNum         = this.parentObject.panelHeightNum;
 
         /*Create the panel image here.*/
-        var panelObject             = game.add.sprite(
+        this.panelObject        = game.add.sprite(
 
             this.parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*this.offsetXNum),
             this.parentObject.panelYNum  + this.parentObject.panelHeightNum + this.offsetYNum,
@@ -189,11 +193,11 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
         );
         /*Set the width and the height for the object to meet the variables we have made before.*/
-            panelObject.width       = this.panelWidthNum;
-            panelObject.height      = this.panelHeightNum;
+            this.panelObject.width  = this.panelWidthNum;
+            this.panelObject.height = this.panelHeightNum;
         /*Refer back the panel x and y position to the variables for easy referencing.*/
-        this.panelXNum              = panelObject.x;
-        this.panelYNum              = panelObject.y;
+        this.panelXNum              = this.panelObject.x;
+        this.panelYNum              = this.panelObject.y;
 
     }
     /*If this object is a exhibition object.*/
@@ -214,7 +218,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         this.panelHeightNum         = this.parentObject.panelHeightNum;
 
         /*Create the panel image here.*/
-        var panelObject             = game.add.sprite(
+        this.panelObject        = game.add.sprite(
 
             this.parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*this.offsetXNum),
             this.parentObject.panelYNum  + this.parentObject.panelHeightNum + this.offsetYNum,
@@ -222,13 +226,89 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
         );
         /*Set the width and the height for the object to meet the variables we have made before.*/
-            panelObject.width       = this.panelWidthNum;
-            panelObject.height      = this.panelHeightNum;
+            this.panelObject.width  = this.panelWidthNum;
+            this.panelObject.height = this.panelHeightNum;
         /*Refer back the panel x and y position to the variables for easy referencing.*/
-        this.panelXNum              = panelObject.x;
-        this.panelYNum              = panelObject.y;
+        this.panelXNum              = this.panelObject.x;
+        this.panelYNum              = this.panelObject.y;
 
     }
+
+    this.panelLabelObject           = game.add.text(
+
+        (this.panelXNum + this.panelWidthNum/2),
+        (this.panelYNum + this.panelHeightNum/2),
+        this.objectNameAltString,
+        {
+            'align'     : 'center',
+            'fontSize'  : this.fontSizeNum
+        }
+
+    );
+    this.panelLabelObject.anchor    .setTo(0.5, 0.5);
+
+    while(
+
+        (this.panelLabelObject.width  > this.panelWidthNum)  ||
+        (this.panelLabelObject.height > this.panelHeightNum)
+
+    ){
+
+        this.panelLabelObject       .destroy();
+        this.fontSizeNum            --;
+        this.panelLabelObject       = game.add.text(
+
+            (this.panelXNum + this.panelWidthNum/2),
+            (this.panelYNum + this.panelHeightNum/2),
+            this.objectNameAltString,
+            {
+                'align'     : 'center',
+                'fontSize'  : this.fontSizeNum
+            }
+
+        );
+        this.panelLabelObject.anchor    .setTo(0.5, 0.5);
+
+    }
+
+    var minFontSizeSiblingNum       = 0;
+    var objectArray                 = undefined;
+    switch(this.objectTypeString){
+
+        case('FLR'): objectArray    = this.floorObjectArray;         break;
+        case('ROM'): objectArray    = this.roomObjectArray;          break;
+        case('EXH'): objectArray    = this.exhibitionObjectArray;    break;
+
+    }
+    for(var i = 0 ; i < objectArray.length; i ++){
+
+        if(i > 0){
+
+            if(objectArray[i].fontSizeNum < objectArray[i - 1].fontSizeNum){
+
+                minFontSizeSiblingNum = objectArray[i].fontSizeNum;
+
+            }
+
+        }
+        else{ minFontSizeSiblingNum = objectArray[i].fontSizeNum; }
+
+    }
+    this.fontSizeNum            = minFontSizeSiblingNum;
+    this.panelLabelObject       .destroy();
+    this.panelLabelObject       = game.add.text(
+
+        (this.panelXNum + this.panelWidthNum/2),
+        (this.panelYNum + this.panelHeightNum/2),
+        this.objectNameAltString,
+        {
+            'align'     : 'center',
+            'fontSize'  : this.fontSizeNum
+        }
+
+    );
+    this.panelLabelObject.anchor    .setTo(0.5, 0.5);
+    console.log(this.fontSizeNum);
 
 };
 

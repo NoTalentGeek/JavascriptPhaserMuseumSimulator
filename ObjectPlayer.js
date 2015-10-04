@@ -1,10 +1,12 @@
 ObjectPlayer                                                    = function(
+
     _exhibitionStartString  ,
     _floorObjectArray       ,
     _roomObjectArray        ,
     _exhibitionObjectArray  ,
     _playerObjectArray      ,
     _offsetYNum
+    
 ){
 
     if(
