@@ -72,7 +72,6 @@ ObjectPlayer.prototype.AddRemoveChildObjectArray                = function(_isAd
 
         /*Make reference to the current exhibition visited.*/
         var exhibitionCurrentObject                             = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
-
         /*Add this player to the child of the exhibition object.*/
         if      (_isAdd )                                       { exhibitionCurrentObject.childObjectArray.push(this); }
         /*Remove this player from the child of the exhibition object.*/
@@ -565,17 +564,17 @@ ObjectPlayer.prototype.FindIndexObjectNum                       = function(_play
 };
 
 /*Using the function to find object index, I created another function to return the object instead of the index.*/
-ObjectPlayer.prototype.FindObject                               = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+ObjectPlayer.prototype.FindObject                               = function(_objectArray, _exhibitionNameAltString){
 
     if(
 
-        (typeof _exhibitionNameObjectArray                      === 'object') &&
+        (typeof _objectArray                                    === 'object') &&
         (typeof _exhibitionNameAltString                        === 'string')
 
-    ){ return _exhibitionNameObjectArray[this.FindIndexNameAltNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
+    ){ return _objectArray[this.FindIndexNameAltNum(_objectArray, _exhibitionNameAltString)]; }
     else{
 
-        console.log((typeof _exhibitionNameObjectArray)         + ' is not an object.');
+        console.log((typeof _objectArray)                       + ' is not an object.');
         console.log((typeof _exhibitionNameAltString)           + ' is not a string.');
         return undefined;
 
