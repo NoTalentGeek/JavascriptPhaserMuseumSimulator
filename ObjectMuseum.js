@@ -117,6 +117,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(
 
             /*Get reference to the parent object.*/
             var parentObject                    = this.FindObject(this.floorObjectArray, this.objectParentNameAltString);
+            /*PENDING: If you want to change a room then do not forget to remove this from array.*/
                 parentObject.childObjectArray   .push(this);
             var indexNum                        = this.FindIndexObjectNum(parentObject.childObjectArray, this);
 
@@ -155,6 +156,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(
 
             /*Get reference to the parent object.*/
             var parentObject                    = this.FindObject(this.roomObjectArray, this.objectParentNameAltString);
+            /*PENDING: If you want to change a room then do not forget to remove this from array.*/
                 parentObject.childObjectArray   .push(this);
             var indexNum                        = this.FindIndexObjectNum(parentObject.childObjectArray, this);
 

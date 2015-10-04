@@ -161,6 +161,20 @@ stateMain = {
         //console.log(this.roomObjectArray);
         //console.log(this.exhibitionObjectArray);
 
+        this.totalRowNum                    = 3 + (Math.ceil(this.playerCountNum/this.exhibitionObjectArray.length) + 5);
+
+        //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
+        //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
+
+        /*Before we add the graphical user interface we sort all the array.*/
+        this.SortArray(this.floorObjectArray        , this.CompareObjectParentNum);
+        this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
+        this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
+
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]      .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]       .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i] .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
+
         /*Initiate players and generate random exhibition starting point.*/
         for(var i = 0; i < this.playerCountNum; i ++){
 
@@ -180,20 +194,6 @@ stateMain = {
             //console.log(playerObject.exhibitionCurrentString);
 
         }
-
-        this.totalRowNum                    = 3 + (Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length) + 5);
-
-        //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
-        //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
-
-        /*Before we add the graphical user interface we sort all the array.*/
-        this.SortArray(this.floorObjectArray        , this.CompareObjectParentNum);
-        this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
-        this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
-
-        for(var i = 0; i < this.floorObjectArray.length; i ++)      { this.floorObjectArray[i]      .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
-        for(var i = 0; i < this.roomObjectArray.length; i ++)       { this.roomObjectArray[i]       .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
-        for(var i = 0; i < this.exhibitionObjectArray.length; i ++) { this.exhibitionObjectArray[i] .CreatePanelVoid(this.offsetXNum, this.offsetYNum, this.totalRowNum, this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray); }
 
     },
 
