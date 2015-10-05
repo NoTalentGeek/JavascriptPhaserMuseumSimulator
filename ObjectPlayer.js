@@ -139,7 +139,7 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
                 before.
             The code below is to check the availability of index exhibition name in the array of visited exhibitions.
             If the number is above -1 then it means the exhibition at indexNum had been visited before.>>
-            if(this.exhibitionVisitedStringArray.indexOf(this.exhibitionObjectArray[indexNum].objectNameAlt) > -1){
+            if(this.exhibitionVisitedStringArray.indexOf(this.exhibitionObjectArray[indexNum].objectNameAltString) > -1){
 
                 if(Math.random()    > 0.75){
 
@@ -150,7 +150,7 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
 
                     <<A while loop to generates an index number for exhibition until the index exhibition is an exhibition that
                         this visitor never visited before.>>
-                    while(this.exhibitionVisitedStringArray.indexOf(this.exhibitionObjectArray[indexNum].objectNameAlt) > -1){
+                    while(this.exhibitionVisitedStringArray.indexOf(this.exhibitionObjectArray[indexNum].objectNameAltString) > -1){
 
                         loopNum     ++;
                         indexNum    = Math.floor((Math.random()*this.exhibitionObjectArray.length) + 0);
@@ -264,6 +264,8 @@ ObjectPlayer.prototype.CreatePanelObject                        = function(){
     this.panelObject.width                                      = this.panelWidthNum;
     this.panelObject.height                                     = this.panelHeightNum;
 
+    this.panelObject.inputEnabled                               = true;
+
     return this.panelObject;
 
 };
@@ -319,7 +321,12 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
                 from target exhibition array.*/
             if(this.exhibitionVisitedStringArray[i] == this.exhibitionTargetStringArray[j]){
 
-                if(Math.random() < 0.90){ this.exhibitionTargetStringArray.splice(j, 1); }
+                if(Math.random() < 0.90){
+
+                    this.exhibitionTargetStringArray.splice(j, 1);
+                    i --;
+
+                }
 
                 /*After each splice make sure to have the exhibition target length to be 3.
                 If not 3 elements in the target exhibition array, then return the last 3 elements
@@ -357,9 +364,9 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
         }
         
-        if      (tagSameCountNum == 0)          { this.exhibitionTargetStringArray.splice(i, 1); }
-        else if (tagSameCountNum == 1)          { if(Math.random() < 0.66){ this.exhibitionTargetStringArray.splice(i, 1); } }
-        else if (tagSameCountNum == 2)          { if(Math.random() < 0.33){ this.exhibitionTargetStringArray.splice(i, 1); } }
+        if      (tagSameCountNum == 0)          {                           this.exhibitionTargetStringArray.splice(i, 1); i --; }
+        else if (tagSameCountNum == 1)          { if(Math.random() < 0.66){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
+        else if (tagSameCountNum == 2)          { if(Math.random() < 0.33){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
         else if (tagSameCountNum == 3)          {  }
 
         /*After each splice make sure to have the exhibition target length to be 3.
@@ -379,7 +386,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
         var exhibitionTargetObject      =  this.FindObject(this.exhibitionObjectArray, this.exhibitionTargetStringArray[i]);
         var exhibitionTargetFloorString =  exhibitionTargetObject.objectFloorString;
-        if(exhibitionTargetFloorString  != exhibitionFloorString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); } }
+        if(exhibitionTargetFloorString  != exhibitionFloorString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
 
         /*After each splice make sure to have the exhibition target length to be 3.
         If not 3 elements in the target exhibition array, then return the last 3 elements
@@ -398,7 +405,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
 
         var exhibitionTargetObject      =  this.FindObject(this.exhibitionObjectArray, this.exhibitionTargetStringArray[i]);
         var exhibitionTargetRoomString  =  exhibitionTargetObject.objectRoomString;
-        if(exhibitionTargetRoomString   != exhibitionRoomString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); } }
+        if(exhibitionTargetRoomString   != exhibitionRoomString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
 
         /*After each splice make sure to have the exhibition target length to be 3.
         If not 3 elements in the target exhibition array, then return the last 3 elements
@@ -613,6 +620,8 @@ ObjectPlayer.prototype.FindObject                               = function(_obje
 
 };
 
+ObjectPlayer.prototype.Test                                     = function(){ console.log('TEST'); }
+
 /*This is an update function to update the reference that were put in the constructor.
 For every value that is need to be updated you put it here in the update function.
 This function's arguments are the value that is need to be updated every tick of the program.
@@ -640,6 +649,8 @@ ObjectPlayer.prototype.UpdateVoid                               = function(
         this.roomObjectArray                                    = _roomObjectArray;
         this.exhibitionObjectArray                              = _exhibitionObjectArray;
         this.playerObjectArray                                  = _playerObjectArray;
+
+        if(this.panelObject.input.pointerOver())                { console.log('TEST'); }
 
     }
     else{
