@@ -234,6 +234,9 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
     }
 
+    /*These multiple loops below is for adding text in the panel.
+    The first loop is to initiate the panel with the biggest font size possible.
+    In this case, I pick 32 pixels.*/
     this.panelLabelObject           = game.add.text(
 
         (this.panelXNum + this.panelWidthNum/2),
@@ -245,8 +248,13 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         }
 
     );
+    /*Always set the anchor position of this museum object to the middle position.*/
     this.panelLabelObject.anchor    .setTo(0.5, 0.5);
 
+    /*The second loop is to iterate the size of this text with this object panel.
+    For every loop decrease the font size.
+    If the size of text panel is still higher than the normal panel the loop will still
+        continue until the text panel is smaller than the normal panel.*/
     while(
 
         (this.panelLabelObject.width  > this.panelWidthNum)  ||
@@ -254,9 +262,9 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
     ){
 
-        this.panelLabelObject       .destroy();
-        this.fontSizeNum            --;
-        this.panelLabelObject       = game.add.text(
+        this.fontSizeNum            --;                 /*Keep decreaseing the font size.*/
+        this.panelLabelObject       .destroy();         /*Delete the previous made panel for the text.*/
+        this.panelLabelObject       = game.add.text(    /*Recreate the panel using new font size.*/
 
             (this.panelXNum + this.panelWidthNum/2),
             (this.panelYNum + this.panelHeightNum/2),
@@ -271,8 +279,13 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
     }
 
-    var minFontSizeSiblingNum       = 0;
-    var objectArray                 = undefined;
+    /*The last loop is to standardized the font size per group.
+    For example the exhibition objects has font size vary from 11 - 12.
+    In this case we take the lowest possible font size per group.
+    So in this case we took 11 pixels as the font size for all
+        exhibition objects.*/
+    var minFontSizeSiblingNum       = 0;                /*The minimum font size.*/
+    var objectArray                 = undefined;        /*The array taken from object type string.*/
     switch(this.objectTypeString){
 
         case('FLR'): objectArray    = this.floorObjectArray;         break;
@@ -280,21 +293,18 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         case('EXH'): objectArray    = this.exhibitionObjectArray;    break;
 
     }
+
+    /*This is the loop to assign the lowest possible font size.*/
     for(var i = 0 ; i < objectArray.length; i ++){
 
-        if(i > 0){
-
-            if(objectArray[i].fontSizeNum < objectArray[i - 1].fontSizeNum){
-
-                minFontSizeSiblingNum = objectArray[i].fontSizeNum;
-
-            }
-
-        }
+        if(i > 0){ if(objectArray[i].fontSizeNum < objectArray[i - 1].fontSizeNum){ minFontSizeSiblingNum = objectArray[i].fontSizeNum; } }
         else{ minFontSizeSiblingNum = objectArray[i].fontSizeNum; }
 
     }
+
     this.fontSizeNum            = minFontSizeSiblingNum;
+
+    /*Destroy the previous text object and create a new one.*/
     this.panelLabelObject       .destroy();
     this.panelLabelObject       = game.add.text(
 
@@ -308,7 +318,6 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
     );
     this.panelLabelObject.anchor    .setTo(0.5, 0.5);
-    console.log(this.fontSizeNum);
 
 };
 
