@@ -300,6 +300,7 @@ stateMain = {
         }
 
         this.fullThresholdNum               = Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length);
+
         /*Loop through all the museum object to set the full threshold number.*/
         for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
         for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
@@ -309,9 +310,16 @@ stateMain = {
 
     update                                  :function(){
 
+        /*Loop through all the museum object to set the full threshold number.*/
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
+        /*Update the player references.*/
+        for(var i = 0; i < this.playerObjectArray.length        ; i ++){ this.playerObjectArray[i]      .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray); }
+
         this.SortArray                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
-        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
         /*
+        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
         <<A console.log() function to return how many tags have been captured during this time.
         Not necessarily to be active all the time due to for loop.>>
         <<
@@ -323,10 +331,10 @@ stateMain = {
         >>
         <<Simple loop control, if the value exceed the latest index from player array then reset the
             counter back to 0.>>
-        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
-        */
         this.playerIndexNum         ++;
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
+        */
+        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
 
         /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
         PENDING: I am not sure whether you can just dynamucally add an object while the loop is running.

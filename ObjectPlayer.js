@@ -283,21 +283,13 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
             of the exhibition in the target exhibition array string.*/
         if(this.exhibitionCurrentString != this.exhibitionObjectArray[i].objectNameAltString){
 
-            this.exhibitionTargetStringArray.push(this.exhibitionObjectArray[i].objectNameAltString);
+            if(this.exhibitionObjectArray[i].isFullBool == false){ console.log(this.exhibitionObjectArray[i].isFullBool); this.exhibitionTargetStringArray.push(this.exhibitionObjectArray[i].objectNameAltString); }
 
         }
 
     }
+
     //console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
-
-    for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
-
-        console.log(this.exhibitionTargetStringArray.length);
-        var exhibitionTargetObject = this.FindObject(this.exhibitionObjectArray, this.exhibitionTargetStringArray[i]);
-        if(exhibitionTargetObject.isFullBool){ this.exhibitionTargetStringArray.splice(i, 1); }
-        if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
-
-    }
 
     /*Stage two sort.
     Stage two sort is to make the exhibition that has been visited before has 90% chance to make into target exhibition.
@@ -490,7 +482,7 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
 
             /*If the tag is new to the this.tagMixedArray, then add 1 to the second array element and
                 push the string value of tag name and number value of tag value to the this.tagMixedArray.*/
-            if(isNewBool){
+            if(isNewBool == true){
 
                 tagMixedArray[1]                                = 1;
                 this.tagMixedArray                              .push(tagMixedArray);
@@ -602,6 +594,41 @@ ObjectPlayer.prototype.FindObject                               = function(_obje
         console.log((typeof _objectArray)                       + ' is not an object.');
         console.log((typeof _exhibitionNameAltString)           + ' is not a string.');
         return undefined;
+
+    }
+
+};
+
+ObjectPlayer.prototype.UpdateVoid                               = function(
+
+    _floorObjectArray       ,
+    _roomObjectArray        ,
+    _exhibitionObjectArray  ,
+    _playerObjectArray
+
+){
+
+    if(
+
+        typeof _floorObjectArray                                === 'object' &&
+        typeof _roomObjectArray                                 === 'object' &&
+        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _playerObjectArray                               === 'object'
+
+    ){
+
+        this.floorObjectArray                                   = _floorObjectArray;
+        this.roomObjectArray                                    = _roomObjectArray;
+        this.exhibitionObjectArray                              = _exhibitionObjectArray;
+        this.playerObjectArray                                  = _playerObjectArray;
+
+    }
+    else{
+
+        console.log                                             ((typeof _floorObjectArray)         + ' is not an object.');
+        console.log                                             ((typeof _roomObjectArray)          + ' is not an object.');
+        console.log                                             ((typeof _exhibitionObjectArray)    + ' is not an object.');
+        console.log                                             ((typeof _playerObjectArray)        + ' is not an object.');
 
     }
 
