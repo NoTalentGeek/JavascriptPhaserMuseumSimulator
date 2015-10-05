@@ -155,7 +155,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
             this.offsetXNum + (indexNum*this.panelWidthNum) + (indexNum*this.offsetXNum),
             this.offsetYNum,
-            'ImagePanel2New'
+            'ImagePanelNew1'
 
         );
         /*Set the width and the height for the object to meet the variables we have made before.*/
@@ -189,7 +189,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
             this.parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*this.offsetXNum),
             this.parentObject.panelYNum  + this.parentObject.panelHeightNum + this.offsetYNum,
-            'ImagePanel3New'
+            'ImagePanelNew2'
 
         );
         /*Set the width and the height for the object to meet the variables we have made before.*/
@@ -222,7 +222,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
             this.parentObject.panelXNum  + (this.indexNum*this.panelWidthNum) + (this.indexNum*this.offsetXNum),
             this.parentObject.panelYNum  + this.parentObject.panelHeightNum + this.offsetYNum,
-            'ImagePanel4New'
+            'ImagePanelNew3'
 
         );
         /*Set the width and the height for the object to meet the variables we have made before.*/

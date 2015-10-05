@@ -3,7 +3,7 @@ stateMain = {
 
     create                                  :function(){
 
-        game.stage.backgroundColor          = 0x4A148C;
+        game.stage.backgroundColor          = 0xBE2633;
 
         /*Array to contain all object in the scene.*/
         this.floorObjectArray               = new Array();
@@ -300,8 +300,8 @@ stateMain = {
 
     update                                  :function(){
 
-        this.SortArray(this.playerObjectArray, this.CompareCurrentExhibitionNum);
-        this.playerObjectArray[this.playerUpdateNum].AIAutoString(this.playerIndexNum, this.offsetXNum, this.offsetYNum);
+        this.SortArray                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
+        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
         /*
         <<A console.log() function to return how many tags have been captured during this time.
         Not necessarily to be active all the time due to for loop.>>

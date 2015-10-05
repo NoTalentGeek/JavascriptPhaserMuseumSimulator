@@ -39,6 +39,7 @@ ObjectPlayer                                                    = function(
         this.panelYNum                                          = 0;
         this.panelWidthNum                                      = 0;
         this.panelHeightNum                                     = 0;
+        this.panelSpriteString                                  = 'ImagePanelNew4';
         this.offsetYNum                                         = _offsetYNum
 
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
@@ -181,7 +182,20 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
         else{ return undefined; }
 
     }
-    else{ return undefined; }
+    else{
+
+        /*Delete the previous text object.*/
+        this.panelObject                    .destroy();
+        /*Assign new sprite if this player finished on visiting the museum.*/
+        this.panelSpriteString              = 'ImagePanelNew5';
+        /*Create graphical representation of this player.*/
+        this.CreatePanelObject(this.offsetYNum);
+        /*For every player moved, update the panel position of all player.*/
+        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].CreatePanelObject(); }
+
+        return undefined;
+
+    }
 
 };
 
@@ -241,7 +255,7 @@ ObjectPlayer.prototype.CreatePanelObject                        = function(){
 
         exhibitionCurrentObject.panelXNum,
         exhibitionCurrentObject.panelYNum + ((indexNum + 1)*this.offsetYNum) + ((indexNum + 1)*this.panelHeightNum),
-        'ImagePanel5New'
+        this.panelSpriteString
 
     );
 
@@ -482,7 +496,7 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
         this.SortArray(this.tagMixedArray, this.CompareTagNum);     /*Sort the array so that the highest point of tags is always on top.*/
         this.AddRemoveChildObjectArray(true);                       /*Add this player to the new exhibition parent.*/
         this.CalculateSiblingObjectArray();                         /*Re calculate the sibling array.*/
-        this.CreatePanelObject(_offsetYNum);                        /*Create graphical representation of this player.*/
+        this.CreatePanelObject(this.offsetYNum);                    /*Create graphical representation of this player.*/
 
         /*For every player moved, update the panel position of all player.*/
         for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].CreatePanelObject(); }
