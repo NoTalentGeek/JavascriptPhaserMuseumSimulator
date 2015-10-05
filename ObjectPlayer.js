@@ -281,18 +281,32 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         /*Compare the current exihibition with the object exhibitiob array.
         After that remove the object exhibition that is the current exhibition and put the rest
             of the exhibition in the target exhibition array string.*/
-        if(this.exhibitionCurrentString != this.exhibitionObjectArray[i].objectNameAltString){
+        if(this.exhibitionCurrentString != this.exhibitionObjectArray[i].objectNameAltString){ this.exhibitionTargetStringArray.push(this.exhibitionObjectArray[i].objectNameAltString); }
 
-            if(this.exhibitionObjectArray[i].isFullBool == false){ console.log(this.exhibitionObjectArray[i].isFullBool); this.exhibitionTargetStringArray.push(this.exhibitionObjectArray[i].objectNameAltString); }
+    }
+    //console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
+
+    /*Stage two sort.
+    Remove all exhibition target that is full.*/
+    for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
+
+        if(
+
+            (this.exhibitionObjectArray[i].isFullBool    == true)                                               &&
+            (this.exhibitionCurrentString                != this.exhibitionObjectArray[i].objectNameAltString)
+
+        ){
+            
+            var indexNum                                        = this.exhibitionTargetStringArray.indexOf(this.exhibitionObjectArray[i].objectNameAltString);
+            this.exhibitionTargetStringArray                    .splice(indexNum, 1);
+            if(this.exhibitionTargetStringArray.length == 3)    { return this.exhibitionTargetStringArray; }
 
         }
 
     }
 
-    //console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
-
-    /*Stage two sort.
-    Stage two sort is to make the exhibition that has been visited before has 90% chance to make into target exhibition.
+    /*Stage three sort.
+    Stage three sort is to make the exhibition that has been visited before has 90% chance to make into target exhibition.
     For example the visitor is now in the Exhibition C as he/she used to visits Exhibition A and Exhibition B before,
         the system now will let Exhibition A and Exhibition B to have 10% chance to be not removed from the target
         exhibition array.*/
@@ -317,9 +331,9 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         }
 
     }
-    //console.log('Stage two: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage three: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage three sort.
+    /*Stage four sort.
     So now this application compare the the most visited tags from this player profile (take three most visited tags)
         and compared to the exhibition tag.
     Each exhibition has 3 tags so,
@@ -354,9 +368,9 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
-    //console.log('Stage three: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage four: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage four sort.
+    /*Stage five sort.
     The fourth sort is to make the exhibition target that are not in the same floor of which player's
         current exhibition to have 50% chance of stay.*/
     var exhibitionCurrentObject         = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
@@ -373,9 +387,9 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
-    //console.log('Stage four: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage five: ' + this.exhibitionTargetStringArray.length);
 
-    /*Stage five sort.
+    /*Stage six sort.
     The fifth sort is to make the exhibition target that are not in the same room of which player's
         current exhibition to have 50% chance of stay.*/
     var exhibitionCurrentObject         = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
@@ -392,7 +406,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
         if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
 
     }
-    //console.log('Stage five: ' + this.exhibitionTargetStringArray.length);
+    //console.log('Stage six: ' + this.exhibitionTargetStringArray.length);
 
     /*In case in the end of final sort the target exhibition array have length more than 3, make it just have 3 elements.*/
     this.exhibitionTargetStringArray.splice(3, this.exhibitionObjectArray.length);
