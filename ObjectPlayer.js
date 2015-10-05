@@ -35,12 +35,14 @@ ObjectPlayer                                                    = function(
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
         this.panelObject                                        = undefined;
+        this.panelObjectHoverBool                               = false;
+        this.panelCardObject                                    = undefined;
         this.panelXNum                                          = 0;
         this.panelYNum                                          = 0;
         this.panelWidthNum                                      = 0;
         this.panelHeightNum                                     = 0;
         this.panelSpriteString                                  = 'ImagePanelNew4';
-        this.offsetYNum                                         = _offsetYNum
+        this.offsetYNum                                         = _offsetYNum;
 
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
         this.ExhibitionMoveString                               (
@@ -649,8 +651,6 @@ ObjectPlayer.prototype.UpdateVoid                               = function(
         this.roomObjectArray                                    = _roomObjectArray;
         this.exhibitionObjectArray                              = _exhibitionObjectArray;
         this.playerObjectArray                                  = _playerObjectArray;
-
-        if(this.panelObject.input.pointerOver())                { console.log('TEST'); }
 
     }
     else{

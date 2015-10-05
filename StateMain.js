@@ -19,7 +19,7 @@ stateMain = {
         this.totalRowNum                    = 0;
 
         /*How many players in the scene initially.*/
-        this.playerCountNum                 = 100;
+        this.playerCountNum                 = 20;
 
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
