@@ -287,7 +287,7 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
     //console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
 
     /*Stage two sort.
-    Remove all exhibition target that is full.*/
+    Remove all exhibition target that is full of visitor.*/
     for(var i = 0; i < this.exhibitionObjectArray.length; i ++){
 
         if(
@@ -613,6 +613,11 @@ ObjectPlayer.prototype.FindObject                               = function(_obje
 
 };
 
+/*This is an update function to update the reference that were put in the constructor.
+For every value that is need to be updated you put it here in the update function.
+This function's arguments are the value that is need to be updated every tick of the program.
+PENDING: I need to create so that this Update function get updated per everytime there is value change
+    in the current exhibition.*/
 ObjectPlayer.prototype.UpdateVoid                               = function(
 
     _floorObjectArray       ,
