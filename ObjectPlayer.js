@@ -290,6 +290,15 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
     }
     //console.log('Stage one: ' + this.exhibitionTargetStringArray.length);
 
+    for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
+
+        console.log(this.exhibitionTargetStringArray.length);
+        var exhibitionTargetObject = this.FindObject(this.exhibitionObjectArray, this.exhibitionTargetStringArray[i]);
+        if(exhibitionTargetObject.isFullBool){ this.exhibitionTargetStringArray.splice(i, 1); }
+        if(this.exhibitionTargetStringArray.length == 3){ return this.exhibitionTargetStringArray; }
+
+    }
+
     /*Stage two sort.
     Stage two sort is to make the exhibition that has been visited before has 90% chance to make into target exhibition.
     For example the visitor is now in the Exhibition C as he/she used to visits Exhibition A and Exhibition B before,

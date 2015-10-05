@@ -29,6 +29,9 @@ stateMain = {
         this.updateCountTotalNum            = 0;
         this.playerUpdateNum                = 0;
 
+        /*A variable to know whether the museum object is full or not.*/
+        this.fullThresholdNum               = 0;
+
         /*Initial object name for floor.*/
         var floorNameObjectArray                    = [
 
@@ -295,6 +298,12 @@ stateMain = {
             //console.log(playerObject.exhibitionCurrentString);
 
         }
+
+        this.fullThresholdNum               = Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length);
+        /*Loop through all the museum object to set the full threshold number.*/
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
 
     },
 

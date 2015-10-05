@@ -54,6 +54,9 @@ ObjectMuseum                                        =  function(
         this.roomObjectArray                        = _roomObjectArray;
         this.exhibitionObjectArray                  = _exhibitionObjectArray;
 
+        this.fullThresholdNum                       = 0;
+        this.isFullBool                             = false;
+
         this.parentObject                           = undefined;
         this.indexNum                               = undefined;
 
@@ -375,8 +378,8 @@ ObjectMuseum.prototype.FindIndexObjectNum                       = function(_play
     }
     else{
 
-        console.log((typeof _playerObjectArray)         + ' is not an object.');
-        console.log((typeof _exhibitionObject)          + ' is not an object.');
+        console.log((typeof _playerObjectArray)                 + ' is not an object.');
+        console.log((typeof _exhibitionObject)                  + ' is not an object.');
         return undefined;
 
     }
@@ -384,20 +387,41 @@ ObjectMuseum.prototype.FindIndexObjectNum                       = function(_play
 };
 
 /*Using the function to find object index, I created another function to return the object instead of the index.*/
-ObjectMuseum.prototype.FindObject                  = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
+ObjectMuseum.prototype.FindObject                               = function(_exhibitionNameObjectArray, _exhibitionNameAltString){
 
     if(
 
-        (typeof _exhibitionNameObjectArray          === 'object') &&
-        (typeof _exhibitionNameAltString            === 'string')
+        (typeof _exhibitionNameObjectArray                      === 'object') &&
+        (typeof _exhibitionNameAltString                        === 'string')
 
     ){ return _exhibitionNameObjectArray[this.FindIndexNameAltNum(_exhibitionNameObjectArray, _exhibitionNameAltString)]; }
     else{
 
-        console.log((typeof _exhibitionNameObjectArray)     + ' is not an object.');
-        console.log((typeof _exhibitionNameAltString)       + ' is not a string.');
+        console.log((typeof _exhibitionNameObjectArray)         + ' is not an object.');
+        console.log((typeof _exhibitionNameAltString)           + ' is not a string.');
         return undefined;
 
     }
 
 };
+
+/*Setter function to set the this.fullThresholdNum*/
+ObjectMuseum.prototype.SetFullThresholdNum                      = function(_fullThresholdNum){
+
+    /*Argument verification*/
+    if(typeof _fullThresholdNum         === 'number')               {
+
+        this.fullThresholdNum           =  _fullThresholdNum;
+        if      (this.fullThresholdNum  <= this.visitorCurrentNum)  { this.isFullBool = true;  }
+        else if (this.fullThresholdNum  >  this.visitorCurrentNum)  { this.isFullBool = false; }
+        return                      this.fullThresholdNum;
+
+    }
+    else{
+
+        console.log((typeof _fullThresholdNum)                 + ' is not a number.');
+        return undefined;
+
+    }
+
+}
