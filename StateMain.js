@@ -311,13 +311,63 @@ stateMain = {
     update                                  :function(){
 
         /*Loop through all the museum object to set the full threshold number.*/
-        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
-        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
-        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++) { this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++) { this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++) { this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
         /*Update the player references.*/
-        for(var i = 0; i < this.playerObjectArray.length        ; i ++){ this.playerObjectArray[i]      .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray); }
+        for(var i = 0; i < this.playerObjectArray.length        ; i ++) { this.playerObjectArray[i]      .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray); }
 
-        this.SortArray                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
+        this.SortArray                                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
+
+
+        /*Prototype codes for the panel cards.
+        First thing first, we need to know which museum object is hovered.
+        So we need to loop to all available museum objects to check the boolean.
+        But before hand you need to delete the previously created panel.*/
+        /*
+        for(var i = 0; i < this.floorObjectArray.length             ; i ++){
+
+            if(this.floorObjectArray[i].panelCardObject             != undefined)   { this.floorObjectArray[i].panelCardObject.destroy();         }
+            if(this.floorObjectArray[i].panelHoverObjectBool        == true)   {
+
+                this.floorObjectArray[i].panelCardObject            = game.add.sprite(this.floorObjectArray[i].panelXNum, this.floorObjectArray[i].panelYNum, 'ImagePanelNew5');
+
+            }
+
+        }
+        for(var i = 0; i < this.roomObjectArray.length              ; i ++){
+
+            if(this.roomObjectArray[i].panelCardObject              != undefined)   { this.roomObjectArray[i].panelCardObject.destroy();          }
+            if(this.roomObjectArray[i].panelHoverObjectBool         == true)        {
+
+                this.roomObjectArray[i].panelCardObject             = game.add.sprite(this.roomObjectArray[i].panelXNum, this.roomObjectArray[i].panelYNum, 'ImagePanelNew5');
+
+            }
+
+        }
+        for(var i = 0; i < this.ExhibitionObjectArray.length        ; i ++){
+
+            if(this.exhibitionObjectArray[i].panelCardObject        != undefined)   { this.exhibitionObjectArray[i].panelCardObject.destroy();    }
+            if(this.exhibitionObjectArray[i].panelHoverObjectBool   == true)        {
+
+                this.exhibitionObjectArray[i].panelCardObject       = game.add.sprite(this.exhibitionObjectArray[i].panelXNum, this.exhibitionObjectArray[i].panelYNum, 'ImagePanelNew5');
+
+            }
+
+        }
+        */
+        for(var i = 0; i < this.playerObjectArray.length        ; i ++){
+
+            //if(this.playerObjectArray[i].panelCardObject      != undefined)   { this.playerObjectArray[i].panelCardObject.destroy();        }
+            if(this.playerObjectArray[i].panelHoverBool         == true)        {
+
+                this.playerObjectArray[i].panelCardObject       = game.add.sprite(this.playerObjectArray[i].panelXNum, this.playerObjectArray[i].panelYNum, 'ImagePanelNew5');
+                console.log(this.playerObjectArray[i].panelCardObject.x);
+
+            }
+
+        }
+
         /*
         this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
         <<A console.log() function to return how many tags have been captured during this time.
