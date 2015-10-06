@@ -5,6 +5,7 @@ ObjectPlayer                                                    = function(
     _roomObjectArray        ,
     _exhibitionObjectArray  ,
     _playerObjectArray      ,
+    _panelIndexNum          ,
     _offsetYNum
     
 ){
@@ -16,6 +17,7 @@ ObjectPlayer                                                    = function(
         typeof _roomObjectArray                                 === 'object' &&
         typeof _exhibitionObjectArray                           === 'object' &&
         typeof _playerObjectArray                               === 'object' &&
+        typeof _panelIndexNum                                   === 'number' &&
         typeof _offsetYNum                                      === 'number'
 
     ){
@@ -34,8 +36,11 @@ ObjectPlayer                                                    = function(
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
+        this.panelIndexNum                                      = _panelIndexNum;
+
         this.panelObject                                        = undefined;
         this.panelHoverBool                                     = false;
+        this.panelLabelObject                                   = undefined;
         this.panelCardObject                                    = undefined;
         this.panelCardLabelObject                               = undefined;
         this.panelXNum                                          = 0;
@@ -48,6 +53,9 @@ ObjectPlayer                                                    = function(
         this.panelCardHeightNum                                 = 0;
         this.panelSpriteString                                  = 'ImagePanelNew4';
         this.offsetYNum                                         = _offsetYNum;
+
+        this.fontSizeLabelNum                                   = 32;
+        this.fontSizeCardNum                                    = 32;
 
         /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
         this.ExhibitionMoveString                               (
@@ -68,6 +76,7 @@ ObjectPlayer                                                    = function(
         console.log                                             ((typeof _roomObjectArray)          + ' is not an object.');
         console.log                                             ((typeof _exhibitionObjectArray)    + ' is not an object.');
         console.log                                             ((typeof _playerObjectArray)        + ' is not an object.');
+        console.log                                             ((typeof _panelIndexNum)            + ' is not an number.');
         console.log                                             ((typeof _offsetYNum)               + ' is not an number.');
 
     }
@@ -191,14 +200,10 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
     }
     else{
 
-        /*Delete the previous text object.*/
-        this.panelObject                    .destroy();
         /*Assign new sprite if this player finished on visiting the museum.*/
         this.panelSpriteString              = 'ImagePanelNew5';
         /*Create graphical representation of this player.*/
         this.CreatePanelObject(this.offsetYNum);
-        /*For every player moved, update the panel position of all player.*/
-        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].CreatePanelObject(); }
 
         return undefined;
 
@@ -256,7 +261,8 @@ ObjectPlayer.prototype.CreatePanelObject                        = function(){
     this.panelHeightNum                                         = exhibitionCurrentObject.panelHeightNum;
 
     /*Destroy the previously created panel.*/
-    if(this.panelObject != undefined)                           { this.panelObject.destroy(); }
+    if(this.panelObject         != undefined)                   { this.panelObject.destroy();       }
+    if(this.panelLabelObject    != undefined)                   { this.panelLabelObject.destroy();  }
 
     this.panelObject                                            = game.add.sprite(
 
@@ -270,8 +276,21 @@ ObjectPlayer.prototype.CreatePanelObject                        = function(){
     this.panelYNum                                              = this.panelObject.y;
     this.panelObject.width                                      = this.panelWidthNum;
     this.panelObject.height                                     = this.panelHeightNum;
-
     this.panelObject.inputEnabled                               = true;
+
+    this.panelLabelObject                                       = game.add.text(
+
+        (this.panelXNum + this.panelWidthNum/2),
+        (this.panelYNum + this.panelHeightNum/2),
+        this.panelIndexNum,
+        {
+            'align'     : 'center',
+            'fontSize'  : this.fontSizeNum
+        }
+
+    );
+    this.panelLabelObject.inputEnabled                          = true;
+    this.panelLabelObject.anchor                                .setTo(0.5, 0.5);
 
     return this.panelObject;
 
@@ -635,8 +654,6 @@ ObjectPlayer.prototype.FindObject                               = function(_obje
 
 };
 
-ObjectPlayer.prototype.Test                                     = function(){ console.log('TEST'); }
-
 /*This is an update function to update the reference that were put in the constructor.
 For every value that is need to be updated you put it here in the update function.
 This function's arguments are the value that is need to be updated every tick of the program.
@@ -666,8 +683,16 @@ ObjectPlayer.prototype.UpdateVoid                               = function(
         this.playerObjectArray                                  = _playerObjectArray;
 
         /*Check pointer over the panel object sprite.*/
-        if(this.panelObject.input.pointerOver())                { this.panelHoverBool = true;  }
-        else                                                    { this.panelHoverBool = false; }
+        if(
+            this.panelObject        .input.pointerOver()        == true         ||
+            this.panelLabelObject   .input.pointerOver()        == true
+        ){  this.panelHoverBool = true;  }
+        else if(
+
+            this.panelObject        .input.pointerOver()        == false        &&
+            this.panelLabelObject   .input.pointerOver()        == false
+
+        ){  this.panelHoverBool = false; }
 
     }
     else{

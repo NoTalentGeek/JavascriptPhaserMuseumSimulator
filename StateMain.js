@@ -290,6 +290,7 @@ stateMain = {
                 this.roomObjectArray,
                 this.exhibitionObjectArray,
                 this.playerObjectArray,
+                (i + 1),
                 this.offsetYNum
 
             );
@@ -423,40 +424,107 @@ stateMain = {
                 if(this.pointerObject.panelCardObject                   != undefined){ this.pointerObject.panelCardObject.destroy();      }
                 if(this.pointerObject.panelCardLabelObject              != undefined){ this.pointerObject.panelCardLabelObject.destroy(); }
 
-                this.pointerObject.panelCardWidthNum                    = 125;
-                this.pointerObject.panelCardHeightNum                   = 175;
+                this.pointerObject.panelCardWidthNum                    = 200;
+                this.pointerObject.panelCardHeightNum                   = 280;
                 this.pointerObject.panelCardObject                      = game.add.sprite(this.pointerSaveXNum, this.pointerSaveYNum, 'ImagePanelNew6');
                 this.pointerObject.panelCardXNum                        = this.pointerObject.panelCardObject.x;
                 this.pointerObject.panelCardYNum                        = this.pointerObject.panelCardObject.y;
                 this.pointerObject.panelCardObject.width                = this.pointerObject.panelCardWidthNum;
                 this.pointerObject.panelCardObject.height               = this.pointerObject.panelCardHeightNum;
 
+                if((this.pointerObject.panelCardXNum + this.pointerObject.panelCardWidthNum) > game.width){
+
+                    this.pointerObject.panelCardObject.x = this.pointerObject.panelCardXNum - this.pointerObject.panelCardWidthNum;
+                    this.pointerObject.panelCardXNum = this.pointerObject.panelCardObject.x;
+
+                }
+                if((this.pointerObject.panelCardYNum + this.pointerObject.panelCardHeightNum) > game.height){
+
+                    this.pointerObject.panelCardObject.y = this.pointerObject.panelCardYNum - this.pointerObject.panelCardHeightNum;
+                    this.pointerObject.panelCardYNum = this.pointerObject.panelCardObject.y;
+
+                }
+
                 var exhibitionCurrentObject                             = this.FindObject   (this.exhibitionObjectArray     , this.pointerObject.exhibitionCurrentString);
                 var exhibitionRoomString                                = exhibitionCurrentObject.objectParentNameAltString;
                 var exhibitionRoomObject                                = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
                 var exhibitionFloorString                               = exhibitionRoomObject.objectParentNameAltString;
                 var exhibitionFloorObject                               = this.FindObject   (this.floorObjectArray          , exhibitionFloorString);
+                var panelCardLabelString                                = (
+
+                    ('FLR_CUR = ' + exhibitionFloorString                               ) + '\n' +
+                    ('ROM_CUR = ' + exhibitionRoomString                                ) + '\n' +
+                    ('EXH_CUR = ' + this.pointerObject.exhibitionCurrentString          ) + '\n' +
+                    ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[0]   ) + '\n' +
+                    ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[1]   ) + '\n' +
+                    ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[2]   ) + '\n' +
+                    ('EXH_TAG = ' + this.pointerObject.tagMixedArray[0][0]              ) + '\n' +
+                    ('EXH_TAG = ' + this.pointerObject.tagMixedArray[1][0]              ) + '\n' +
+                    ('EXH_TAG = ' + this.pointerObject.tagMixedArray[2][0]              )
+
+                );
 
                 this.pointerObject.panelCardLabelObject                 = game.add.text(
 
                     this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
                     this.pointerObject.panelCardYNum + (this.pointerObject.panelCardHeightNum/2),
-                    (
-
-                        ('FLR_CUR = ' + exhibitionFloorString                               ) + '\n' +
-                        ('ROM_CUR = ' + exhibitionRoomString                                ) + '\n' +
-                        ('EXH_CUR = ' + this.pointerObject.exhibitionCurrentString          ) + '\n' +
-                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[0]   ) + '\n' +
-                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[1]   ) + '\n' +
-                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[2]   ) + '\n' +
-                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[0][0]              ) + '\n' +
-                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[1][0]              ) + '\n' +
-                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[2][0]              )
-
-                    ),
+                    panelCardLabelString,
                     {
                         'align'     : 'center',
-                        'fontSize'  : 10
+                        'fontSize'  : this.pointerObject.fontSizeCardNum
+                    }
+
+                );
+                this.pointerObject.panelCardLabelObject.anchor          .setTo(0.5, 0.5);
+
+                while(
+
+                    (this.pointerObject.panelCardLabelObject.width  > this.pointerObject.panelCardWidthNum)     ||
+                    (this.pointerObject.panelCardLabelObject.height > this.pointerObject.panelCardHeightNum)
+
+                ){
+
+                    this.pointerObject.fontSizeCardNum                          --;
+                    if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
+
+                    this.pointerObject.panelCardLabelObject                     = game.add.text(
+
+                        this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
+                        this.pointerObject.panelCardYNum + (this.pointerObject.panelCardHeightNum/2),
+                        panelCardLabelString,
+                        {
+                            'align'     : 'center',
+                            'fontSize'  : this.pointerObject.fontSizeCardNum
+                        }
+
+                    );
+                    this.pointerObject.panelCardLabelObject.anchor          .setTo(0.5, 0.5);
+
+                }
+
+                var minFontSizeSiblingNum = 0;
+                for(var i = 0 ; i < this.playerObjectArray.length; i ++){
+
+                    if(i > 0){ if(this.playerObjectArray[i].fontSizeCardNum < this.playerObjectArray[i - 1].fontSizeCardNum){ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardNum; } }
+                    else{ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardNum; }
+
+                }
+                for(var i = 0 ; i < this.playerObjectArray.length; i ++){
+
+                    this.playerObjectArray[i].fontSizeCardNum = minFontSizeSiblingNum;
+
+                }
+
+                if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
+
+                this.pointerObject.panelCardLabelObject                     = game.add.text(
+
+                    this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
+                    this.pointerObject.panelCardYNum + (this.pointerObject.panelCardHeightNum/2),
+                    panelCardLabelString,
+                    {
+                        'align'     : 'center',
+                        'fontSize'  : this.pointerObject.fontSizeCardNum
                     }
 
                 );
