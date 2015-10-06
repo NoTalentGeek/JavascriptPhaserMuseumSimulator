@@ -3,7 +3,7 @@ stateMain = {
 
     create                                  :function(){
 
-        game.stage.backgroundColor          = 0xBE2633;
+        game.stage.backgroundColor          = 0x222034;
 
         /*Array to contain all object in the scene.*/
         this.floorObjectArray               = new Array();
