@@ -302,7 +302,8 @@ stateMain = {
 
         /*Sort the array of player according to its current object exhibition for easy reference.*/
         this.SortArray                                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
-        /*Loop through all the museum object to set the full threshold number.*/
+        /*Loop through all the museum object to set the full threshold number.
+        SetFullThresholdNum() is a function to update whethe the museum object is crowded or not.*/
         for(var i = 0; i < this.floorObjectArray.length         ; i ++) { this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
         for(var i = 0; i < this.roomObjectArray.length          ; i ++) { this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
         for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++) { this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }

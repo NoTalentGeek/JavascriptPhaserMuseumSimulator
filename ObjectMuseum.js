@@ -36,7 +36,7 @@ ObjectMuseum                                        =  function(
             4. Add back this objeect into new parent's this.childObjectArray.
             5. Re - create the panel graphical user interface*/
 
-        this.childObjectArray                       = new Array();
+        this.childObjectArray                       = new Array();                          /*Reference to objects that made this object as its parent.*/
         this.objectParentNameAltString              = _objectParentNameAltString;           /*The object name alt for the parent object (string).*/
         this.objectTypeString                       = _objectTypeString;                    /*The type of this object (fill in 'FLR', 'ROM', 'EXH', or 'TAG').*/
         this.objectNameString                       = _objectNameString;
@@ -50,15 +50,20 @@ ObjectMuseum                                        =  function(
         this.offsetXNum                             = _offsetXNum;
         this.offsetYNum                             = _offsetYNum;
         this.totalRowNum                            = _totalRowNum;
+
+        /*Variables that hold object array.
+        This variable need to be updated before change in this object.*/
         this.floorObjectArray                       = _floorObjectArray;
         this.roomObjectArray                        = _roomObjectArray;
         this.exhibitionObjectArray                  = _exhibitionObjectArray;
 
+        /*Variables to use in creating panel.*/
+        this.parentObject                           = undefined;                            /*Determine this object parent by looking through array.*/
+        this.indexNum                               = undefined;                            /*Determine the index of this object within child object array of this object's parent */
+
+        /*Variables to determine whether this museum object is crowded or not.*/
         this.fullThresholdNum                       = 0;
         this.isFullBool                             = false;
-
-        this.parentObject                           = undefined;
-        this.indexNum                               = undefined;
 
         this.panelXNum                              = 0;
         this.panelYNum                              = 0;
@@ -66,9 +71,9 @@ ObjectMuseum                                        =  function(
         this.panelHeightNum                         = 0;
         this.panelObject                            = undefined;
         this.panelLabelObject                       = undefined;
-
         this.fontSizeNum                            = 32;
 
+        /*Add this object to the child object array of the parent.*/
         this.AddRemoveChildObjectArray              (true);
 
     }
@@ -100,7 +105,7 @@ ObjectMuseum.prototype.AddRemoveChildObjectArray    = function(_isAdd){
 
             case('ROM') :this.parentObject          = this.FindObject(this.floorObjectArray     , this.objectParentNameAltString);  break;
             case('EXH') :this.parentObject          = this.FindObject(this.roomObjectArray      , this.objectParentNameAltString);  break;
-            default     :this.parentObject          = undefined;                                                                         break;
+            default     :this.parentObject          = undefined;                                                                    break;
 
         }
         if(this.parentObject != undefined){
@@ -131,7 +136,7 @@ ObjectMuseum.prototype.AddRemoveChildObjectArray    = function(_isAdd){
     }
     else{
 
-        console.log                                             ((typeof _isAdd) + ' is not a boolean.');
+        console.log                                 ((typeof _isAdd) + ' is not a boolean.');
         return undefined;
 
     }

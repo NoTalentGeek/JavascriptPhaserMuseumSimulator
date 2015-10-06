@@ -52,7 +52,6 @@ ObjectPlayer                                                    = function(
         this.panelCardHeightNum                                 = 0;                        /*Variable to hold the value of height from panel card object.*/
         this.panelSpriteString                                  = 'ImagePanelNew4';         /*Hold the string reference to sprite panel for panel label.*/
         this.offsetYNum                                         = _offsetYNum;              /*Offset y for each stacked player's panel object.*/
-
         this.fontSizeLabelNum                                   = 32;                       /*Font size for panel label.*/
         this.fontSizeCardNum                                    = 32;                       /*Font size for panel card label.*/
 
