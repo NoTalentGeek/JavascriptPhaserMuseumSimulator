@@ -37,10 +37,15 @@ ObjectPlayer                                                    = function(
         this.panelObject                                        = undefined;
         this.panelHoverBool                                     = false;
         this.panelCardObject                                    = undefined;
+        this.panelCardLabelObject                               = undefined;
         this.panelXNum                                          = 0;
         this.panelYNum                                          = 0;
         this.panelWidthNum                                      = 0;
         this.panelHeightNum                                     = 0;
+        this.panelCardXNum                                      = 0;
+        this.panelCardYNum                                      = 0;
+        this.panelCardWidthNum                                  = 0;
+        this.panelCardHeightNum                                 = 0;
         this.panelSpriteString                                  = 'ImagePanelNew4';
         this.offsetYNum                                         = _offsetYNum;
 
@@ -379,15 +384,23 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
     }
     //console.log('Stage four: ' + this.exhibitionTargetStringArray.length);
 
+    var exhibitionCurrentObject         = this.FindObject   (this.exhibitionObjectArray     , this.exhibitionCurrentString);
+    var exhibitionRoomString            = exhibitionCurrentObject.objectParentNameAltString;
+    var exhibitionRoomObject            = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
+    var exhibitionFloorString           = exhibitionRoomObject.objectParentNameAltString;
+    var exhibitionFloorObject           = this.FindObject   (this.floorObjectArray          , exhibitionFloorString);
+
     /*Stage five sort.
     The fourth sort is to make the exhibition target that are not in the same floor of which player's
         current exhibition to have 50% chance of stay.*/
-    var exhibitionCurrentObject         = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
-    var exhibitionFloorString           = exhibitionCurrentObject.objectFloorString;
     for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
 
-        var exhibitionTargetObject      =  this.FindObject(this.exhibitionObjectArray, this.exhibitionTargetStringArray[i]);
-        var exhibitionTargetFloorString =  exhibitionTargetObject.objectFloorString;
+        var exhibitionTargetObject      =  this.FindObject      (this.exhibitionObjectArray         , this.exhibitionTargetStringArray[i]);
+        var exhibitionTargetRoomString  =  exhibitionTargetObject.objectParentNameAltString;
+        var exhibitionTargetRoomObject  =  this.FindObject      (this.roomObjectArray               , exhibitionTargetRoomString);
+        var exhibitionTargetFloorString =  exhibitionTargetRoomObject.objectParentNameAltString;
+        var exhibitionTargetFloorObject =  this.FindObject      (this.floorObjectArray              , exhibitionTargetFloorString);
+
         if(exhibitionTargetFloorString  != exhibitionFloorString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
 
         /*After each splice make sure to have the exhibition target length to be 3.
@@ -401,13 +414,13 @@ ObjectPlayer.prototype.DetermineExhibitionTargetStringArray     = function(){
     /*Stage six sort.
     The fifth sort is to make the exhibition target that are not in the same room of which player's
         current exhibition to have 50% chance of stay.*/
-    var exhibitionCurrentObject         = this.FindObject(this.exhibitionObjectArray, this.exhibitionCurrentString);
-    var exhibitionRoomString            = exhibitionCurrentObject.objectFloorString;
     for(var i = 0; i < this.exhibitionTargetStringArray.length; i ++){
 
-        var exhibitionTargetObject      =  this.FindObject(this.exhibitionObjectArray, this.exhibitionTargetStringArray[i]);
-        var exhibitionTargetRoomString  =  exhibitionTargetObject.objectRoomString;
-        if(exhibitionTargetRoomString   != exhibitionRoomString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
+        var exhibitionTargetObject      =  this.FindObject      (this.exhibitionObjectArray         , this.exhibitionTargetStringArray[i]);
+        var exhibitionTargetRoomString  =  exhibitionTargetObject.objectParentNameAltString;
+        var exhibitionTargetRoomObject  =  this.FindObject      (this.roomObjectArray               , exhibitionTargetRoomString);
+        
+        if(exhibitionTargetRoomString  != exhibitionRoomString){ if(Math.random() < 0.50){ this.exhibitionTargetStringArray.splice(i, 1); i --; } }
 
         /*After each splice make sure to have the exhibition target length to be 3.
         If not 3 elements in the target exhibition array, then return the last 3 elements

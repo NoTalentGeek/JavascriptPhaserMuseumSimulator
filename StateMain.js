@@ -408,19 +408,59 @@ stateMain = {
     
             ){
 
-                this.pointerSaveXNum                    = undefined;
-                this.pointerSaveYNum                    = undefined;
+                this.pointerSaveXNum                            = undefined;
+                this.pointerSaveYNum                            = undefined;
 
-                if(this.pointerObject.panelCardObject != undefined){ this.pointerObject.panelCardObject.destroy(); }
+                if(this.pointerObject.panelCardObject           != undefined){ this.pointerObject.panelCardObject.destroy(); }
+                if(this.pointerObject.panelCardLabelObject      != undefined){ this.pointerObject.panelCardLabelObject.destroy(); }
 
-                this.pointerObject                      = undefined;
-                this.pointerSaveBool                    = true;
+                this.pointerObject                              = undefined;
+                this.pointerSaveBool                            = true;
     
             }
             else{
 
-                if(this.pointerObject.panelCardObject != undefined){ this.pointerObject.panelCardObject.destroy(); }
-                this.pointerObject.panelCardObject      = game.add.sprite(this.pointerSaveXNum, this.pointerSaveYNum, 'ImagePanelNew5');
+                if(this.pointerObject.panelCardObject                   != undefined){ this.pointerObject.panelCardObject.destroy();      }
+                if(this.pointerObject.panelCardLabelObject              != undefined){ this.pointerObject.panelCardLabelObject.destroy(); }
+
+                this.pointerObject.panelCardWidthNum                    = 125;
+                this.pointerObject.panelCardHeightNum                   = 175;
+                this.pointerObject.panelCardObject                      = game.add.sprite(this.pointerSaveXNum, this.pointerSaveYNum, 'ImagePanelNew6');
+                this.pointerObject.panelCardXNum                        = this.pointerObject.panelCardObject.x;
+                this.pointerObject.panelCardYNum                        = this.pointerObject.panelCardObject.y;
+                this.pointerObject.panelCardObject.width                = this.pointerObject.panelCardWidthNum;
+                this.pointerObject.panelCardObject.height               = this.pointerObject.panelCardHeightNum;
+
+                var exhibitionCurrentObject                             = this.FindObject   (this.exhibitionObjectArray     , this.pointerObject.exhibitionCurrentString);
+                var exhibitionRoomString                                = exhibitionCurrentObject.objectParentNameAltString;
+                var exhibitionRoomObject                                = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
+                var exhibitionFloorString                               = exhibitionRoomObject.objectParentNameAltString;
+                var exhibitionFloorObject                               = this.FindObject   (this.floorObjectArray          , exhibitionFloorString);
+
+                this.pointerObject.panelCardLabelObject                 = game.add.text(
+
+                    this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
+                    this.pointerObject.panelCardYNum + (this.pointerObject.panelCardHeightNum/2),
+                    (
+
+                        ('FLR_CUR = ' + exhibitionFloorString                               ) + '\n' +
+                        ('ROM_CUR = ' + exhibitionRoomString                                ) + '\n' +
+                        ('EXH_CUR = ' + this.pointerObject.exhibitionCurrentString          ) + '\n' +
+                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[0]   ) + '\n' +
+                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[1]   ) + '\n' +
+                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[2]   ) + '\n' +
+                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[0][0]              ) + '\n' +
+                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[1][0]              ) + '\n' +
+                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[2][0]              )
+
+                    ),
+                    {
+                        'align'     : 'center',
+                        'fontSize'  : 10
+                    }
+
+                );
+                this.pointerObject.panelCardLabelObject.anchor          .setTo(0.5, 0.5);
     
             }
         }
