@@ -22,42 +22,41 @@ ObjectPlayer                                                    = function(
 
     ){
 
-        this.floorObjectArray                                   = _floorObjectArray;
-        this.roomObjectArray                                    = _roomObjectArray;
-        this.exhibitionObjectArray                              = _exhibitionObjectArray;
-        this.playerObjectArray                                  = _playerObjectArray;
-        this.siblingObjectArray                                 = new Array();
+        this.floorObjectArray                                   = _floorObjectArray;        /*Initiate reference to the main floor object array.*/
+        this.roomObjectArray                                    = _roomObjectArray;         /*Initiate reference to the main room object array.*/
+        this.exhibitionObjectArray                              = _exhibitionObjectArray;   /*Initiate reference to the main exhibition bject array.*/
+        this.playerObjectArray                                  = _playerObjectArray;       /*Initiate reference to the main player object array.*/
+        this.siblingObjectArray                                 = new Array();              /*Empty array to be used later on to store which object share teh same parent with this player.*/
 
         this.exhibitionCurrentString                            = undefined;                /*The current exhibition of which this player resides in.*/
-        this.exhibitionTargetStringArray                        = new Array();              /*PENDING: Current target exhibition of which has more priority over other exhibitions.*/
+        this.exhibitionTargetStringArray                        = new Array();              /*Current target exhibition of which has more priority over other exhibitions.*/
         this.exhibitionVisitedStringArray                       = new Array();              /*List of exhibition that has been visited by this player.*/
-        this.tagMixedArray                                      = new Array();              /*PENDING: List of all favorites tags gathered by this player by visiting exhibition.*/
+        this.tagMixedArray                                      = new Array();              /*List of all favorites tags gathered by this player by visiting exhibition.*/
         
         this.timeCurrentExhibitionNum                           = 0;                        /*PENDING: The amount of time this player spent on the current exhibition. Need to be changed to be calculated in second.*/
         this.timeTotalNum                                       = 0;                        /*PENDING: The current amount of time this player spent on the whole museum visit. Can be achieved by adding all this.timeCurrentExhibition.*/
 
-        this.panelIndexNum                                      = _panelIndexNum;
+        this.panelHoverBool                                     = false;                    /*Wether a mouse pointer is above this player object.*/
+        this.panelIndexNum                                      = _panelIndexNum;           /*The index number of this player object among other player object (must be unique).*/
+        this.panelObject                                        = undefined;                /*The panel object for this object player.*/
+        this.panelLabelObject                                   = undefined;                /*The panel label object for this object player (contains test instead of sprite).*/
+        this.panelCardObject                                    = undefined;                /*The panel object for this object player.*/
+        this.panelCardLabelObject                               = undefined;                /*The panel label object for this object player (contains test instead of sprite).*/
+        this.panelXNum                                          = 0;                        /*Variable to hold the value of x position from panel object.*/
+        this.panelYNum                                          = 0;                        /*Variable to hold the value of y position from panel object.*/
+        this.panelWidthNum                                      = 0;                        /*Variable to hold the value of width from panel object.*/
+        this.panelHeightNum                                     = 0;                        /*Variable to hold the value of height from panel object.*/
+        this.panelCardXNum                                      = 0;                        /*Variable to hold the value of x position from panel card object.*/
+        this.panelCardYNum                                      = 0;                        /*Variable to hold the value of y position from panel card object.*/
+        this.panelCardWidthNum                                  = 0;                        /*Variable to hold the value of width from panel card object.*/
+        this.panelCardHeightNum                                 = 0;                        /*Variable to hold the value of height from panel card object.*/
+        this.panelSpriteString                                  = 'ImagePanelNew4';         /*Hold the string reference to sprite panel for panel label.*/
+        this.offsetYNum                                         = _offsetYNum;              /*Offset y for each stacked player's panel object.*/
 
-        this.panelObject                                        = undefined;
-        this.panelHoverBool                                     = false;
-        this.panelLabelObject                                   = undefined;
-        this.panelCardObject                                    = undefined;
-        this.panelCardLabelObject                               = undefined;
-        this.panelXNum                                          = 0;
-        this.panelYNum                                          = 0;
-        this.panelWidthNum                                      = 0;
-        this.panelHeightNum                                     = 0;
-        this.panelCardXNum                                      = 0;
-        this.panelCardYNum                                      = 0;
-        this.panelCardWidthNum                                  = 0;
-        this.panelCardHeightNum                                 = 0;
-        this.panelSpriteString                                  = 'ImagePanelNew4';
-        this.offsetYNum                                         = _offsetYNum;
+        this.fontSizeLabelNum                                   = 32;                       /*Font size for panel label.*/
+        this.fontSizeCardNum                                    = 32;                       /*Font size for panel card label.*/
 
-        this.fontSizeLabelNum                                   = 32;
-        this.fontSizeCardNum                                    = 32;
-
-        /*Set the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
+        /*Initial setup for the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
         this.ExhibitionMoveString                               (
 
             _exhibitionStartString,
@@ -201,8 +200,8 @@ ObjectPlayer.prototype.AIAutoString                             = function(){
     else{
 
         /*Assign new sprite if this player finished on visiting the museum.*/
-        this.panelSpriteString              = 'ImagePanelNew5';
-        /*Create graphical representation of this player.*/
+        this.panelSpriteString = 'ImagePanelNew5';
+        /*Re - create graphical representation of this player.*/
         this.CreatePanelObject(this.offsetYNum);
 
         return undefined;
@@ -233,7 +232,7 @@ ObjectPlayer.prototype.CalculateSiblingObjectArray              = function(){
 
 };
 
-/*Ascending comparison function.*/
+/*Ascending comparison function for calculating how many points does a tag has in this player.*/
 /*
 ObjectPlayer.prototype.CompareTagNum                            = function(_elementMixedArray1, _elementMixedArray2){
 
@@ -241,7 +240,7 @@ ObjectPlayer.prototype.CompareTagNum                            = function(_elem
 
 };
 */
-/*Descending comparison function.*/
+/*Descending comparison function for calculating how many points does a tag has in this player.*/
 ObjectPlayer.prototype.CompareTagNum                            = function(_elementMixedArray1, _elementMixedArray2){
 
     return _elementMixedArray2[1] - _elementMixedArray1[1];
@@ -477,9 +476,12 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
 
     ){
 
-        if(this.exhibitionCurrentString != undefined){ this.AddRemoveChildObjectArray(false); }
+        /*If this player move into new exhibition then remove it graphical representation from the current exhibition before this player
+            change exhibition.*/
+        if(this.exhibitionCurrentString != undefined)           { this.AddRemoveChildObjectArray(false); }
 
-        /*Add calculation for the current exhibition array before the this player is moved into new exhibition.*/
+        /*Add calculation for the current exhibition array before the this player is moved into new exhibition.
+        For example like removing the amount of current visitor.*/
         if(this.exhibitionCurrentString                         != undefined){
 
             var exhibitionCurrentObject                         = this.FindObject(_exhibitionObjectArray  , this.exhibitionCurrentString);
@@ -511,7 +513,10 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
         And then it gives value for every tags inside the array.*/
         for(var i = 0; i < exhibitionCurrentObject.tagStringArray.length; i ++){
 
-            /*Add the tags from exhibition to the this.tagMixedArray.*/
+            /*Add the tags from exhibition to the this.tagMixedArray.
+            this.tagMixedStringArray is an array that contains two dimensional array.
+            For its contents the first dimension is the tag nalternative name.
+            While, the latest dimension is the score of the array for this player.*/
             var tagMixedArray                                   = new Array(2);
             tagMixedArray[0]                                    = exhibitionCurrentObject.tagStringArray[i];
 
@@ -573,7 +578,7 @@ ObjectPlayer.prototype.ExhibitionMoveString                     = function(
 
 };
 
-/*A function to find the exhibition in an array of object exhibition, based on exhibition's
+/*A function to find the exhibition index in an array of object exhibition, based on exhibition's
     name alt.*/
 ObjectPlayer.prototype.FindIndexNameAltNum                      = function(_exhibitionObjectArray, _exhibitionNameAltString){
 
@@ -605,6 +610,7 @@ ObjectPlayer.prototype.FindIndexNameAltNum                      = function(_exhi
 
 };
 
+/*A function to find the exhibition index in an array of object exhibition, based on object.*/
 ObjectPlayer.prototype.FindIndexObjectNum                       = function(_playerObjectArray, _exhibitionObject){
 
     if(
