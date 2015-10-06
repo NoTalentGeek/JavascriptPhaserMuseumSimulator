@@ -53,7 +53,7 @@ ObjectPlayer                                                    = function(
         this.panelSpriteString                                  = 'ImagePanelNew4';         /*Hold the string reference to sprite panel for panel label.*/
         this.offsetYNum                                         = _offsetYNum;              /*Offset y for each stacked player's panel object.*/
         this.fontSizeLabelNum                                   = 32;                       /*Font size for panel label.*/
-        this.fontSizeCardNum                                    = 32;                       /*Font size for panel card label.*/
+        this.fontSizeCardLabelNum                               = 32;                       /*Font size for panel card label.*/
 
         /*Initial setup for the this.exhibitionCurrent to _exhibitionStart and also add that things to this.exhibitionVisited.*/
         this.ExhibitionMoveString                               (
@@ -283,7 +283,7 @@ ObjectPlayer.prototype.CreatePanelObject                        = function(){
         this.panelIndexNum,
         {
             'align'     : 'center',
-            'fontSize'  : this.fontSizeNum
+            'fontSize'  : this.fontSizeLabelNum
         }
 
     );

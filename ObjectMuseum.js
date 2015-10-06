@@ -65,13 +65,23 @@ ObjectMuseum                                        =  function(
         this.fullThresholdNum                       = 0;
         this.isFullBool                             = false;
 
-        this.panelXNum                              = 0;
-        this.panelYNum                              = 0;
-        this.panelWidthNum                          = 0;
-        this.panelHeightNum                         = 0;
-        this.panelObject                            = undefined;
-        this.panelLabelObject                       = undefined;
-        this.fontSizeNum                            = 32;
+        this.panelHoverBool                         = false;                                /*Wether a mouse pointer is above this player object.*/
+        this.panelObject                            = undefined;                            /*The panel object for this object player.*/
+        this.panelLabelObject                       = undefined;                            /*The panel label object for this object player (contains test instead of sprite).*/
+        this.panelCardObject                        = undefined;                            /*The panel object for this object player.*/
+        this.panelCardLabelObject                   = undefined;                            /*The panel label object for this object player (contains test instead of sprite).*/
+        this.panelXNum                              = 0;                                    /*Variable to hold the value of x position from panel object.*/
+        this.panelYNum                              = 0;                                    /*Variable to hold the value of y position from panel object.*/
+        this.panelWidthNum                          = 0;                                    /*Variable to hold the value of width from panel object.*/
+        this.panelHeightNum                         = 0;                                    /*Variable to hold the value of height from panel object.*/
+        this.panelCardXNum                          = 0;                                    /*Variable to hold the value of x position from panel card object.*/
+        this.panelCardYNum                          = 0;                                    /*Variable to hold the value of y position from panel card object.*/
+        this.panelCardWidthNum                      = 0;                                    /*Variable to hold the value of width from panel card object.*/
+        this.panelCardHeightNum                     = 0;                                    /*Variable to hold the value of height from panel card object.*/
+        this.offsetXNum                             = _offsetXNum;                          /*Offset x for each stacked player's panel object.*/
+        this.offsetYNum                             = _offsetYNum;                          /*Offset y for each stacked player's panel object.*/
+        this.fontSizeLabelNum                       = 32;                                   /*Font size for panel label.*/
+        this.fontSizeCardLabelNum                   = 32;                                   /*Font size for panel card label.*/
 
         /*Add this object to the child object array of the parent.*/
         this.AddRemoveChildObjectArray              (true);
@@ -144,7 +154,7 @@ ObjectMuseum.prototype.AddRemoveChildObjectArray    = function(_isAdd){
 }
 
 /*A function to create a graphical user interface for each museum object.*/
-ObjectMuseum.prototype.CreatePanelVoid              = function(){
+ObjectMuseum.prototype.CreatePanelObject            = function(){
 
     /*If this object is a floor object.*/
     if(this.objectTypeString        == 'FLR'){
@@ -159,7 +169,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         this.panelHeightNum         = (game.height - ((this.offsetYNum*this.totalRowNum) + this.offsetYNum))/this.totalRowNum;
 
         /*Create the panel image here.*/
-        this.panelObject             = game.add.sprite(
+        this.panelObject            = game.add.sprite(
 
             this.offsetXNum + (indexNum*this.panelWidthNum) + (indexNum*this.offsetXNum),
             this.offsetYNum,
@@ -252,7 +262,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         this.objectNameAltString,
         {
             'align'     : 'center',
-            'fontSize'  : this.fontSizeNum
+            'fontSize'  : this.fontSizeLabelNum
         }
 
     );
@@ -270,7 +280,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
 
     ){
 
-        this.fontSizeNum            --;                 /*Keep decreaseing the font size.*/
+        this.fontSizeLabelNum       --;                 /*Keep decreaseing the font size.*/
         this.panelLabelObject       .destroy();         /*Delete the previous made panel for the text.*/
         this.panelLabelObject       = game.add.text(    /*Recreate the panel using new font size.*/
 
@@ -279,7 +289,7 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
             this.objectNameAltString,
             {
                 'align'     : 'center',
-                'fontSize'  : this.fontSizeNum
+                'fontSize'  : this.fontSizeLabelNum
             }
 
         );
@@ -305,12 +315,12 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
     /*This is the loop to assign the lowest possible font size.*/
     for(var i = 0 ; i < objectArray.length; i ++){
 
-        if(i > 0){ if(objectArray[i].fontSizeNum < objectArray[i - 1].fontSizeNum){ minFontSizeSiblingNum = objectArray[i].fontSizeNum; } }
-        else{ minFontSizeSiblingNum = objectArray[i].fontSizeNum; }
+        if(i > 0){ if(objectArray[i].fontSizeLabelNum < objectArray[i - 1].fontSizeLabelNum){ minFontSizeSiblingNum = objectArray[i].fontSizeLabelNum; } }
+        else{ minFontSizeSiblingNum = objectArray[i].fontSizeLabelNum; }
 
     }
 
-    this.fontSizeNum            = minFontSizeSiblingNum;
+    this.fontSizeLabelNum            = minFontSizeSiblingNum;
 
     /*Destroy the previous text object and create a new one.*/
     this.panelLabelObject       .destroy();
@@ -321,11 +331,16 @@ ObjectMuseum.prototype.CreatePanelVoid              = function(){
         this.objectNameAltString,
         {
             'align'     : 'center',
-            'fontSize'  : this.fontSizeNum
+            'fontSize'  : this.fontSizeLabelNum
         }
 
     );
     this.panelLabelObject.anchor    .setTo(0.5, 0.5);
+
+    this.panelObject.inputEnabled                               = true;
+    this.panelLabelObject.inputEnabled                          = true;
+
+    return this.panelObject;
 
 };
 
@@ -429,4 +444,54 @@ ObjectMuseum.prototype.SetFullThresholdNum                      = function(_full
 
     }
 
-}
+};
+
+/*This is an update function to update the reference that were put in the constructor.
+For every value that is need to be updated you put it here in the update function.
+This function's arguments are the value that is need to be updated every tick of the program.*/
+ObjectMuseum.prototype.UpdateVoid                               = function(
+
+    _floorObjectArray       ,
+    _roomObjectArray        ,
+    _exhibitionObjectArray  ,
+    _playerObjectArray
+
+){
+
+    if(
+
+        typeof _floorObjectArray                                === 'object' &&
+        typeof _roomObjectArray                                 === 'object' &&
+        typeof _exhibitionObjectArray                           === 'object' &&
+        typeof _playerObjectArray                               === 'object'
+
+    ){
+
+        this.floorObjectArray                                   = _floorObjectArray;
+        this.roomObjectArray                                    = _roomObjectArray;
+        this.exhibitionObjectArray                              = _exhibitionObjectArray;
+        this.playerObjectArray                                  = _playerObjectArray;
+
+        /*Check pointer over the panel object sprite.*/
+        if(
+            this.panelObject        .input.pointerOver()        == true         ||
+            this.panelLabelObject   .input.pointerOver()        == true
+        ){  this.panelHoverBool = true;  }
+        else if(
+
+            this.panelObject        .input.pointerOver()        == false        &&
+            this.panelLabelObject   .input.pointerOver()        == false
+
+        ){  this.panelHoverBool = false; }
+
+    }
+    else{
+
+        console.log                                             ((typeof _floorObjectArray)         + ' is not an object.');
+        console.log                                             ((typeof _roomObjectArray)          + ' is not an object.');
+        console.log                                             ((typeof _exhibitionObjectArray)    + ' is not an object.');
+        console.log                                             ((typeof _playerObjectArray)        + ' is not an object.');
+
+    }
+
+};

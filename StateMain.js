@@ -264,6 +264,12 @@ stateMain = {
             }
 
         }
+
+        /*Create the initial panel for museum objects.*/
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]      .CreatePanelObject();}
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]       .CreatePanelObject();}
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i] .CreatePanelObject();}
+
         /*Initiate players and generate random exhibition starting point.*/
         for(var i = 0; i < this.playerCountNum; i ++){
 
@@ -291,10 +297,10 @@ stateMain = {
         this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
         this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
 
-        /*Set the full initial full threshold for and create the initial panel for museum objects.*/
-        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); this.floorObjectArray[i]      .CreatePanelVoid();}
-        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); this.roomObjectArray[i]       .CreatePanelVoid();}
-        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); this.exhibitionObjectArray[i] .CreatePanelVoid();}
+        /*Set the full initial full threshold.*/
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
 
     },
 
@@ -304,14 +310,29 @@ stateMain = {
         this.SortArray                                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
         /*Loop through all the museum object to set the full threshold number.
         SetFullThresholdNum() is a function to update whethe the museum object is crowded or not.*/
-        for(var i = 0; i < this.floorObjectArray.length         ; i ++) { this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
-        for(var i = 0; i < this.roomObjectArray.length          ; i ++) { this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
-        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++) { this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
-        /*Update the player references and for automatic movement within the museum.*/
-        for(var i = 0; i < this.playerObjectArray.length        ; i ++) {
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){
 
-            this.playerObjectArray[i]                           .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray);
-            this.playerObjectArray[i]                           .AIAutoString();
+            this.floorObjectArray[i]        .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray);
+            this.floorObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum);
+
+        }
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){
+
+            this.roomObjectArray[i]         .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray);
+            this.roomObjectArray[i]         .SetFullThresholdNum(this.fullThresholdNum);
+
+        }
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){
+
+            this.exhibitionObjectArray[i]   .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray);
+            this.exhibitionObjectArray[i]   .SetFullThresholdNum(this.fullThresholdNum);
+
+        }
+        /*Update the player references and for automatic movement within the museum.*/
+        for(var i = 0; i < this.playerObjectArray.length        ; i ++){
+
+            this.playerObjectArray[i]       .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray);
+            this.playerObjectArray[i]       .AIAutoString();
 
         }
 
@@ -493,7 +514,7 @@ stateMain = {
                     panelCardLabelString,
                     {
                         'align'     : 'center',
-                        'fontSize'  : this.pointerObject.fontSizeCardNum
+                        'fontSize'  : this.pointerObject.fontSizeCardLabelNum
                     }
 
                 );
@@ -511,7 +532,7 @@ stateMain = {
                 ){
 
                     /*Decrease the panel label font gradually until this panel label is smaller than the panel card itself.*/
-                    this.pointerObject.fontSizeCardNum                          --;
+                    this.pointerObject.fontSizeCardLabelNum                          --;
 
                     /*Do not forget to always delete previously created panel.*/
                     if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
@@ -525,7 +546,7 @@ stateMain = {
                         panelCardLabelString,
                         {
                             'align'     : 'center',
-                            'fontSize'  : this.pointerObject.fontSizeCardNum
+                            'fontSize'  : this.pointerObject.fontSizeCardLabelNum
                         }
 
                     );
@@ -538,12 +559,12 @@ stateMain = {
                 var minFontSizeSiblingNum = 0;
                 for(var i = 0 ; i < this.playerObjectArray.length; i ++){
 
-                    if(i > 0){ if(this.playerObjectArray[i].fontSizeCardNum < this.playerObjectArray[i - 1].fontSizeCardNum){ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardNum; } }
-                    else{ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardNum; }
+                    if(i > 0){ if(this.playerObjectArray[i].fontSizeCardLabelNum < this.playerObjectArray[i - 1].fontSizeCardLabelNum){ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardLabelNum; } }
+                    else{ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardLabelNum; }
 
                 }
                 /*Iterate through player array the set the minimum font size back to local font size variable.*/
-                for(var i = 0 ; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].fontSizeCardNum = minFontSizeSiblingNum; }
+                for(var i = 0 ; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].fontSizeCardLabelNum = minFontSizeSiblingNum; }
 
                 /*Delete the panel label card object before we create new one.*/
                 if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
@@ -556,7 +577,7 @@ stateMain = {
                     panelCardLabelString,
                     {
                         'align'     : 'center',
-                        'fontSize'  : this.pointerObject.fontSizeCardNum
+                        'fontSize'  : this.pointerObject.fontSizeCardLabelNum
                     }
 
                 );
