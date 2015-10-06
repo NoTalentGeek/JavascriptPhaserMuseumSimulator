@@ -306,6 +306,11 @@ stateMain = {
         for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
         for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
 
+        this.pointerObject      = undefined;
+        this.pointerSaveXNum    = undefined;
+        this.pointerSaveYNum    = undefined;
+        this.pointerSaveBool    = true;
+
     },
 
     update                                  :function(){
@@ -318,6 +323,24 @@ stateMain = {
         for(var i = 0; i < this.playerObjectArray.length        ; i ++) { this.playerObjectArray[i]      .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray); }
 
         this.SortArray                                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
+
+        /*
+        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
+        <<A console.log() function to return how many tags have been captured during this time.
+        Not necessarily to be active all the time due to for loop.>>
+        <<
+        for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
+
+            console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);
+
+        }
+        >>
+        <<Simple loop control, if the value exceed the latest index from player array then reset the
+            counter back to 0.>>
+        this.playerIndexNum         ++;
+        this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
+        */
+        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
 
 
         /*Prototype codes for the panel cards.
@@ -359,32 +382,48 @@ stateMain = {
         for(var i = 0; i < this.playerObjectArray.length        ; i ++){
 
             //if(this.playerObjectArray[i].panelCardObject      != undefined)   { this.playerObjectArray[i].panelCardObject.destroy();        }
-            if(this.playerObjectArray[i].panelHoverBool         == true)        {
+            if(
 
-                this.playerObjectArray[i].panelCardObject       = game.add.sprite(this.playerObjectArray[i].panelXNum, this.playerObjectArray[i].panelYNum, 'ImagePanelNew5');
-                console.log(this.playerObjectArray[i].panelCardObject.x);
+                this.playerObjectArray[i].panelHoverBool        == true &&
+                this.pointerSaveBool                            == true
+
+            ){
+
+                this.pointerObject      = this.playerObjectArray[i];
+                this.pointerSaveXNum    = this.playerObjectArray[i].panelXNum + (this.playerObjectArray[i].panelWidthNum /2);
+                this.pointerSaveYNum    = this.playerObjectArray[i].panelYNum + (this.playerObjectArray[i].panelHeightNum/2);
+                this.pointerSaveBool    = false;
 
             }
 
         }
 
-        /*
-        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
-        <<A console.log() function to return how many tags have been captured during this time.
-        Not necessarily to be active all the time due to for loop.>>
-        <<
-        for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
+        if(this.pointerObject != undefined){
+            if(
 
-            console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);
+                game.input.mousePointer.x < (this.pointerSaveXNum - (this.pointerObject.panelWidthNum/2))   ||
+                game.input.mousePointer.x > (this.pointerSaveXNum + (this.pointerObject.panelWidthNum/2))   ||
+                game.input.mousePointer.y < (this.pointerSaveYNum - (this.pointerObject.panelHeightNum/2))  ||
+                game.input.mousePointer.y > (this.pointerSaveYNum + (this.pointerObject.panelHeightNum/2)) 
+    
+            ){
 
+                this.pointerSaveXNum                    = undefined;
+                this.pointerSaveYNum                    = undefined;
+
+                if(this.pointerObject.panelCardObject != undefined){ this.pointerObject.panelCardObject.destroy(); }
+
+                this.pointerObject                      = undefined;
+                this.pointerSaveBool                    = true;
+    
+            }
+            else{
+
+                if(this.pointerObject.panelCardObject != undefined){ this.pointerObject.panelCardObject.destroy(); }
+                this.pointerObject.panelCardObject      = game.add.sprite(this.pointerSaveXNum, this.pointerSaveYNum, 'ImagePanelNew5');
+    
+            }
         }
-        >>
-        <<Simple loop control, if the value exceed the latest index from player array then reset the
-            counter back to 0.>>
-        this.playerIndexNum         ++;
-        this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
-        */
-        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
 
         /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
         PENDING: I am not sure whether you can just dynamucally add an object while the loop is running.
