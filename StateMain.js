@@ -382,7 +382,7 @@ stateMain = {
         */
         for(var i = 0; i < this.playerObjectArray.length        ; i ++){
 
-            //if(this.playerObjectArray[i].panelCardObject      != undefined)   { this.playerObjectArray[i].panelCardObject.destroy();        }
+            if(this.playerObjectArray[i].panelCardObject      != undefined)   { this.playerObjectArray[i].panelCardObject.destroy();        }
             if(
 
                 this.playerObjectArray[i].panelHoverBool        == true &&
