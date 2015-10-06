@@ -344,9 +344,12 @@ stateMain = {
         for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
 
 
-        /*Prototype codes for the panel cards.
+        /*Codes for the panel cards.
         First thing first, we need to know which museum object is hovered.
         So we need to loop to all available museum objects to check the boolean.
+        The thing here is that for when ever there will be only one panel card exist.
+        So every tick we need to delete the previously created panel card before make a new
+            panel card.
         But before hand you need to delete the previously created panel.*/
         /*
         for(var i = 0; i < this.floorObjectArray.length             ; i ++){
@@ -380,26 +383,47 @@ stateMain = {
 
         }
         */
-        for(var i = 0; i < this.playerObjectArray.length        ; i ++){
+        /*This is a loop to iterate every possible player within the application.
+        And then for every player check whether or not mouse pointer is hovered toward the player's
+            panel object.*/
+        for(var i = 0; i < this.playerObjectArray.length    ; i ++){
 
-            if(this.playerObjectArray[i].panelCardObject      != undefined)   { this.playerObjectArray[i].panelCardObject.destroy();        }
+            /*Always check whether the object panel card is exist or not.
+            If exist then we need to delete it before we create new panel card (or even juts updating it).*/
+            if(this.playerObjectArray[i].panelCardObject    != undefined){ this.playerObjectArray[i].panelCardObject.destroy(); }
             if(
 
-                this.playerObjectArray[i].panelHoverBool        == true &&
-                this.pointerSaveBool                            == true
+                this.playerObjectArray[i].panelHoverBool    == true &&  /*This is a variable that is inside player object to determine whether a mouse pointer is above this object's panel card.*/
+                this.pointerSaveBool                        == true     /*A trigger if we need to record new value for panel card object or not.*/
 
             ){
 
-                this.pointerObject      = this.playerObjectArray[i];
-                this.pointerSaveXNum    = this.playerObjectArray[i].panelXNum + (this.playerObjectArray[i].panelWidthNum /2);
-                this.pointerSaveYNum    = this.playerObjectArray[i].panelYNum + (this.playerObjectArray[i].panelHeightNum/2);
-                this.pointerSaveBool    = false;
+                /*These are like a temporary variables to hold values of object player.
+                We need this because the value of player is changed every tick.
+                So we need to capture the last valid one according to above if statement.*/
+                this.pointerObject      = this.playerObjectArray[i];                                                            /*Capture the object player of which has a mouse pointer above its panel.*/
+                this.pointerSaveXNum    = this.playerObjectArray[i].panelXNum + (this.playerObjectArray[i].panelWidthNum /2);   /*Save the middle postion of object panel x of which has a mouse pointer above its panel.*/
+                this.pointerSaveYNum    = this.playerObjectArray[i].panelYNum + (this.playerObjectArray[i].panelHeightNum/2);   /*Save the middle postion of object panel y of which has a mouse pointer above its panel.*/
+                this.pointerSaveBool    = false;                                                                                /*Prevent this application to take another temporary variables.*/
 
             }
 
         }
 
+        /*After the code above we need to create the panel card.
+        Now we need to make sure the reference to the object that is hovered by the mouse pointer is not empty,
+            hence this if statement.*/
         if(this.pointerObject != undefined){
+
+            /*This if statement is necessary so that the panel card is not directly deleted in case the object is moved.
+            In this application if you hover over the player object you will get the panel card with a lot of information about that
+                player object.
+            However, the player object moved in every tick, hence like nearly every tick your panel card will be deleted and then
+                re - created again for with the new player information (or not).
+            This if statement is to prevent that.
+            The panel object will be deleted just when the mouse pointer travel exceed the original object target y and x position.
+            If the mouse pointer travel exceed object target y and x position reset all value, delete objects, and set the
+                this.pointerSaveBool to true so that you can take new reference for a new panel card.*/
             if(
 
                 game.input.mousePointer.x < (this.pointerSaveXNum - (this.pointerObject.panelWidthNum/2))   ||
@@ -414,42 +438,59 @@ stateMain = {
 
                 if(this.pointerObject.panelCardObject           != undefined){ this.pointerObject.panelCardObject.destroy(); }
                 if(this.pointerObject.panelCardLabelObject      != undefined){ this.pointerObject.panelCardLabelObject.destroy(); }
-
                 this.pointerObject                              = undefined;
+
                 this.pointerSaveBool                            = true;
     
             }
+            /*If the mouse pointer stay within object target y and x position we just need to delete objects and create new panel card.*/
             else{
 
+                /*Delete objects.*/
                 if(this.pointerObject.panelCardObject                   != undefined){ this.pointerObject.panelCardObject.destroy();      }
                 if(this.pointerObject.panelCardLabelObject              != undefined){ this.pointerObject.panelCardLabelObject.destroy(); }
 
+                /*Set for the panel card properties like width, height, x position, y position.*/
                 this.pointerObject.panelCardWidthNum                    = 200;
                 this.pointerObject.panelCardHeightNum                   = 280;
+
+                /*Create the panel card object.*/
                 this.pointerObject.panelCardObject                      = game.add.sprite(this.pointerSaveXNum, this.pointerSaveYNum, 'ImagePanelNew6');
+
+                /*Fill in back the reference for future use.*/
                 this.pointerObject.panelCardXNum                        = this.pointerObject.panelCardObject.x;
                 this.pointerObject.panelCardYNum                        = this.pointerObject.panelCardObject.y;
                 this.pointerObject.panelCardObject.width                = this.pointerObject.panelCardWidthNum;
                 this.pointerObject.panelCardObject.height               = this.pointerObject.panelCardHeightNum;
 
+                /*These two if statements below is for if the panel card goes beyod the screen.
+                If the panel card goes beyond the screen we need to shift either the y position or the x position.
+                Shift the x position according to panel card own width.*/
                 if((this.pointerObject.panelCardXNum + this.pointerObject.panelCardWidthNum) > game.width){
 
-                    this.pointerObject.panelCardObject.x = this.pointerObject.panelCardXNum - this.pointerObject.panelCardWidthNum;
-                    this.pointerObject.panelCardXNum = this.pointerObject.panelCardObject.x;
+                    this.pointerObject.panelCardObject.x    = this.pointerObject.panelCardXNum - this.pointerObject.panelCardWidthNum;
+                    this.pointerObject.panelCardXNum        = this.pointerObject.panelCardObject.x;
 
                 }
+                /*Shift the y position according to panel card own height.*/
                 if((this.pointerObject.panelCardYNum + this.pointerObject.panelCardHeightNum) > game.height){
 
-                    this.pointerObject.panelCardObject.y = this.pointerObject.panelCardYNum - this.pointerObject.panelCardHeightNum;
-                    this.pointerObject.panelCardYNum = this.pointerObject.panelCardObject.y;
+                    this.pointerObject.panelCardObject.y    = this.pointerObject.panelCardYNum - this.pointerObject.panelCardHeightNum;
+                    this.pointerObject.panelCardYNum        = this.pointerObject.panelCardObject.y;
 
                 }
 
+                /*With the code above we are done setting with the panel card object.
+                Next this is to make the content of that panel card, which basically just a string.
+                Below is some local variables to pull information necessary to develop the string
+                    we want to put into the panel card object.*/
                 var exhibitionCurrentObject                             = this.FindObject   (this.exhibitionObjectArray     , this.pointerObject.exhibitionCurrentString);
                 var exhibitionRoomString                                = exhibitionCurrentObject.objectParentNameAltString;
                 var exhibitionRoomObject                                = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
                 var exhibitionFloorString                               = exhibitionRoomObject.objectParentNameAltString;
                 var exhibitionFloorObject                               = this.FindObject   (this.floorObjectArray          , exhibitionFloorString);
+
+                /*This is the string that we will put into panel card object.*/
                 var panelCardLabelString                                = (
 
                     ('FLR_CUR = ' + exhibitionFloorString                               ) + '\n' +
@@ -464,6 +505,7 @@ stateMain = {
 
                 );
 
+                /*Create the content for panel card object.*/
                 this.pointerObject.panelCardLabelObject                 = game.add.text(
 
                     this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
@@ -477,6 +519,10 @@ stateMain = {
                 );
                 this.pointerObject.panelCardLabelObject.anchor          .setTo(0.5, 0.5);
 
+                /*These two iterations below is to make sure the font size of every panel label is the same.
+                We will take the smallest possible font size.
+                In case the label is bigger than the panel, we will keep redicing the font face
+                    until the label is smaller than the panel.*/
                 while(
 
                     (this.pointerObject.panelCardLabelObject.width  > this.pointerObject.panelCardWidthNum)     ||
@@ -484,9 +530,14 @@ stateMain = {
 
                 ){
 
+                    /*Decrease the panel label font gradually until this panel label is smaller than the panel card itself.*/
                     this.pointerObject.fontSizeCardNum                          --;
+
+                    /*Do not forget to always delete previously created panel.*/
                     if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
 
+                    /*Create the panel label object in the middle of the panel object with additional anchor point to be set also in the middle of the
+                        desired position.*/
                     this.pointerObject.panelCardLabelObject                     = game.add.text(
 
                         this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
@@ -502,6 +553,8 @@ stateMain = {
 
                 }
 
+                /*Temporary variable that hold the minimum string.
+                Iterate through player array to set the minimum font variable.*/
                 var minFontSizeSiblingNum = 0;
                 for(var i = 0 ; i < this.playerObjectArray.length; i ++){
 
@@ -509,14 +562,13 @@ stateMain = {
                     else{ minFontSizeSiblingNum = this.playerObjectArray[i].fontSizeCardNum; }
 
                 }
-                for(var i = 0 ; i < this.playerObjectArray.length; i ++){
+                /*Iterate through player array the set the minimum font size back to local font size variable.*/
+                for(var i = 0 ; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].fontSizeCardNum = minFontSizeSiblingNum; }
 
-                    this.playerObjectArray[i].fontSizeCardNum = minFontSizeSiblingNum;
-
-                }
-
+                /*Delete the panel label card object before we create new one.*/
                 if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
-
+                
+                /*Create thenew panel label card object with new minumum font size.*/
                 this.pointerObject.panelCardLabelObject                     = game.add.text(
 
                     this.pointerObject.panelCardXNum + (this.pointerObject.panelCardWidthNum/2),
@@ -528,7 +580,7 @@ stateMain = {
                     }
 
                 );
-                this.pointerObject.panelCardLabelObject.anchor          .setTo(0.5, 0.5);
+                this.pointerObject.panelCardLabelObject.anchor              .setTo(0.5, 0.5);
     
             }
         }
