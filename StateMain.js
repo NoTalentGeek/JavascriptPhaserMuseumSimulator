@@ -5,32 +5,35 @@ stateMain = {
 
         game.stage.backgroundColor          = 0x222034;
 
-        /*Array to contain all object in the scene.*/
+        /* All variables for creating and controlling museum object.
+        Array to contain all object in the scene.*/
         this.floorObjectArray               = new Array();
         this.roomObjectArray                = new Array();
         this.exhibitionObjectArray          = new Array();
         this.tagObjectArray                 = new Array();
         this.playerObjectArray              = new Array();
-
-        this.offsetXMulNum                  = (5/1024);
-        this.offsetYMulNum                  = (5/576);
-        this.offsetXNum                     = game.width*this.offsetXMulNum;
-        this.offsetYNum                     = game.height*this.offsetYMulNum;
-        this.totalRowNum                    = 0;
-
         /*How many players in the scene initially.*/
         this.playerCountNum                 = 20;
-
         /*Instead of using for loop I used a counter to update each array one
             by one each tick passed.
         With this method system will not be lagged with countless amount of museum
             objects in the loop.*/
-        this.updateCountNum                 = 0;
-        this.updateCountTotalNum            = 0;
         this.playerUpdateNum                = 0;
-
         /*A variable to know whether the museum object is full or not.*/
         this.fullThresholdNum               = 0;
+
+        /*Essential variable for layout.*/
+        this.offsetXMulNum                  = (5/1024);                             /*A constant variable to determine the offset x.*/
+        this.offsetYMulNum                  = (5/576);                              /*A constant variable to determine the offset y.*/
+        this.offsetXNum                     = game.width    *this.offsetXMulNum;
+        this.offsetYNum                     = game.height   *this.offsetYMulNum;
+        this.totalRowNum                    = 0;                                    /*This is variable I used to calculate how many necessary based on amount of exhibitions and players.*/
+
+        /*Variables to help displaying panel card for each museum objects.*/
+        this.pointerObject                  = undefined;                            /*The museum object of which has mouse pointer above its panel.*/
+        this.pointerSaveXNum                = undefined;                            /*The x position of object pointer.*/
+        this.pointerSaveYNum                = undefined;                            /*The y position of object pointer.*/
+        this.pointerSaveBool                = true;                                 /*Whether or not this application should update the panel card with new object or not (the information might still the same).*/
 
         /*Initial object name for floor.*/
         var floorNameObjectArray                    = [
@@ -97,11 +100,12 @@ stateMain = {
 
         ];
 
+        /*Setting up the total row necessary for this application.*/
         //this.totalRowNum                          = 3 + (Math.ceil(this.playerCountNum/this.exhibitionObjectArray.length) + 5);
         this.totalRowNum                            = 3 + (Math.ceil(this.playerCountNum/exhibitionNameObjectArray.length) + 5);
 
 
-        /*Initiates everything and put everythin in to its corresponding array.*/
+        /*Initiates everything and put everything in to its corresponding array.*/
         for(var i = 0; i < floorNameObjectArray.length; i ++){
 
             var floorObject = new ObjectMuseum(
@@ -118,8 +122,6 @@ stateMain = {
 
             );
             this.floorObjectArray.push(floorObject);
-
-            //console.log(floorObject.objectNameAltString);
 
         }
         for(var i = 0; i < roomNameObjectArray.length; i ++){
@@ -138,8 +140,6 @@ stateMain = {
 
             );
             this.roomObjectArray.push(roomObject);
-
-            //console.log(roomObject.objectNameAltString);
 
         }
         for(var i = 0; i < exhibitionNameObjectArray.length; i ++){
@@ -215,9 +215,11 @@ stateMain = {
             }
             this.exhibitionObjectArray.push(exhibitionObject);
 
-            //console.log(exhibitionObject.objectNameAltString);
-
         }
+        /*Initiate tag objects.
+        Tag has no object parent.
+        I think tag objects is the most less demanding object that use museum object.
+        I could definetely create the whole new class for tags with simplified functions.*/
         for(var i = 0; i < tagNameObjectArray.length; i ++){
 
             var tagObject = new ObjectMuseum(
@@ -235,7 +237,6 @@ stateMain = {
             );
             this.tagObjectArray.push(tagObject);
 
-            //console.log(tagObject.objectNameAltString);
 
         }
         /*Put tags into exhibition randomly.*/
@@ -263,22 +264,6 @@ stateMain = {
             }
 
         }
-
-        //console.log(this.floorObjectArray);
-        //console.log(this.roomObjectArray);
-        //console.log(this.exhibitionObjectArray);
-        //console.log(this.FindIndexNum(this.floorObjectArray   , 'FLR_001'));
-        //console.log(this.FindObject(this.floorObjectArray     , 'FLR_001').objectNameFullString);
-
-        /*Before we add the graphical user interface we sort all the array.*/
-        this.SortArray(this.floorObjectArray        , this.CompareObjectParentNum);
-        this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
-        this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
-
-        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]      .CreatePanelVoid(); }
-        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]       .CreatePanelVoid(); }
-        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i] .CreatePanelVoid(); }
-
         /*Initiate players and generate random exhibition starting point.*/
         for(var i = 0; i < this.playerCountNum; i ++){
 
@@ -296,53 +281,47 @@ stateMain = {
             );
             this.playerObjectArray          .push(playerObject);
 
-            //console.log(playerObject.exhibitionCurrentString);
-
         }
 
+        /*Set the number of which determine whether a museum object is crowded or not.
+        This number should be updated whenever a new player/visitor created or when other museum object created.*/
         this.fullThresholdNum               = Math.ceil(this.playerObjectArray.length/this.exhibitionObjectArray.length);
 
-        /*Loop through all the museum object to set the full threshold number.*/
-        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
-        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
-        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
+        /*Before we add the graphical user interface we sort the array of room and exhibition based on its parent.*/
+        this.SortArray(this.roomObjectArray         , this.CompareObjectParentNum);
+        this.SortArray(this.exhibitionObjectArray   , this.CompareObjectParentNum);
 
-        this.pointerObject      = undefined;
-        this.pointerSaveXNum    = undefined;
-        this.pointerSaveYNum    = undefined;
-        this.pointerSaveBool    = true;
+        /*Set the full initial full threshold for and create the initial panel for museum objects.*/
+        for(var i = 0; i < this.floorObjectArray.length         ; i ++){ this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); this.floorObjectArray[i]      .CreatePanelVoid();}
+        for(var i = 0; i < this.roomObjectArray.length          ; i ++){ this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); this.roomObjectArray[i]       .CreatePanelVoid();}
+        for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++){ this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); this.exhibitionObjectArray[i] .CreatePanelVoid();}
 
     },
 
     update                                  :function(){
 
+        /*Sort the array of player according to its current object exhibition for easy reference.*/
+        this.SortArray                                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
         /*Loop through all the museum object to set the full threshold number.*/
         for(var i = 0; i < this.floorObjectArray.length         ; i ++) { this.floorObjectArray[i]       .SetFullThresholdNum(this.fullThresholdNum); }
         for(var i = 0; i < this.roomObjectArray.length          ; i ++) { this.roomObjectArray[i]        .SetFullThresholdNum(this.fullThresholdNum); }
         for(var i = 0; i < this.exhibitionObjectArray.length    ; i ++) { this.exhibitionObjectArray[i]  .SetFullThresholdNum(this.fullThresholdNum); }
-        /*Update the player references.*/
-        for(var i = 0; i < this.playerObjectArray.length        ; i ++) { this.playerObjectArray[i]      .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray); }
+        /*Update the player references and for automatic movement within the museum.*/
+        for(var i = 0; i < this.playerObjectArray.length        ; i ++) {
 
-        this.SortArray                                                  (this.playerObjectArray, this.CompareCurrentExhibitionNum);
-
-        /*
-        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
-        <<A console.log() function to return how many tags have been captured during this time.
-        Not necessarily to be active all the time due to for loop.>>
-        <<
-        for(var i = 0; i < this.playerObjectArray[this.playerUpdateNum].tagMixedArray.length; i ++){
-
-            console.log(i + ' ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][0] + ': ' + this.playerObjectArray[this.playerUpdateNum].tagMixedArray[i][1]);
+            this.playerObjectArray[i]                           .UpdateVoid(this.floorObjectArray, this.roomObjectArray, this.exhibitionObjectArray, this.playerObjectArray);
+            this.playerObjectArray[i]                           .AIAutoString();
 
         }
-        >>
+
+        /*
+        <<Use this if you want to loop through the player object array without using for loop.>>
+        this.playerObjectArray[this.playerUpdateNum]    .AIAutoString();
         <<Simple loop control, if the value exceed the latest index from player array then reset the
             counter back to 0.>>
         this.playerIndexNum         ++;
         this.playerUpdateNum        = (this.playerUpdateNum < this.playerCountNum - 1) ? (this.playerUpdateNum + 1) : 0;
         */
-        for(var i = 0; i < this.playerObjectArray.length; i ++){ this.playerObjectArray[i].AIAutoString(); }
-
 
         /*Codes for the panel cards.
         First thing first, we need to know which museum object is hovered.
@@ -567,7 +546,7 @@ stateMain = {
 
                 /*Delete the panel label card object before we create new one.*/
                 if(this.pointerObject.panelCardLabelObject != undefined)    { this.pointerObject.panelCardLabelObject.destroy(); }
-                
+
                 /*Create thenew panel label card object with new minumum font size.*/
                 this.pointerObject.panelCardLabelObject                     = game.add.text(
 
@@ -583,48 +562,13 @@ stateMain = {
                 this.pointerObject.panelCardLabelObject.anchor              .setTo(0.5, 0.5);
     
             }
-        }
-
-        /*Dynamically add total number count for all museum objects within the scene (floors, rooms, exhibitions).
-        PENDING: I am not sure whether you can just dynamucally add an object while the loop is running.
-            If not then just reset the counter whenever an museum object goes into the array.*/
-        this.updateCountTotalNum    = this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length;
-
-        if                          (this.updateCountNum < this.floorObjectArray.length){
-
-            var indexNum            = this.updateCountNum;
-            //console                 .log(this.floorObjectArray[indexNum].objectNameAltString + ': ' + this.floorObjectArray[indexNum].visitorCurrentNum);
 
         }
-        else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length)){
-
-            var indexNum            = this.updateCountNum - this.floorObjectArray.length;
-            //console               .log(this.roomObjectArray[indexNum].objectNameAltString + ': ' + this.roomObjectArray[indexNum].visitorCurrentNum);
-
-        }
-        else if                     (this.updateCountNum < (this.floorObjectArray.length + this.roomObjectArray.length + this.exhibitionObjectArray.length)){
-
-            var indexNum            = this.updateCountNum - this.floorObjectArray.length - this.roomObjectArray.length;
-            /*
-            console               .log(
-
-                this.exhibitionObjectArray[indexNum].objectNameAltString + 
-                ': ' + 
-                this.exhibitionObjectArray[indexNum].tagStringArray +
-                ': ' + 
-                this.exhibitionObjectArray[indexNum].visitorCurrentNum 
-
-            );
-            */
-
-        }
-
-        /*Loop counter controller, it resets back to 0 whenever the counter pass the highest index of object exhibition
-            in the whole museum.*/
-        this.updateCountNum     = (this.updateCountNum < this.updateCountTotalNum - 1) ? (this.updateCountNum + 1) : 0;
 
     },
 
+    /*A comparison function to be used in native Javascript sort function to sort player array
+        based on its current exhibition.*/
     CompareCurrentExhibitionNum             :function(_1object, _2object){
 
         /*Argument verification.*/
