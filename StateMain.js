@@ -39,9 +39,9 @@ stateMain = {
         var floorNameObjectArray                    = [
 
             new ObjectName('First Floor'            , 'FLR_001'),
-            new ObjectName('Second Floor'           , 'FLR_002'),
-            new ObjectName('Third Floor'            , 'FLR_003'),
-            new ObjectName('Fourth Floor'           , 'FLR_004')
+            //new ObjectName('Second Floor'         , 'FLR_002'),
+            //new ObjectName('Third Floor'          , 'FLR_003'),
+            //new ObjectName('Fourth Floor'         , 'FLR_004')
 
         ];
         /*Initial object name for room.*/
@@ -524,10 +524,9 @@ stateMain = {
                 Next this is to make the content of that panel card, which basically just a string.
                 Below is some local variables to pull information necessary to develop the string
                     we want to put into the panel card object.*/
-                var exhibitionCurrentObject                             = this.FindObject   (this.exhibitionObjectArray     , this.pointerObject.exhibitionCurrentString);
                 
                 /*This is like when this application decide whether the hovered object is a museum object or a player object.*/
-                if      (exhibitionCurrentObject == undefined){
+                if      (this.pointerObject.objectTypeString != undefined){
 
                     var objectMuseumNameAltString                       = this.pointerObject.objectNameAltString;
                     var objectMuseumVisitorCurrentNumber                = this.pointerObject.visitorCurrentNum;
@@ -564,8 +563,9 @@ stateMain = {
                     );
 
                 }
-                else if (exhibitionCurrentObject != undefined){
+                else if (this.pointerObject.objectTypeString == undefined){
 
+                    var exhibitionCurrentObject                         = this.FindObject   (this.exhibitionObjectArray     , this.pointerObject.exhibitionCurrentString);
                     var exhibitionRoomString                            = exhibitionCurrentObject.objectParentNameAltString;
                     var exhibitionRoomObject                            = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
                     var exhibitionFloorString                           = exhibitionRoomObject.objectParentNameAltString;
