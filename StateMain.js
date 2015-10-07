@@ -352,38 +352,77 @@ stateMain = {
         So every tick we need to delete the previously created panel card before make a new
             panel card.
         But before hand you need to delete the previously created panel.*/
-        /*
         for(var i = 0; i < this.floorObjectArray.length             ; i ++){
 
-            if(this.floorObjectArray[i].panelCardObject             != undefined)   { this.floorObjectArray[i].panelCardObject.destroy();         }
-            if(this.floorObjectArray[i].panelHoverObjectBool        == true)   {
+            /*Always check whether the object panel card is exist or not.
+            If exist then we need to delete it before we create new panel card (or even juts updating it).*/
+            if(this.floorObjectArray[i].panelCardObject     != undefined){ this.floorObjectArray[i].panelCardObject.destroy(); }
+            if(
 
-                this.floorObjectArray[i].panelCardObject            = game.add.sprite(this.floorObjectArray[i].panelXNum, this.floorObjectArray[i].panelYNum, 'ImagePanelNew5');
+                this.floorObjectArray[i].panelHoverBool     == true &&  /*This is a variable that is inside player object to determine whether a mouse pointer is above this object's panel card.*/
+                this.pointerSaveBool                        == true     /*A trigger if we need to record new value for panel card object or not.*/
+
+            ){
+
+                /*These are like a temporary variables to hold values of object player.
+                We need this because the value of player is changed every tick.
+                So we need to capture the last valid one according to above if statement.*/
+                this.pointerObject      = this.floorObjectArray[i];                                                            /*Capture the object player of which has a mouse pointer above its panel.*/
+                this.pointerSaveXNum    = this.floorObjectArray[i].panelXNum + (this.floorObjectArray[i].panelWidthNum /2);     /*Save the middle postion of object panel x of which has a mouse pointer above its panel.*/
+                this.pointerSaveYNum    = this.floorObjectArray[i].panelYNum + (this.floorObjectArray[i].panelHeightNum/2);     /*Save the middle postion of object panel y of which has a mouse pointer above its panel.*/
+                this.pointerSaveBool    = false;                                                                                /*Prevent this application to take another temporary variables.*/
 
             }
+
 
         }
         for(var i = 0; i < this.roomObjectArray.length              ; i ++){
 
-            if(this.roomObjectArray[i].panelCardObject              != undefined)   { this.roomObjectArray[i].panelCardObject.destroy();          }
-            if(this.roomObjectArray[i].panelHoverObjectBool         == true)        {
+            /*Always check whether the object panel card is exist or not.
+            If exist then we need to delete it before we create new panel card (or even juts updating it).*/
+            if(this.roomObjectArray[i].panelCardObject    != undefined){ this.roomObjectArray[i].panelCardObject.destroy(); }
+            if(
 
-                this.roomObjectArray[i].panelCardObject             = game.add.sprite(this.roomObjectArray[i].panelXNum, this.roomObjectArray[i].panelYNum, 'ImagePanelNew5');
+                this.roomObjectArray[i].panelHoverBool    == true &&  /*This is a variable that is inside player object to determine whether a mouse pointer is above this object's panel card.*/
+                this.pointerSaveBool                        == true     /*A trigger if we need to record new value for panel card object or not.*/
+
+            ){
+
+                /*These are like a temporary variables to hold values of object player.
+                We need this because the value of player is changed every tick.
+                So we need to capture the last valid one according to above if statement.*/
+                this.pointerObject      = this.roomObjectArray[i];                                                              /*Capture the object player of which has a mouse pointer above its panel.*/
+                this.pointerSaveXNum    = this.roomObjectArray[i].panelXNum + (this.roomObjectArray[i].panelWidthNum /2);       /*Save the middle postion of object panel x of which has a mouse pointer above its panel.*/
+                this.pointerSaveYNum    = this.roomObjectArray[i].panelYNum + (this.roomObjectArray[i].panelHeightNum/2);       /*Save the middle postion of object panel y of which has a mouse pointer above its panel.*/
+                this.pointerSaveBool    = false;                                                                                /*Prevent this application to take another temporary variables.*/
 
             }
 
         }
-        for(var i = 0; i < this.ExhibitionObjectArray.length        ; i ++){
+        for(var i = 0; i < this.exhibitionObjectArray.length        ; i ++){
 
-            if(this.exhibitionObjectArray[i].panelCardObject        != undefined)   { this.exhibitionObjectArray[i].panelCardObject.destroy();    }
-            if(this.exhibitionObjectArray[i].panelHoverObjectBool   == true)        {
+            /*Always check whether the object panel card is exist or not.
+            If exist then we need to delete it before we create new panel card (or even juts updating it).*/
+            if(this.exhibitionObjectArray[i].panelCardObject    != undefined){ this.exhibitionObjectArray[i].panelCardObject.destroy(); }
+            if(
 
-                this.exhibitionObjectArray[i].panelCardObject       = game.add.sprite(this.exhibitionObjectArray[i].panelXNum, this.exhibitionObjectArray[i].panelYNum, 'ImagePanelNew5');
+                this.exhibitionObjectArray[i].panelHoverBool    == true &&  /*This is a variable that is inside player object to determine whether a mouse pointer is above this object's panel card.*/
+                this.pointerSaveBool                            == true     /*A trigger if we need to record new value for panel card object or not.*/
+
+            ){
+
+                /*These are like a temporary variables to hold values of object player.
+                We need this because the value of player is changed every tick.
+                So we need to capture the last valid one according to above if statement.*/
+                this.pointerObject      = this.exhibitionObjectArray[i];                                                                /*Capture the object player of which has a mouse pointer above its panel.*/
+                this.pointerSaveXNum    = this.exhibitionObjectArray[i].panelXNum + (this.exhibitionObjectArray[i].panelWidthNum /2);   /*Save the middle postion of object panel x of which has a mouse pointer above its panel.*/
+                this.pointerSaveYNum    = this.exhibitionObjectArray[i].panelYNum + (this.exhibitionObjectArray[i].panelHeightNum/2);   /*Save the middle postion of object panel y of which has a mouse pointer above its panel.*/
+                this.pointerSaveBool    = false;                                                                                        /*Prevent this application to take another temporary variables.*/
 
             }
 
+
         }
-        */
         /*This is a loop to iterate every possible player within the application.
         And then for every player check whether or not mouse pointer is hovered toward the player's
             panel object.*/
@@ -486,25 +525,68 @@ stateMain = {
                 Below is some local variables to pull information necessary to develop the string
                     we want to put into the panel card object.*/
                 var exhibitionCurrentObject                             = this.FindObject   (this.exhibitionObjectArray     , this.pointerObject.exhibitionCurrentString);
-                var exhibitionRoomString                                = exhibitionCurrentObject.objectParentNameAltString;
-                var exhibitionRoomObject                                = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
-                var exhibitionFloorString                               = exhibitionRoomObject.objectParentNameAltString;
-                var exhibitionFloorObject                               = this.FindObject   (this.floorObjectArray          , exhibitionFloorString);
+                
+                /*This is like when this application decide whether the hovered object is a museum object or a player object.*/
+                if      (exhibitionCurrentObject == undefined){
 
-                /*This is the string that we will put into panel card object.*/
-                var panelCardLabelString                                = (
+                    var objectMuseumNameAltString                       = this.pointerObject.objectNameAltString;
+                    var objectMuseumVisitorCurrentNumber                = this.pointerObject.visitorCurrentNum;
+                    var objectMuseumVisitorTotalNumber                  = this.pointerObject.visitorTotalNum;
+                    var objectMuseumIsFullString                        = (this.pointerObject.isFullBool == true) ? '____TRU' : '____FAL';
 
-                    ('FLR_CUR = ' + exhibitionFloorString                               ) + '\n' +
-                    ('ROM_CUR = ' + exhibitionRoomString                                ) + '\n' +
-                    ('EXH_CUR = ' + this.pointerObject.exhibitionCurrentString          ) + '\n' +
-                    ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[0]   ) + '\n' +
-                    ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[1]   ) + '\n' +
-                    ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[2]   ) + '\n' +
-                    ('EXH_TAG = ' + this.pointerObject.tagMixedArray[0][0]              ) + '\n' +
-                    ('EXH_TAG = ' + this.pointerObject.tagMixedArray[1][0]              ) + '\n' +
-                    ('EXH_TAG = ' + this.pointerObject.tagMixedArray[2][0]              )
+                    var objectMuseumVisitorCurrentString                = objectMuseumVisitorCurrentNumber;
+                    if     (objectMuseumVisitorCurrentNumber < 10)      { var objectMuseumVisitorCurrentString = '______'   + objectMuseumVisitorCurrentNumber;}
+                    else if(objectMuseumVisitorCurrentNumber < 100)     { var objectMuseumVisitorCurrentString = '_____'    + objectMuseumVisitorCurrentNumber;}
+                    else if(objectMuseumVisitorCurrentNumber < 1000)    { var objectMuseumVisitorCurrentString = '____'     + objectMuseumVisitorCurrentNumber;}
+                    else if(objectMuseumVisitorCurrentNumber < 10000)   { var objectMuseumVisitorCurrentString = '___'      + objectMuseumVisitorCurrentNumber;}
+                    else if(objectMuseumVisitorCurrentNumber < 10000)   { var objectMuseumVisitorCurrentString = '__'       + objectMuseumVisitorCurrentNumber;}
 
-                );
+                    var objectMuseumVisitorTotalString                  = objectMuseumVisitorTotalNumber;
+                    if     (objectMuseumVisitorTotalNumber < 10)        { var objectMuseumVisitorTotalString = '______'     + objectMuseumVisitorTotalNumber;}
+                    else if(objectMuseumVisitorTotalNumber < 100)       { var objectMuseumVisitorTotalString = '_____'      + objectMuseumVisitorTotalNumber;}
+                    else if(objectMuseumVisitorTotalNumber < 1000)      { var objectMuseumVisitorTotalString = '____'       + objectMuseumVisitorTotalNumber;}
+                    else if(objectMuseumVisitorTotalNumber < 10000)     { var objectMuseumVisitorTotalString = '___'        + objectMuseumVisitorTotalNumber;}
+                    else if(objectMuseumVisitorTotalNumber < 10000)     { var objectMuseumVisitorTotalString = '__'         + objectMuseumVisitorTotalNumber;}
+
+                    if(this.pointerObject.objectTypeString == 'EXH')    {
+
+                        var objectExhibitionTagStringArray              = this.pointerObject.tagStringArray;
+
+                    }
+
+                    var panelCardLabelString                            = (
+
+                        ('NAM_ALT = ' + objectMuseumNameAltString           ) + '\n' +
+                        ('VIS_CUR = ' + objectMuseumVisitorCurrentString    ) + '\n' +
+                        ('VIS_TOT = ' + objectMuseumVisitorTotalString      ) + '\n' +
+                        ('_IS_FUL = ' + objectMuseumIsFullString            )
+
+                    );
+
+                }
+                else if (exhibitionCurrentObject != undefined){
+
+                    var exhibitionRoomString                            = exhibitionCurrentObject.objectParentNameAltString;
+                    var exhibitionRoomObject                            = this.FindObject   (this.roomObjectArray           , exhibitionRoomString);
+                    var exhibitionFloorString                           = exhibitionRoomObject.objectParentNameAltString;
+                    var exhibitionFloorObject                           = this.FindObject   (this.floorObjectArray          , exhibitionFloorString);
+
+                    /*This is the string that we will put into panel card object.*/
+                    var panelCardLabelString                            = (
+
+                        ('FLR_CUR = ' + exhibitionFloorString                               ) + '\n' +
+                        ('ROM_CUR = ' + exhibitionRoomString                                ) + '\n' +
+                        ('EXH_CUR = ' + this.pointerObject.exhibitionCurrentString          ) + '\n' +
+                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[0]   ) + '\n' +
+                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[1]   ) + '\n' +
+                        ('EXH_TAR = ' + this.pointerObject.exhibitionTargetStringArray[2]   ) + '\n' +
+                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[0][0]              ) + '\n' +
+                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[1][0]              ) + '\n' +
+                        ('EXH_TAG = ' + this.pointerObject.tagMixedArray[2][0]              )
+
+                    );
+
+                }
 
                 /*Create the content for panel card object.*/
                 this.pointerObject.panelCardLabelObject                 = game.add.text(
