@@ -111,7 +111,7 @@ ObjectPlayer.prototype.AddRemoveChildObjectArray                = function(_isAd
 
 }
 
-/*AIAutoBool is a function that move this player object automatically to the exahibition.
+/*AIAutoBool is a function that move this player object automatically to the exhibition.
 This function returns true if the player just move to new exhibition and false if the player
     stay in the current exhibition.*/
 ObjectPlayer.prototype.AIAutoString                             = function(){
